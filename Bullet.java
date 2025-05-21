@@ -9,24 +9,22 @@ public class Bullet extends Actor {
     }
 
     public void act() {
-        if (target != null && getWorld().getObjects(Enemy.class).contains(target)) {
-            turnTowards(target.getX(), target.getY());
-            move(5);
+    if (target != null && getWorld().getObjects(Enemy.class).contains(target)) {
+        turnTowards(target.getX(), target.getY());
+        move(5);
 
-            if (intersects(target)) {
-                World world = getWorld(); // Store it once
-                if (world != null) {
-                    ((GameWorld) world).addMoney(10); // reward
-                    world.removeObject(target);       // remove enemy
-                    world.removeObject(this);         // remove bullet
-                }
+        if (intersects(target)) {
+            if (target != null) {
+                target.takeDamage(1); // 1 damage per hit
             }
+            getWorld().removeObject(this); // bullet disappears
+        }
 
-        } else {
-            World world = getWorld();
-            if (world != null) {
-                world.removeObject(this); // remove bullet if target is gone
-            }
+    } else {
+        if (getWorld() != null) {
+            getWorld().removeObject(this); // target gone
         }
     }
+}
+
 }

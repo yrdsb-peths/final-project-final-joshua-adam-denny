@@ -57,9 +57,17 @@ public class GameWorld extends World {
 
 
     private void spawnEnemy() {
-        int y = getUniqueYPosition();
-        addObject(new Enemy(), 0, y);
+    int y = getUniqueYPosition();
+    int speed = getEnemySpeed();
+
+    if (enemiesSpawned > 0 && enemiesSpawned % 5 == 0) {
+        addObject(new BigEnemy(speed - 1), 0, y); // slower but stronger-looking
+    } else {
+        addObject(new Enemy(speed), 0, y);
     }
+    }
+
+
 
 
     private void nextWave() {
@@ -115,6 +123,10 @@ public class GameWorld extends World {
     {
         waveLabel.setValue("Wave: " + wave);
     }
+    private int getEnemySpeed() {
+    return 1 + wave; // Speed increases each wave (1, 2, 3, ...)
+    }
+
 }
 
 
