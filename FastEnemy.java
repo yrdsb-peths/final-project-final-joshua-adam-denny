@@ -1,24 +1,24 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class BigEnemy here.
+ * Write a description of class FastEnemy here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BigEnemy extends Enemy {
+public class FastEnemy extends Enemy {
 
-    public BigEnemy(int speed) {
-        super(speed);
-        this.health = 20; // big enemy has more health
-        //setImage("big_enemy.png"); // make sure to use a bigger image if you have one
+    public FastEnemy(int speed) {
+        super(speed + 2); // faster than base enemy
+        this.health = 1;
+        //setImage("fast-enemy.png");
     }
 
     @Override
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(50); // higher reward
+            ((GameWorld)getWorld()).addMoney(15); // reward for fast enemy
             getWorld().removeObject(this);
         }
     }

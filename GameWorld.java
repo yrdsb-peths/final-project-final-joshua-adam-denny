@@ -95,15 +95,24 @@ public class GameWorld extends World {
 
 
     private void spawnEnemy() {
-    int y = getUniqueYPosition();
-    int speed = getEnemySpeed();
+        int y = getUniqueYPosition();
+        int speed = getEnemySpeed();
+    
+        if (enemiesSpawned > 0 && enemiesSpawned % 10 == 0) {
+            addObject(new BigEnemy(speed - 1), 0, y);
+        } else {
+            // Randomly spawn different types
+            int type = Greenfoot.getRandomNumber(100);
+            if (type < 60) {
+                addObject(new Enemy(speed), 0, y);            // 60% chance
+            } else if (type < 85) {
+                addObject(new FastEnemy(speed), 0, y);        // 25% chance
+            } else {
+                addObject(new TankEnemy(speed), 0, y);        // 15% chance
+            }
+        }
+    }
 
-    if (enemiesSpawned > 0 && enemiesSpawned % 20 == 0) {
-        addObject(new BigEnemy(speed - 1), 0, y); // slower but stronger-looking
-    } else {
-        addObject(new Enemy(speed), 0, y);
-    }
-    }
 
 
 
