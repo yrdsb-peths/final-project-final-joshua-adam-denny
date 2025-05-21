@@ -3,24 +3,36 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GameWorld extends World {
-    private int wave = 1;
+    private int wave = 0;
     private int enemiesSpawned = 0;
-    private int enemiesToSpawn = 1;
+    private int enemiesToSpawn = 0;
     private int spawnDelay = 60; // delay between spawns (60 = 1 second at 60 FPS)
     private int spawnTimer = 0;
     private int spawnBatchSize = 3; // how many to spawn per cycle
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100; // starting money
+    private int money = 200; // starting money
     private Label moneyLabel;
     private Label waveLabel;
+    private Label wavePrompt;
+
+    private boolean waitingForNextWave = true;
+
 
     public GameWorld() {
         super(600, 400, 1);
+        
         moneyLabel = new Label("Money: $" + money, 30);
         waveLabel = new Label("Wave: " + wave, 30);
-        addObject(waveLabel, 250, 30);
+        wavePrompt = new Label("Press SPACE to start first wave", 24);
+        wavePrompt.setLineColor(Color.BLACK);
+    
         addObject(moneyLabel, 100, 30);
+        addObject(waveLabel, 250, 30);
+        addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
+    
+        waitingForNextWave = true;  // Wait for space to begin wave 1
     }
+
 
 
     public void act() {
@@ -39,9 +51,35 @@ public class GameWorld extends World {
             spawnTimer = 0;
         }
     
-        if (enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
+        // Start wave when space is pressed
+        if (waitingForNextWave && Greenfoot.isKeyDown("space")) {
             nextWave();
-            spawnBatchSize++;
+            waitingForNextWave = false;
+            wavePrompt.setValue(""); // Hide prompt
+            if (spawnBatchSize < 5) spawnBatchSize++;
+        }
+        
+        // Spawn enemies during an active wave
+        if (!waitingForNextWave && enemiesSpawned < enemiesToSpawn) {
+            spawnTimer++;
+        
+            if (spawnTimer >= spawnDelay) {
+                int remaining = enemiesToSpawn - enemiesSpawned;
+                int batch = Math.min(spawnBatchSize, remaining);
+        
+                for (int i = 0; i < batch; i++) {
+                    spawnEnemy();
+                    enemiesSpawned++;
+                }
+        
+                spawnTimer = 0;
+            }
+        }
+        
+        // After all enemies are defeated, wait for space to trigger next wave
+        if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
+            waitingForNextWave = true;
+            wavePrompt.setValue("Press SPACE to start next wave");
         }
     
         if (Greenfoot.mouseClicked(this)) {
@@ -60,7 +98,7 @@ public class GameWorld extends World {
     int y = getUniqueYPosition();
     int speed = getEnemySpeed();
 
-    if (enemiesSpawned > 0 && enemiesSpawned % 5 == 0) {
+    if (enemiesSpawned > 0 && enemiesSpawned % 20 == 0) {
         addObject(new BigEnemy(speed - 1), 0, y); // slower but stronger-looking
     } else {
         addObject(new Enemy(speed), 0, y);
@@ -72,12 +110,26 @@ public class GameWorld extends World {
 
     private void nextWave() {
         wave++;
-        enemiesToSpawn *= 2;
+    
+        // Slow early ramping, fast late game ramp
+        enemiesToSpawn = (int)(Math.pow(wave, 1.5) + 2); // e.g. wave 1 = 3, wave 2 = 4, wave 5 = 13, wave 10 = 33
+    
         enemiesSpawned = 0;
         spawnTimer = 0;
-        usedYPositions.clear(); // reset used positions for next wave
+        usedYPositions.clear();
         updateWaveLabel();
+    
+        // Optional: Increase batch size gradually
+        if (wave % 3 == 0 && spawnBatchSize < 6) {
+            spawnBatchSize++;
+        }
+    
+        // Optional: Decrease spawn delay (faster waves later)
+        if (wave % 5 == 0 && spawnDelay > 20) {
+            spawnDelay -= 5;
+        }
     }
+
 
     public void newTower() {
         if (Greenfoot.mouseClicked(this)) {
