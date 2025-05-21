@@ -6,17 +6,22 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class MyWorld extends World
-{
+public class MyWorld extends World {
+    public MyWorld() {
+        super(600, 400, 1);
+        prepare();
+    }
 
-    /**
-     * Constructor for objects of class MyWorld.
-     * 
-     */
-    
-    public MyWorld()
-    {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+    private void prepare() {
+        addObject(new Enemy(), 0, 200);
+    }
+
+    public void act() {
+    if (Greenfoot.mouseClicked(this)) {
+        MouseInfo mi = Greenfoot.getMouseInfo();
+        addObject(new Tower(), mi.getX(), mi.getY());
     }
 }
+
+}
+
