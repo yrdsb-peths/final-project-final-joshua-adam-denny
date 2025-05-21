@@ -11,11 +11,15 @@ public class GameWorld extends World {
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
     private int money = 200;
+
     private Label moneyLabel;
     private Label waveLabel;
     private Label wavePrompt;
     private TowerPreview towerPreview = null;
+
     private boolean waitingForNextWave = true;
+    private boolean keyHeld = false;
+    private boolean towerPlacedThisClick = false;
 
     public GameWorld() {
         super(600, 400, 1);
@@ -31,8 +35,16 @@ public class GameWorld extends World {
     }
 
     public void act() {
-        spawnTimer++;
+        handleEnemySpawning();
+        handleWaveProgression();
+        handleTowerDragging();
+        handleTowerClickUpgrade();
+        resetInputFlags();
+    }
 
+    // === Enemy Spawning Logic ===
+    private void handleEnemySpawning() {
+        spawnTimer++;
         if (enemiesSpawned < enemiesToSpawn && spawnTimer >= spawnDelay) {
             int remaining = enemiesToSpawn - enemiesSpawned;
             int batch = Math.min(spawnBatchSize, remaining);
@@ -41,68 +53,6 @@ public class GameWorld extends World {
                 enemiesSpawned++;
             }
             spawnTimer = 0;
-        }
-
-        if (waitingForNextWave && Greenfoot.isKeyDown("space")) {
-            nextWave();
-            waitingForNextWave = false;
-            wavePrompt.setValue("");
-            if (spawnBatchSize < 5) spawnBatchSize++;
-        }
-
-        if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
-            waitingForNextWave = true;
-            wavePrompt.setValue("Press SPACE to start next wave");
-        }
-
-        // --- Tower Drag Placement ---
-        if (towerPreview == null) {
-            if (Greenfoot.isKeyDown("1")) {
-                startDraggingTower("Basic");
-            } else if (Greenfoot.isKeyDown("2")) {
-                startDraggingTower("Sniper");
-            }
-        } else {
-            MouseInfo mi = Greenfoot.getMouseInfo();
-            if (mi != null) {
-                towerPreview.setLocation(mi.getX(), mi.getY());
-
-                // Left-click to place
-                if (Greenfoot.mouseClicked(null)) {
-                    placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
-                }
-
-                // Right-click to cancel
-                if (Greenfoot.mouseClicked(null) && mi.getButton() == 3) {
-                    cancelDragging();
-                }
-            }
-
-            // ESC to cancel
-            if (Greenfoot.isKeyDown("escape")) {
-                cancelDragging();
-            }
-
-            // Switch tower type while dragging
-            if (Greenfoot.isKeyDown("1") && !towerPreview.getTowerType().equals("Basic")) {
-                startDraggingTower("Basic");
-            } else if (Greenfoot.isKeyDown("2") && !towerPreview.getTowerType().equals("Sniper")) {
-                startDraggingTower("Sniper");
-            }
-        }
-
-        // --- Upgrade Only When Not Dragging ---
-        if (towerPreview == null && Greenfoot.mouseClicked(null)) {
-            MouseInfo mi = Greenfoot.getMouseInfo();
-            if (mi != null) {
-                Actor clicked = getObjectsAt(mi.getX(), mi.getY(), Tower.class).stream().findFirst().orElse(null);
-                if (clicked != null) {
-                    Tower tower = (Tower) clicked;
-                    if (!tower.upgrade()) {
-                        System.out.println("Not enough money or max level reached!");
-                    }
-                }
-            }
         }
     }
 
@@ -124,6 +74,36 @@ public class GameWorld extends World {
         }
     }
 
+    private int getUniqueYPosition() {
+        int y;
+        int attempts = 0;
+        do {
+            y = 100 + Greenfoot.getRandomNumber(200);
+            attempts++;
+        } while (usedYPositions.contains(y) && attempts < 10);
+        usedYPositions.add(y);
+        return y;
+    }
+
+    private int getEnemySpeed() {
+        return 1 + wave;
+    }
+
+    // === Wave Control ===
+    private void handleWaveProgression() {
+        if (waitingForNextWave && Greenfoot.isKeyDown("space")) {
+            nextWave();
+            waitingForNextWave = false;
+            wavePrompt.setValue("");
+            if (spawnBatchSize < 5) spawnBatchSize++;
+        }
+
+        if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
+            waitingForNextWave = true;
+            wavePrompt.setValue("Press SPACE to start next wave");
+        }
+    }
+
     private void nextWave() {
         wave++;
         enemiesToSpawn = (int)(Math.pow(wave, 1.5) + 2);
@@ -140,17 +120,127 @@ public class GameWorld extends World {
         }
     }
 
-    private int getUniqueYPosition() {
-        int y;
-        int attempts = 0;
-        do {
-            y = 100 + Greenfoot.getRandomNumber(200);
-            attempts++;
-        } while (usedYPositions.contains(y) && attempts < 10);
-        usedYPositions.add(y);
-        return y;
+    // === Tower Drag-and-Drop ===
+    private void handleTowerDragging() {
+        if (towerPreview == null) {
+            if (!keyHeld) {
+                if (Greenfoot.isKeyDown("1")) {
+                    startDraggingTower("Basic");
+                    keyHeld = true;
+                } else if (Greenfoot.isKeyDown("2")) {
+                    startDraggingTower("Sniper");
+                    keyHeld = true;
+                } else if (Greenfoot.isKeyDown("3")) 
+                {
+                    startDraggingTower("MachineGun");
+                    keyHeld = true;
+                }
+            }
+        } else {
+            MouseInfo mi = Greenfoot.getMouseInfo();
+            if (mi != null) {
+                towerPreview.setLocation(mi.getX(), mi.getY());
+
+                if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
+                    if (mi.getButton() == 1) {
+                        placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
+                        towerPlacedThisClick = true;
+                    } else if (mi.getButton() == 3) {
+                        cancelDragging();
+                        towerPlacedThisClick = true;
+                    }
+                }
+            }
+
+            if (Greenfoot.isKeyDown("escape")) {
+                cancelDragging();
+            }
+
+            if (Greenfoot.isKeyDown("1") && !towerPreview.getTowerType().equals("Basic")) {
+                startDraggingTower("Basic");
+            } else if (Greenfoot.isKeyDown("2") && !towerPreview.getTowerType().equals("Sniper")) {
+                startDraggingTower("Sniper");
+            } else if (Greenfoot.isKeyDown("3") && !towerPreview.getTowerType().equals("MachineGun")) {
+                startDraggingTower("MachineGun");
+            }
+        }
+
+        if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") && !Greenfoot.isKeyDown("3")) {
+            keyHeld = false;
+        }
+
     }
 
+    private void startDraggingTower(String towerType) {
+        if (towerPreview != null) {
+            removeObject(towerPreview);
+        }
+        towerPreview = new TowerPreview(towerType);
+        addObject(towerPreview, getWidth() / 2, getHeight() / 2);
+    }
+
+    private void placeTower(String towerType, int x, int y) {
+        int cost = getTowerCost(towerType);
+        if (spendMoney(cost)) {
+            Tower tower = createTower(towerType);
+            addObject(tower, x, y);
+            removeObject(towerPreview);
+            towerPreview = null;
+        } else {
+            System.out.println("Not enough money!");
+        }
+    }
+
+    private void cancelDragging() {
+        if (towerPreview != null) {
+            removeObject(towerPreview);
+            towerPreview = null;
+        }
+    }
+
+    private int getTowerCost(String towerType) {
+        switch (towerType) {
+            case "Sniper": return 300;
+            case "Basic": return 750;
+            case "MachineGun": return 50;
+            default: return 0;
+        }
+    }
+
+    private Tower createTower(String towerType) {
+        switch (towerType) {
+            case "Sniper": return new SniperTower();
+            case "MachineGun": return new MachineGunTower();
+            case "Basic": return new BasicTower();
+            default: return new BasicTower();
+        }
+    }
+
+
+    // === Tower Upgrade ===
+    private void handleTowerClickUpgrade() {
+        if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
+            MouseInfo mi = Greenfoot.getMouseInfo();
+            if (mi != null) {
+                Actor clicked = getObjectsAt(mi.getX(), mi.getY(), Tower.class).stream().findFirst().orElse(null);
+                if (clicked != null) {
+                    Tower tower = (Tower) clicked;
+                    if (!tower.upgrade()) {
+                        System.out.println("Not enough money or max level reached!");
+                    }
+                }
+            }
+        }
+    }
+
+    // === Reset Mouse Flags ===
+    private void resetInputFlags() {
+        if (!Greenfoot.mousePressed(null)) {
+            towerPlacedThisClick = false;
+        }
+    }
+
+    // === Money/Wave UI ===
     public int getMoney() {
         return money;
     }
@@ -175,54 +265,5 @@ public class GameWorld extends World {
 
     private void updateWaveLabel() {
         waveLabel.setValue("Wave: " + wave);
-    }
-
-    private int getEnemySpeed() {
-        return 1 + wave;
-    }
-
-    private void startDraggingTower(String towerType) {
-        if (towerPreview != null) {
-            removeObject(towerPreview);
-        }
-        towerPreview = new TowerPreview(towerType);
-        addObject(towerPreview, getWidth() / 2, getHeight() / 2);
-    }
-
-    private void placeTower(String towerType, int x, int y) {
-        int cost = getTowerCost(towerType);
-        if (money >= cost) {
-            money -= cost;
-            updateMoneyLabel();
-            Tower tower = createTower(towerType);
-            addObject(tower, x, y);
-            removeObject(towerPreview);
-            towerPreview = null;
-        } else {
-            System.out.println("Not enough money!");
-        }
-    }
-
-    private void cancelDragging() {
-        if (towerPreview != null) {
-            removeObject(towerPreview);
-            towerPreview = null;
-        }
-    }
-
-    private int getTowerCost(String towerType) {
-        switch (towerType) {
-            case "Sniper": return 100;
-            case "Basic": return 50;
-            default: return 50;
-        }
-    }
-
-    private Tower createTower(String towerType) {
-        switch (towerType) {
-            case "Sniper": return new SniperTower();
-            case "Basic": return new BasicTower();
-            default: return new BasicTower();
-        }
     }
 }

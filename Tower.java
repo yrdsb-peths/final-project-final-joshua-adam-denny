@@ -38,18 +38,10 @@ public class Tower extends Actor {
 
     // Upgrade method to improve tower stats
     public boolean upgrade() {
-        GameWorld world = (GameWorld)getWorld();
-        if (level < maxLevel && world.spendMoney(upgradeCost)) {
-            level++;
-            damage += 1;
-            range += 20;
-            cooldownTime = Math.max(20, cooldownTime - 10); // faster shooting
-            upgradeCost += 50; // next upgrade costs more
-            updateImage();
-            return true;
-        }
+        System.out.println("Upgrade not implemented for this tower type.");
         return false;
     }
+
 
     protected void updateImage() {
         // You can override this in subclasses to change image per level
