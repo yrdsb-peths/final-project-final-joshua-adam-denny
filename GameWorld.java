@@ -10,10 +10,15 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3; // how many to spawn per cycle
     private List<Integer> usedYPositions = new ArrayList<>();
+    private int money = 100; // starting money
+    private Label moneyLabel;
 
     public GameWorld() {
         super(600, 400, 1);
+        moneyLabel = new Label("Money: $" + money, 30);
+        addObject(moneyLabel, 100, 30);
     }
+
 
     public void act() {
         spawnTimer++;
@@ -34,6 +39,13 @@ public class GameWorld extends World {
             nextWave();
         }
         newTower();
+        if (Greenfoot.mouseClicked(this)) {
+            MouseInfo mi = Greenfoot.getMouseInfo();
+            if (spendMoney(50)) { // tower costs $50
+                addObject(new Tower(), mi.getX(), mi.getY());
+            }
+        }
+
     }
 
 
@@ -67,6 +79,28 @@ public class GameWorld extends World {
     
         usedYPositions.add(y);
         return y;
+    }
+    
+    public int getMoney() {
+        return money;
+    }
+
+    public void addMoney(int amount) {
+        money += amount;
+        updateMoneyLabel();
+    }
+
+    public boolean spendMoney(int amount) {
+        if (money >= amount) {
+            money -= amount;
+            updateMoneyLabel();
+            return true;
+        }
+        return false;
+    }
+
+    private void updateMoneyLabel() {
+        moneyLabel.setValue("Money: $" + money);
     }
 
 

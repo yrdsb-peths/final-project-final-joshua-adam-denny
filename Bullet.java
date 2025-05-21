@@ -1,12 +1,6 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 import java.util.List;
 
-/**
- * Write a description of class Bullet here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Bullet extends Actor {
     private Enemy target;
 
@@ -16,16 +10,23 @@ public class Bullet extends Actor {
 
     public void act() {
         if (target != null && getWorld().getObjects(Enemy.class).contains(target)) {
-
             turnTowards(target.getX(), target.getY());
             move(5);
+
             if (intersects(target)) {
-                getWorld().removeObject(target);
-                getWorld().removeObject(this);
+                World world = getWorld(); // Store it once
+                if (world != null) {
+                    ((GameWorld) world).addMoney(10); // reward
+                    world.removeObject(target);       // remove enemy
+                    world.removeObject(this);         // remove bullet
+                }
             }
+
         } else {
-            getWorld().removeObject(this);
+            World world = getWorld();
+            if (world != null) {
+                world.removeObject(this); // remove bullet if target is gone
+            }
         }
     }
 }
-
