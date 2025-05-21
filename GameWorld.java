@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 200;
+    private int money = 300;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -101,7 +101,9 @@ public class GameWorld extends World {
         if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
             waitingForNextWave = true;
             wavePrompt.setValue("Press SPACE to start next wave");
+            addMoney(200); // Give $200 for surviving the wave
         }
+
     }
 
     private void nextWave() {

@@ -30,8 +30,11 @@ public class MachineGunTower extends Tower {
 
     @Override
     protected void updateImage() {
-        // You can add code to change image per level, e.g.
-        // setImage("machine_gun_tower_level" + level + ".png");
+        //GreenfootImage img = new GreenfootImage("sniper_tower_level" + level + ".png");
+        GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
+
+        img.scale(50, 50);
+        setImage(img);
     }
 
     @Override

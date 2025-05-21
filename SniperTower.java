@@ -31,10 +31,14 @@ public class SniperTower extends Tower {
 
     @Override
     protected void updateImage() {
-        // Optional: change appearance based on level
-        setImage(new GreenfootImage("Sniper_tower.png"));
-        // Or: setImage("sniper_tower_level" + level + ".png");
+        //GreenfootImage img = new GreenfootImage("sniper_tower_level" + level + ".png");
+        GreenfootImage img = new GreenfootImage("Sniper_tower.png");
+
+        img.scale(50, 50);
+        setImage(img);
     }
+
+
 
     @Override
     protected Enemy getEnemyInRange() {
