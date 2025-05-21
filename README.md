@@ -6,6 +6,9 @@
 3. In the opened folder, go to `Contents -> Resources -> Java` and find the `greenfoot.jar` file.
 4. Copy this `greenfoot.jar` to the `/lib` Folder in this project.
 
+[Brief description]
+A zombie shooter where you have to defend your base and get upgrades along the way. upgrade guns and buy ammo during grace periods 
+
 [Windows]
 1. Open `File Explorer` and navigate to `C:\Program Files\Greenfoot` and locate the `greenfoot.jar` file.
 2. Copy this `greenfoot.jar` to the `\lib` Folder in this project.
