@@ -2,9 +2,9 @@ import greenfoot.*;
 
 public class MachineGunTower extends Tower {
     public MachineGunTower() {
-        //GreenfootImage img = new GreenfootImage("machine_gun_tower.png");
-        //img.scale(50, 50);
-        //setImage(img);
+        GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
+        img.scale(50, 50);
+        setImage(img);
 
         cooldownTime = 10;             
         range = 300;                   

@@ -201,8 +201,8 @@ public class GameWorld extends World {
     private int getTowerCost(String towerType) {
         switch (towerType) {
             case "Sniper": return 300;
-            case "Basic": return 750;
-            case "MachineGun": return 50;
+            case "Basic": return 50;
+            case "MachineGun": return 750;
             default: return 0;
         }
     }

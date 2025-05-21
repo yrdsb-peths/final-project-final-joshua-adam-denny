@@ -2,7 +2,7 @@ import greenfoot.*;
 
 public class BasicTower extends Tower {
     public BasicTower() {
-        GreenfootImage img = new GreenfootImage("basic_tower.png");
+        GreenfootImage img = new GreenfootImage("Basic_tower.png");
         setImage(img);
         
         cooldownTime = 60;             
@@ -30,7 +30,7 @@ public class BasicTower extends Tower {
     @Override
     protected void updateImage() {
         // Optional: change image based on level
-        setImage(new GreenfootImage("basic_tower.png"));
+        setImage(new GreenfootImage("Basic_tower.png"));
         // You could do something like: setImage("basic_tower_lvl" + level + ".png");
     }
 

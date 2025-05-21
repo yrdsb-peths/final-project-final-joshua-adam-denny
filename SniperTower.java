@@ -3,7 +3,7 @@ import java.util.List;
 
 public class SniperTower extends Tower {
     public SniperTower() {
-        GreenfootImage img = new GreenfootImage("sniper_tower.png");
+        GreenfootImage img = new GreenfootImage("Sniper_tower.png");
         img.scale(50, 50);
         setImage(img);
 
@@ -32,7 +32,7 @@ public class SniperTower extends Tower {
     @Override
     protected void updateImage() {
         // Optional: change appearance based on level
-        setImage(new GreenfootImage("sniper_tower.png"));
+        setImage(new GreenfootImage("Sniper_tower.png"));
         // Or: setImage("sniper_tower_level" + level + ".png");
     }
 
