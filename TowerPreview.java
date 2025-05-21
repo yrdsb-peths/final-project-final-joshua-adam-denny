@@ -5,16 +5,25 @@ public class TowerPreview extends Actor {
 
     public TowerPreview(String towerType) {
         this.towerType = towerType;
-        GreenfootImage img = new GreenfootImage(towerType + "_preview.png");
-        img.scale(50, 50);
-        if (img == null || img.getWidth() == 0) {
-            img = new GreenfootImage(40, 40); // fallback square if image missing
+        GreenfootImage img;
+        
+        try {
+            img = new GreenfootImage(towerType + "_preview.png");
+            if (img.getWidth() <= 1 || img.getHeight() <= 1) {
+                throw new Exception("Image not found or invalid size");
+            }
+        } catch (Exception e) {
+            // fallback preview
+            img = new GreenfootImage(40, 40);
             img.setColor(Color.GREEN);
             img.fill();
         }
+    
+        img.scale(50, 50);
+        img.setTransparency(100); // semi-transparent
         setImage(img);
-        getImage().setTransparency(100); // semi-transparent
     }
+
 
     public void act() {
         MouseInfo mouse = Greenfoot.getMouseInfo();

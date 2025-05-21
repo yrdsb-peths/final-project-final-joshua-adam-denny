@@ -8,9 +8,9 @@ public class SniperTower extends Tower {
         setImage(img);      // ✅ SET the image on the actor
 
         cooldownTime = 120; // slower fire rate (2 seconds)
-        range = 200;        // longer range
-        damage = 5;         // more damage per bullet
-        bulletSpeed = 8;
+        range = 1000;        // longer range
+        damage = 10;         // more damage per bullet
+        bulletSpeed = 15;
     }
 
     @Override
