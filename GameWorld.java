@@ -12,10 +12,13 @@ public class GameWorld extends World {
     private List<Integer> usedYPositions = new ArrayList<>();
     private int money = 100; // starting money
     private Label moneyLabel;
+    private Label waveLabel;
 
     public GameWorld() {
         super(600, 400, 1);
         moneyLabel = new Label("Money: $" + money, 30);
+        waveLabel = new Label("Wave: " + wave, 30);
+        addObject(waveLabel, 250, 30);
         addObject(moneyLabel, 100, 30);
     }
 
@@ -26,10 +29,11 @@ public class GameWorld extends World {
         if (enemiesSpawned < enemiesToSpawn && spawnTimer >= spawnDelay) {
             int remaining = enemiesToSpawn - enemiesSpawned;
             int batch = Math.min(spawnBatchSize, remaining);
-    
+            
             for (int i = 0; i < batch; i++) {
                 spawnEnemy();
                 enemiesSpawned++;
+                
             }
     
             spawnTimer = 0;
@@ -37,16 +41,19 @@ public class GameWorld extends World {
     
         if (enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
             nextWave();
+            spawnBatchSize++;
         }
-        newTower();
+    
         if (Greenfoot.mouseClicked(this)) {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (spendMoney(50)) { // tower costs $50
                 addObject(new Tower(), mi.getX(), mi.getY());
+            } else {
+                System.out.println("Not enough money to place tower!");
             }
         }
-
     }
+
 
 
     private void spawnEnemy() {
@@ -61,6 +68,7 @@ public class GameWorld extends World {
         enemiesSpawned = 0;
         spawnTimer = 0;
         usedYPositions.clear(); // reset used positions for next wave
+        updateWaveLabel();
     }
 
     public void newTower() {
@@ -99,13 +107,14 @@ public class GameWorld extends World {
         return false;
     }
 
+
     private void updateMoneyLabel() {
         moneyLabel.setValue("Money: $" + money);
     }
-
-
-    
-    
+    private void updateWaveLabel() 
+    {
+        waveLabel.setValue("Wave: " + wave);
+    }
 }
 
 
