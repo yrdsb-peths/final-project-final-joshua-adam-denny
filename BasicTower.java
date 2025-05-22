@@ -36,11 +36,13 @@ public class BasicTower extends Tower {
 
     @Override
     protected void updateImage() {
-        //GreenfootImage img = new GreenfootImage("sniper_tower_level" + level + ".png");
         GreenfootImage img = new GreenfootImage("Basic_tower.png");
         img.scale(50, 50);
         setImage(img);
+    
+        super.updateImage();  // This will add the outline based on level
     }
+
 
     /*@Override
     protected Enemy getEnemyInRange() {

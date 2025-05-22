@@ -8,13 +8,12 @@ public class Tower extends Actor {
     protected int damage = 1;
     protected int bulletSpeed = 5;
 
-    protected int level = 1;         // current upgrade level
+    protected int level = 0;         // current upgrade level (start at 0)
     protected int maxLevel = 3;      // max upgrades allowed
     protected int upgradeCost = 50;  // cost to upgrade
     protected int baseCost;
     protected int upgradeCostPerLevel;
     protected int totalInvested = 0;
-
 
     public void act() {
         if (cooldown > 0) {
@@ -40,26 +39,78 @@ public class Tower extends Actor {
         getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
     }
 
-    // Upgrade method to improve tower stats
     public boolean upgrade() {
         System.out.println("Upgrade not implemented for this tower type.");
         return false;
     }
+
     public void sell() {
         GameWorld world = (GameWorld) getWorld();
-        int refund = (int)(totalInvested * 0.8); // 80% refund
+        int refund = (int)(totalInvested * 0.8);
         world.addMoney(refund);
         getWorld().removeObject(this);
     }
 
-
     @Override
     public void addedToWorld(World world) {
         totalInvested = baseCost;
+        updateImage();
     }
 
     protected void updateImage() {
-        // You can override this in subclasses to change image per level
-        // Example: setImage("basic_tower_level" + level + ".png");
+        GreenfootImage baseImg = getImage();
+        if (baseImg == null) return;
+
+        GreenfootImage outlinedImg;
+
+        if (level == 0) {
+            // No outline for level 0
+            outlinedImg = baseImg;
+        } else if (level == 1) {
+            outlinedImg = createOutlinedImage(baseImg, Color.GREEN);
+        } else if (level == 2) {
+            outlinedImg = createOutlinedImage(baseImg, Color.RED);
+        } else {
+            // For any other level, no outline
+            outlinedImg = baseImg;
+        }
+
+        setImage(outlinedImg);
+    }
+
+    private GreenfootImage createOutlinedImage(GreenfootImage baseImg, Color outlineColor) {
+        int w = baseImg.getWidth();
+        int h = baseImg.getHeight();
+
+        GreenfootImage outline = new GreenfootImage(w + 2, h + 2);
+        outline.clear();
+
+        // Draw outline in 8 directions around center
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue;
+                GreenfootImage colored = new GreenfootImage(baseImg);
+                replaceColor(colored, outlineColor);
+                outline.drawImage(colored, dx + 1, dy + 1);
+            }
+        }
+        outline.drawImage(baseImg, 1, 1);
+
+        return outline;
+    }
+
+    // Replace all visible pixels with outlineColor (keeping alpha)
+    private void replaceColor(GreenfootImage img, Color outlineColor) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Color pixel = img.getColorAt(x, y);
+                if (pixel.getAlpha() > 0) {
+                    img.setColorAt(x, y, outlineColor);
+                }
+            }
+        }
     }
 }
