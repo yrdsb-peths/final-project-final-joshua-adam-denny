@@ -12,7 +12,7 @@ public class NukeTower extends Tower {
         img.scale(60, 60);
         setImage(img);
 
-        baseCost = 50000;
+        baseCost = 15000;
         upgradeCost = 5000;
         upgradeCostPerLevel = 2500;
 
