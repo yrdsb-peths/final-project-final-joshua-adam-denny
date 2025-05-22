@@ -161,7 +161,7 @@ public class GameWorld extends World {
         int y;
         int attempts = 0;
         do {
-            y = 100 + Greenfoot.getRandomNumber(200);
+            y = 100 + Greenfoot.getRandomNumber(500);
             attempts++;
         } while (usedYPositions.contains(y) && attempts < 10);
         usedYPositions.add(y);
