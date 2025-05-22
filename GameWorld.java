@@ -63,49 +63,59 @@ public class GameWorld extends World {
     // Updated spawnEnemy method ONLY:
     private void spawnEnemy() {
         int y = getUniqueYPosition();
-        int speed = getEnemySpeed();  
         int type = Greenfoot.getRandomNumber(100);
-    
         int hp;
-
-    if (wave <= 2) {
-        hp = getEnemyHealth("Basic");
-        addObject(new Enemy(speed, hp), 0, y);
-    } else if (wave >= 3 && wave < 7) {
-        if (type < 70) {
+        int speed;
+    
+        if (wave <= 2) {
             hp = getEnemyHealth("Basic");
+            speed = getEnemySpeed("Basic"); // Base speed
             addObject(new Enemy(speed, hp), 0, y);
+        } else if (wave >= 3 && wave < 7) {
+            if (type < 70) {
+                hp = getEnemyHealth("Basic");
+                speed = getEnemySpeed("Basic"); // instead of getEnemySpeed()
+                addObject(new Enemy(speed, hp), 0, y);
+            } else {
+                hp = getEnemyHealth("Fast");
+                speed = getEnemySpeed("Fast"); // Fast enemy = base speed + 2
+                addObject(new FastEnemy(speed, hp), 0, y);
+            }
+        } else if (wave >= 7 && wave < 18) {
+            if (type < 50) {
+                hp = getEnemyHealth("Basic");
+                speed = getEnemySpeed("Basic");
+                addObject(new Enemy(speed, hp), 0, y);
+            } else if (type < 85) {
+                hp = getEnemyHealth("Fast");
+                speed = getEnemySpeed("Fast");
+                addObject(new FastEnemy(speed, hp), 0, y);
+            } else {
+                hp = getEnemyHealth("Tank");
+                speed = Math.max(1, getEnemySpeed("Tank")); // Tank enemy = base speed - 1 (minimum 1)
+                addObject(new TankEnemy(speed, hp), 0, y);
+            }
         } else {
-            hp = getEnemyHealth("Fast");
-            addObject(new FastEnemy(speed, hp), 0, y);
-        }
-    } else if (wave >= 7 && wave < 18) {
-        if (type < 50) {
-            hp = getEnemyHealth("Basic");
-            addObject(new Enemy(speed, hp), 0, y);
-        } else if (type < 85) {
-            hp = getEnemyHealth("Fast");
-            addObject(new FastEnemy(speed, hp), 0, y);
-        } else {
-            hp = getEnemyHealth("Tank");
-            addObject(new TankEnemy(speed, hp), 0, y);
-        }
-    } else {
-        if (type < 40) {
-            hp = getEnemyHealth("Basic");
-            addObject(new Enemy(speed, hp), 0, y);
-        } else if (type < 70) {
-            hp = getEnemyHealth("Fast");
-            addObject(new FastEnemy(speed, hp), 0, y);
-        } else if (type < 90) {
-            hp = getEnemyHealth("Tank");
-            addObject(new TankEnemy(speed, hp), 0, y);
-        } else {
-            hp = getEnemyHealth("Big");
-            addObject(new BigEnemy(speed, hp), 0, y);
+            if (type < 40) {
+                hp = getEnemyHealth("Basic");
+                speed = getEnemySpeed("Basic");
+                addObject(new Enemy(speed, hp), 0, y);
+            } else if (type < 70) {
+                hp = getEnemyHealth("Fast");
+                speed = getEnemySpeed("Fast") + 2;
+                addObject(new FastEnemy(speed, hp), 0, y);
+            } else if (type < 90) {
+                hp = getEnemyHealth("Tank");
+                speed = Math.max(1, getEnemySpeed("Tank"));
+                addObject(new TankEnemy(speed, hp), 0, y);
+            } else {
+                hp = getEnemyHealth("Big");
+                speed = getEnemySpeed("Big"); // Use base speed or adjust if needed
+                addObject(new BigEnemy(speed, hp), 0, y);
+            }
         }
     }
-}
+
 
     public int getEnemyBaseHealth(String type) {
         switch (type) {
@@ -137,16 +147,16 @@ public class GameWorld extends World {
             return (int)(base * Math.pow(multiplier, wavesOver20));
         }
     }
-
-
-
-
-    // Updated getEnemySpeed method ONLY:
-    private int getEnemySpeed() {
-        // Slower speed ramping — increase speed slowly with wave number
-        return 1 + wave / 5;
+        // Updated getEnemySpeed method ONLY:
+    private int getEnemySpeed(String type) {
+        int base = 1 + wave / 5;
+        switch (type) {
+            case "Fast": return base + 2;
+            case "Tank": return Math.max(1, base - 1);
+            default: return base;
+        }
     }
-
+    
     private int getUniqueYPosition() {
         int y;
         int attempts = 0;
