@@ -11,7 +11,9 @@ public class MachineGunTower extends Tower {
         damage = 1;                   
         bulletSpeed = 5;
 
-        upgradeCost = 200; // starting upgrade cost
+        baseCost = 750;
+        upgradeCostPerLevel = 200;
+        upgradeCost = upgradeCostPerLevel;
     }
 
     @Override
@@ -19,9 +21,10 @@ public class MachineGunTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 1;                  // small damage increase
-            cooldownTime = Math.max(5, cooldownTime - 2); // faster firing rate
-            upgradeCost += 50;            // increase upgrade cost
+            damage += 1;
+            cooldownTime = Math.max(5, cooldownTime - 2);
+            totalInvested += upgradeCost; // track what's actually spent
+            upgradeCost += 150;
             updateImage();
             return true;
         }
@@ -32,12 +35,11 @@ public class MachineGunTower extends Tower {
     protected void updateImage() {
         //GreenfootImage img = new GreenfootImage("sniper_tower_level" + level + ".png");
         GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-
         img.scale(50, 50);
         setImage(img);
     }
 
-    @Override
+    /*@Override
     protected Enemy getEnemyInRange() {
         return super.getEnemyInRange();
     }
@@ -46,4 +48,9 @@ public class MachineGunTower extends Tower {
     protected void shoot(Enemy target) {
         getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
     }
+
+  
+    public void sell() {
+
+    }*/
 }

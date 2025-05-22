@@ -11,8 +11,10 @@ public class SniperTower extends Tower {
         range = 1000;        // long range
         damage = 10;         // high damage
         bulletSpeed = 15;
+        baseCost = 300;
+        upgradeCostPerLevel = 150;
 
-        upgradeCost = 150;   // more expensive to upgrade
+        upgradeCost = upgradeCostPerLevel;   // more expensive to upgrade
     }
 
     @Override
@@ -22,6 +24,7 @@ public class SniperTower extends Tower {
             level++;
             damage += 5;                    // boost damage significantly
             cooldownTime = Math.max(60, cooldownTime - 20); // slightly faster
+            totalInvested += upgradeCost;
             upgradeCost += 100;            // higher cost per upgrade
             updateImage();
             return true;
@@ -54,8 +57,12 @@ public class SniperTower extends Tower {
         return farthest;
     }
 
-    @Override
+    /*@Override
     protected void shoot(Enemy target) {
         getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
     }
+    
+    public void sell() {
+
+    }*/
 }

@@ -11,6 +11,10 @@ public class Tower extends Actor {
     protected int level = 1;         // current upgrade level
     protected int maxLevel = 3;      // max upgrades allowed
     protected int upgradeCost = 50;  // cost to upgrade
+    protected int baseCost;
+    protected int upgradeCostPerLevel;
+    protected int totalInvested = 0;
+
 
     public void act() {
         if (cooldown > 0) {
@@ -41,7 +45,18 @@ public class Tower extends Actor {
         System.out.println("Upgrade not implemented for this tower type.");
         return false;
     }
+    public void sell() {
+        GameWorld world = (GameWorld) getWorld();
+        int refund = (int)(totalInvested * 0.8); // 80% refund
+        world.addMoney(refund);
+        getWorld().removeObject(this);
+    }
 
+
+    @Override
+    public void addedToWorld(World world) {
+        totalInvested = baseCost;
+    }
 
     protected void updateImage() {
         // You can override this in subclasses to change image per level

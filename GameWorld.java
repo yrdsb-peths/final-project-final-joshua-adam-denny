@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 300;
+    private int money = 2000;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -227,10 +227,15 @@ public class GameWorld extends World {
                 Actor clicked = getObjectsAt(mi.getX(), mi.getY(), Tower.class).stream().findFirst().orElse(null);
                 if (clicked != null) {
                     Tower tower = (Tower) clicked;
-                    if (!tower.upgrade()) {
-                        System.out.println("Not enough money or max level reached!");
+                    if (mi.getButton() == 1) {
+                        if (!tower.upgrade()) {
+                            System.out.println("Not enough money or max level reached!");
+                        }
+                    } else if (mi.getButton() == 3) {
+                        tower.sell();
                     }
                 }
+
             }
         }
     }
