@@ -10,7 +10,7 @@ public class TankEnemy extends Enemy {
 
     public TankEnemy(int speed) {
         super(speed - 1); // slower but tanky
-        this.health = 5;
+        this.health = 10;
         setImage("hippo.png");
     }
 

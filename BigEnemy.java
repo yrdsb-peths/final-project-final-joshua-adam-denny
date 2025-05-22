@@ -10,7 +10,7 @@ public class BigEnemy extends Enemy {
 
     public BigEnemy(int speed) {
         super(speed);
-        this.health = 20; // big enemy has more health
+        this.health = 30; // big enemy has more health
         setImage("teddybear.png"); // make sure to use a bigger image if you have one
     }
 
