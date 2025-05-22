@@ -1,18 +1,12 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class Enemy here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Enemy extends Actor {
     protected int speed;
     protected int health;
 
     public Enemy(int speed) {
         this.speed = speed;
-        this.health = 1; // basic enemy has 1 health
+        this.health = 1;
     }
 
     public int getSpeed() {
@@ -22,17 +16,23 @@ public class Enemy extends Actor {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(10); // reward for regular enemy
+            ((GameWorld)getWorld()).addMoney(10);
             getWorld().removeObject(this);
         }
+    }
+
+    // Allow subclasses to define how many lives to subtract
+    public int getLifeDamage() {
+        return 1;
     }
 
     public void act() {
         move(speed);
-        if (getX() >= getWorld().getWidth()) {
-            getWorld().removeObject(this);
+
+        World world = getWorld();
+        if (world != null && getX() >= world.getWidth() - 1) {
+            ((GameWorld) world).loseLife(getLifeDamage());
+            world.removeObject(this);
         }
     }
 }
-
-

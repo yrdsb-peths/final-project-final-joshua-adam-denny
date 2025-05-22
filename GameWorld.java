@@ -20,7 +20,8 @@ public class GameWorld extends World {
     private boolean waitingForNextWave = true;
     private boolean keyHeld = false;
     private boolean towerPlacedThisClick = false;
-
+    private int lives = 100; // or however many you want
+    private Label livesLabel;
     public GameWorld() {
         super(600, 400, 1);
 
@@ -28,10 +29,14 @@ public class GameWorld extends World {
         waveLabel = new Label("Wave: " + wave, 30);
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
-
+        livesLabel = new Label("Lives: " + lives, 30);
+        
+        addObject(livesLabel, 400, 30); // Position as you like
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
+        
+        
     }
 
     public void act() {
@@ -277,4 +282,23 @@ public class GameWorld extends World {
     private void updateWaveLabel() {
         waveLabel.setValue("Wave: " + wave);
     }
+    
+    public void loseLife(int amount) {
+        lives -= amount;
+        updateLivesLabel();
+        
+        if (lives <= 0) {
+            gameOver();
+        }
+    }
+
+    private void updateLivesLabel() {
+        livesLabel.setValue("Lives: " + lives);
+    }
+
+    private void gameOver() {
+        showText("Game Over!", getWidth() / 2, getHeight() / 2);
+        Greenfoot.stop(); // Stops the game
+    }
+
 }

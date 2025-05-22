@@ -22,6 +22,11 @@ public class FastEnemy extends Enemy {
             getWorld().removeObject(this);
         }
     }
+    
+    @Override
+    public int getLifeDamage() {
+        return 2;
+    }
 }
 
 

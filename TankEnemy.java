@@ -22,6 +22,10 @@ public class TankEnemy extends Enemy {
             getWorld().removeObject(this);
         }
     }
+    @Override
+    public int getLifeDamage() {
+        return 5;
+    }
 }
 
 
