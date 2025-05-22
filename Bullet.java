@@ -1,32 +1,11 @@
-import greenfoot.*;
-
-public class Bullet extends Actor {
-    private Enemy target;
-    private int damage;
-    private int speed;
-
-    public Bullet(Enemy target, int damage, int speed) {
-        this.target = target;
-        this.damage = damage;
-        this.speed = speed;
-        GreenfootImage img = new GreenfootImage("Bullet.png");
-        img.scale(60, 60);
-        setImage(img);
+public class Bullet extends Projectile {
+    public Bullet(Enemy target) {
+        super(target, 10, 5, "Bullet.png", 20); // Example values
     }
 
-    public void act() {
-        if (target != null && getWorld().getObjects(Enemy.class).contains(target)) {
-            turnTowards(target.getX(), target.getY());
-            move(speed);
-
-            if (intersects(target)) {
-                target.takeDamage(damage);
-                getWorld().removeObject(this);
-            }
-        } else {
-            if (getWorld() != null) {
-                getWorld().removeObject(this);
-            }
-        }
+    @Override
+    protected void onHit() {
+        target.takeDamage(damage);
+        getWorld().removeObject(this);
     }
 }

@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 300;
+    private int money = 30000;
 
     private Label moneyLabel;
     private Label waveLabel;
