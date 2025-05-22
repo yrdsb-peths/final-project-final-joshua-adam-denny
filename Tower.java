@@ -70,8 +70,9 @@ public class Tower extends Actor {
             outlinedImg = createOutlinedImage(baseImg, Color.GREEN);
         } else if (level == 2) {
             outlinedImg = createOutlinedImage(baseImg, Color.RED);
+        } else if (level == 3) {
+            outlinedImg = createOutlinedImage(baseImg, Color.BLUE);
         } else {
-            // For any other level, no outline
             outlinedImg = baseImg;
         }
 
