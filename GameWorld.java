@@ -24,7 +24,7 @@ public class GameWorld extends World {
     private Label livesLabel;
 
     public GameWorld() {
-        super(600, 400, 1);
+        super(1000, 600, 1);
 
         moneyLabel = new Label("Money: $" + money, 30);
         waveLabel = new Label("Wave: " + wave, 30);
