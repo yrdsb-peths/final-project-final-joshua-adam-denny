@@ -22,6 +22,7 @@ public class GameWorld extends World {
     private boolean towerPlacedThisClick = false;
     private int lives = 100; // or however many you want
     private Label livesLabel;
+
     public GameWorld() {
         super(600, 400, 1);
 
@@ -59,22 +60,50 @@ public class GameWorld extends World {
         }
     }
 
+    // Updated spawnEnemy method ONLY:
     private void spawnEnemy() {
         int y = getUniqueYPosition();
         int speed = getEnemySpeed();
 
-        if (enemiesSpawned > 0 && enemiesSpawned % 10 == 0) {
-            addObject(new BigEnemy(speed - 1), 0, y);
-        } else {
-            int type = Greenfoot.getRandomNumber(100);
-            if (type < 60) {
+        int type = Greenfoot.getRandomNumber(100);
+
+        if (wave <= 2) {
+            // Waves 1-2: Only normal enemies
+            addObject(new Enemy(speed), 0, y);
+        } else if (wave >= 3 && wave < 7) {
+            // Waves 3-6: Normal and Fast enemies
+            if (type < 70) {
+                addObject(new Enemy(speed), 0, y);
+            } else {
+                addObject(new FastEnemy(speed), 0, y);
+            }
+        } else if (wave >= 7 && wave < 18) {
+            // Waves 7-17: Normal, Fast, and Tank enemies
+            if (type < 50) {
                 addObject(new Enemy(speed), 0, y);
             } else if (type < 85) {
                 addObject(new FastEnemy(speed), 0, y);
             } else {
                 addObject(new TankEnemy(speed), 0, y);
             }
+        } else {
+            // Waves 18+: All enemy types including BigEnemy
+            if (type < 40) {
+                addObject(new Enemy(speed), 0, y);
+            } else if (type < 70) {
+                addObject(new FastEnemy(speed), 0, y);
+            } else if (type < 90) {
+                addObject(new TankEnemy(speed), 0, y);
+            } else {
+                addObject(new BigEnemy(speed), 0, y);
+            }
         }
+    }
+
+    // Updated getEnemySpeed method ONLY:
+    private int getEnemySpeed() {
+        // Slower speed ramping — increase speed slowly with wave number
+        return 1 + wave / 5;
     }
 
     private int getUniqueYPosition() {
@@ -86,10 +115,6 @@ public class GameWorld extends World {
         } while (usedYPositions.contains(y) && attempts < 10);
         usedYPositions.add(y);
         return y;
-    }
-
-    private int getEnemySpeed() {
-        return 1 + wave;
     }
 
     // === Wave Control ===
@@ -106,7 +131,6 @@ public class GameWorld extends World {
             wavePrompt.setValue("Press SPACE to start next wave");
             addMoney(200); // Give $200 for surviving the wave
         }
-
     }
 
     private void nextWave() {
@@ -225,7 +249,6 @@ public class GameWorld extends World {
             default: return new BasicTower();
         }
     }
-
 
     // === Tower Upgrade ===
     private void handleTowerClickUpgrade() {
