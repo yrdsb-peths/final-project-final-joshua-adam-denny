@@ -21,3 +21,15 @@ Copy the `project.greenfoot.md` file and rename it to `project.greenfoot`
 
 # Learn Markdown Basics
 [Markdown basics](https://www.markdownguide.org/getting-started/)
+
+
+Controls
+
+1:select basic tower (costs $50)
+2:select sniper tower (costs $300) 
+3:select machinegun tower (costs $750)
+4:select nuke (costs $5000)
+left click: place tower
+left click tower: upgrade tower(up to 3 times) 
+space: start
+right click: sell:
