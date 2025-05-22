@@ -20,7 +20,7 @@ public class TankEnemy extends Enemy {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(30); // reward for tank enemy
+            ((GameWorld)getWorld()).addMoney(50); // reward for tank enemy
             getWorld().removeObject(this);
         }
     }

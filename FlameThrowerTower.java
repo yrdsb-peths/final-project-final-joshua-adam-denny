@@ -17,7 +17,7 @@ public class FlameThrowerTower extends Tower {
         bulletSpeed = 15;    // Speed of flame projectiles
 
         baseCost = 4500;
-        upgradeCostPerLevel = 750;
+        upgradeCostPerLevel = 900;
         upgradeCost = upgradeCostPerLevel;
     }
 
@@ -26,7 +26,7 @@ public class FlameThrowerTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage = Math.max(2, damage - 1);
+            damage = Math.max(2, damage + 1);
             cooldownTime = Math.max(3, cooldownTime - 1);  // Faster firing with upgrades
             // Increase coneProjectiles gradually up to maxProjectiles
             if (coneProjectiles < maxProjectiles) {

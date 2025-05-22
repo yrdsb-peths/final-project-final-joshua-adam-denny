@@ -12,9 +12,9 @@ public class NukeTower extends Tower {
         img.scale(60, 60);
         setImage(img);
 
-        baseCost = 15000;
-        upgradeCost = 5000;
-        upgradeCostPerLevel = 2500;
+        baseCost = 10000;
+        upgradeCostPerLevel = 2000;
+        upgradeCost = upgradeCostPerLevel;
 
         level = 0;
         maxLevel = 3;
@@ -51,7 +51,7 @@ public class NukeTower extends Tower {
             totalInvested += cost;
 
             // Apply upgrades
-            missileCooldownTime = Math.max(600, missileCooldownTime - 600); // -10 seconds (600 frames)
+            missileCooldownTime = Math.max(600, missileCooldownTime - 900); // -10 seconds (600 frames)
             nukeDamage += 250;
             explosionRadius += 50;
 

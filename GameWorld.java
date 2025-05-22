@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100000000;
+    private int money = 100;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -156,7 +156,8 @@ public class GameWorld extends World {
         }
 
         int wavesOver20 = wave - 20;
-        return (int)(base * Math.pow(multiplier, wavesOver20));
+        return (int)(base * (1 + wavesOver20 * 0.05) * Math.pow(multiplier, wavesOver20 * 0.1));
+
     }
 
     private int getEnemySpeed(String type) {
@@ -278,7 +279,7 @@ public class GameWorld extends World {
             case "Sniper": return 300;
             case "MachineGun": return 750;
             case "FlameThrower": return 4500;
-            case "Nuke": return 15000;
+            case "Nuke": return 10000;
             default: return 0;
         }
     }

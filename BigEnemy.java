@@ -20,7 +20,7 @@ public class BigEnemy extends Enemy {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(50); // higher reward
+            ((GameWorld)getWorld()).addMoney(100); // higher reward
             getWorld().removeObject(this);
         }
     }
