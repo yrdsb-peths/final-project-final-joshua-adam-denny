@@ -9,6 +9,9 @@ public class Bullet extends Actor {
         this.target = target;
         this.damage = damage;
         this.speed = speed;
+        GreenfootImage img = new GreenfootImage("Bullet.png");
+        img.scale(60, 60);
+        setImage(img);
     }
 
     public void act() {

@@ -9,7 +9,7 @@ public class BasicTower extends Tower {
         cooldownTime = 60;             
         range = 100;                  
         damage = 1;                  
-        bulletSpeed = 5;
+        bulletSpeed = 10;
 
         baseCost = 50;
         upgradeCostPerLevel = 50;

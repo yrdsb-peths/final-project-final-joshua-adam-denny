@@ -10,7 +10,7 @@ public class SniperTower extends Tower {
         cooldownTime = 120;  // slower fire rate
         range = 1000;        // long range
         damage = 10;         // high damage
-        bulletSpeed = 15;
+        bulletSpeed = 30;
         baseCost = 300;
         upgradeCostPerLevel = 150;
 

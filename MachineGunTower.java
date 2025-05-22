@@ -9,7 +9,7 @@ public class MachineGunTower extends Tower {
         cooldownTime = 10;             
         range = 300;                   
         damage = 1;                   
-        bulletSpeed = 5;
+        bulletSpeed = 10;
 
         baseCost = 750;
         upgradeCostPerLevel = 200;
