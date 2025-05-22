@@ -11,8 +11,8 @@ public class FlameThrowerTower extends Tower {
         img.scale(80, 80);
         setImage(img);
 
-        cooldownTime = 5;    // Much faster firing rate
-        range = 150;         // Shorter range for flame thrower
+        cooldownTime = 10;    // Much faster firing rate
+        range = 100;         // Shorter range for flame thrower
         damage = 1;
         bulletSpeed = 15;    // Speed of flame projectiles
 
@@ -26,8 +26,8 @@ public class FlameThrowerTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
+            damage = Math.max(2, damage - 1);
             cooldownTime = Math.max(3, cooldownTime - 1);  // Faster firing with upgrades
-            damage = Math.min(3, damage + 1);
             // Increase coneProjectiles gradually up to maxProjectiles
             if (coneProjectiles < maxProjectiles) {
                 coneProjectiles++;
