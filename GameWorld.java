@@ -206,25 +206,16 @@ public class GameWorld extends World {
     private void handleTowerDragging() {
         if (towerPreview == null) {
             if (!keyHeld) {
-                if (Greenfoot.isKeyDown("1")) {
-                    startDraggingTower("Basic");
-                    keyHeld = true;
-                } else if (Greenfoot.isKeyDown("2")) {
-                    startDraggingTower("Sniper");
-                    keyHeld = true;
-                } else if (Greenfoot.isKeyDown("3")) {
-                    startDraggingTower("MachineGun");
-                    keyHeld = true;
-                } else if (Greenfoot.isKeyDown("4")) {
-                    startDraggingTower("Nuke");
-                    keyHeld = true;
-                }
+                trySwitchPreview("1", "Basic");
+                trySwitchPreview("2", "Sniper");
+                trySwitchPreview("3", "MachineGun");
+                trySwitchPreview("4", "Nuke");
             }
         } else {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
                 towerPreview.setLocation(mi.getX(), mi.getY());
-
+        
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
                     if (mi.getButton() == 1) {
                         placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
@@ -235,25 +226,22 @@ public class GameWorld extends World {
                     }
                 }
             }
-
+        
             if (Greenfoot.isKeyDown("escape")) {
                 cancelDragging();
             }
-
-            if (Greenfoot.isKeyDown("1") && !towerPreview.getTowerType().equals("Basic")) {
-                startDraggingTower("Basic");
-            } else if (Greenfoot.isKeyDown("2") && !towerPreview.getTowerType().equals("Sniper")) {
-                startDraggingTower("Sniper");
-            } else if (Greenfoot.isKeyDown("3") && !towerPreview.getTowerType().equals("MachineGun")) {
-                startDraggingTower("MachineGun");
-            } else if (Greenfoot.isKeyDown("4") && !towerPreview.getTowerType().equals("Nuke")) {
-                startDraggingTower("Nuke");
-            }
+        
+            // These now use the helper safely
+            trySwitchPreview("1", "Basic");
+            trySwitchPreview("2", "Sniper");
+            trySwitchPreview("3", "MachineGun");
+            trySwitchPreview("4", "Nuke");
         }
-
+        
         if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") && !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4")) {
             keyHeld = false;
         }
+
     }
 
     private void startDraggingTower(String towerType) {
@@ -280,6 +268,16 @@ public class GameWorld extends World {
         if (towerPreview != null) {
             removeObject(towerPreview);
             towerPreview = null;
+        }
+    }
+
+    
+    private void trySwitchPreview(String key, String towerType) {
+        if (Greenfoot.isKeyDown(key)) {
+            if (towerPreview == null || !towerPreview.getTowerType().equals(towerType)) {
+                startDraggingTower(towerType);
+                keyHeld = true;
+            }
         }
     }
 
