@@ -11,7 +11,7 @@ public class FastEnemy extends Enemy {
     public FastEnemy(int speed) {
         super(speed + 2); // faster than base enemy
         this.health = 1;
-        //setImage("fast-enemy.png");
+        setImage("bee2.png");
     }
 
     @Override

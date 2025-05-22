@@ -7,6 +7,7 @@ public class Enemy extends Actor {
     public Enemy(int speed) {
         this.speed = speed;
         this.health = 1;
+        setImage("man.png");
     }
 
     public int getSpeed() {

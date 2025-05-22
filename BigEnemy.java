@@ -11,7 +11,7 @@ public class BigEnemy extends Enemy {
     public BigEnemy(int speed) {
         super(speed);
         this.health = 20; // big enemy has more health
-        //setImage("big_enemy.png"); // make sure to use a bigger image if you have one
+        setImage("teddybear.png"); // make sure to use a bigger image if you have one
     }
 
     @Override

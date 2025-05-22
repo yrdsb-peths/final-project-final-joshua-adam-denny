@@ -35,8 +35,6 @@ public class GameWorld extends World {
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
-        
-        
     }
 
     public void act() {
