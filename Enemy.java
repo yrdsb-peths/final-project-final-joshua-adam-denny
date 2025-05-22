@@ -1,42 +1,76 @@
 import greenfoot.*;
+import java.util.*;
 
-public class Enemy extends Actor {
+public abstract class Enemy extends Actor {
     protected int speed;
     protected int health;
+    private List<BurnEffect> burnEffects = new ArrayList<>();
+
+    private GreenfootImage baseImage;
+    private boolean isBurning = false;
 
     public Enemy(int speed, int health) {
         this.speed = speed;
         this.health = health;
-        setImage("man.png");
     }
 
-    public int getSpeed() {
-        return speed;
+    protected void setBaseImage(GreenfootImage img) {
+        baseImage = img;
+        setImage(new GreenfootImage(baseImage));
     }
 
-    public void takeDamage(int damage) {
-        health -= damage;
-        if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(10);
-            getWorld().removeObject(this);
+    // ... rest of your methods unchanged, except remove image init from act()
+
+    private void updateImage() {
+        if (baseImage == null) return;
+        GreenfootImage img = new GreenfootImage(baseImage);
+        if (isBurning) {
+            img.setColor(new Color(255, 0, 0, 100));
+            img.fill();
         }
-    }
-    public int getHealth() {
-        return health;
+        setImage(img);
     }
 
-    // Allow subclasses to define how many lives to subtract
-    public int getLifeDamage() {
-        return 1;
+    public void applyBurn(BurnEffect burn) {
+        burnEffects.add(burn);
+        isBurning = true;
+        updateImage();
+    }
+
+    private void updateBurns() {
+        Iterator<BurnEffect> it = burnEffects.iterator();
+        while (it.hasNext()) {
+            BurnEffect burn = it.next();
+            if (burn.updateAndApply(this)) {
+                it.remove();
+            }
+        }
+        boolean stillBurning = !burnEffects.isEmpty();
+        if (isBurning != stillBurning) {
+            isBurning = stillBurning;
+            updateImage();
+        }
     }
 
     public void act() {
+        updateBurns();
         move(speed);
-
+        updateImage();
         World world = getWorld();
         if (world != null && getX() >= world.getWidth() - 1) {
             ((GameWorld) world).loseLife(getLifeDamage());
             world.removeObject(this);
+        }
+    }
+
+    public int getSpeed() { return speed; }
+    public int getHealth() { return health; }
+    public int getLifeDamage() { return 1; }
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0 && getWorld() != null) {
+            ((GameWorld) getWorld()).addMoney(10);
+            getWorld().removeObject(this);
         }
     }
 }

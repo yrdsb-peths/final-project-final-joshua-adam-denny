@@ -3,12 +3,12 @@ import greenfoot.*;
 public class MachineGunTower extends Tower {
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-        img.scale(50, 50);
+        img.scale(80, 80);
         setImage(img);
 
         cooldownTime = 10;             
         range = 300;                   
-        damage = 1;                   
+        damage = 2;                   
         bulletSpeed = 10;
 
         baseCost = 750;
@@ -21,8 +21,8 @@ public class MachineGunTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 1;
-            cooldownTime = Math.max(5, cooldownTime - 2);
+            damage += 2;
+            cooldownTime = Math.max(4, cooldownTime - 2);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 150;
             updateImage();
@@ -34,7 +34,7 @@ public class MachineGunTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-        img.scale(50, 50);
+        img.scale(80, 80);
         setImage(img);
     
         super.updateImage();  // This will add the outline based on level

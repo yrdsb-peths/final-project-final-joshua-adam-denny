@@ -1,16 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class FastEnemy here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class FastEnemy extends Enemy {
 
     public FastEnemy(int speed, int health) {
         super(speed, health); // faster than base enemy
-        setImage("bee2.png");
+        
+        GreenfootImage img = new GreenfootImage("bee2.png");
+        img.scale(80, 80);             // scale to your desired size
+        setBaseImage(img);             // IMPORTANT: set base image for burn tint
+        
+        setImage(new GreenfootImage(img));  // set the image after scaling
     }
 
     @Override
@@ -21,11 +20,9 @@ public class FastEnemy extends Enemy {
             getWorld().removeObject(this);
         }
     }
-    
+
     @Override
     public int getLifeDamage() {
         return 2;
     }
 }
-
-

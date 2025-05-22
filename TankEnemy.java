@@ -9,9 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class TankEnemy extends Enemy {
 
     public TankEnemy(int speed, int health) {
-        super(speed, health); // slower but tanky
-        setImage("hippo.png");
+        super(speed, health);
+        GreenfootImage img = new GreenfootImage("hippo.png");
+        img.scale(80, 80);
+        setBaseImage(img);
     }
+
 
     @Override
     public void takeDamage(int amount) {

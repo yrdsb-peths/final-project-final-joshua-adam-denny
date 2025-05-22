@@ -7,12 +7,12 @@ public class BasicTower extends Tower {
         setImage(img);
 
         cooldownTime = 60;             
-        range = 100;                  
-        damage = 1;                  
+        range = 200;                  
+        damage = 2;                  
         bulletSpeed = 10;
 
         baseCost = 50;
-        upgradeCostPerLevel = 50;
+        upgradeCostPerLevel = 10;
         upgradeCost = upgradeCostPerLevel;
     }
 
@@ -21,11 +21,11 @@ public class BasicTower extends Tower {
         GameWorld world = (GameWorld) getWorld(); // ✅ correct cast
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 1;
+            damage += 2;
             range += 15;
             cooldownTime = Math.max(30, cooldownTime - 10);
             totalInvested += upgradeCost; // track what's actually spent
-            upgradeCost += 50;
+            upgradeCost += 10;
 
             updateImage();
             return true;

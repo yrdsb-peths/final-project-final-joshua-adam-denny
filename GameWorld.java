@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100;
+    private int money = 100000000;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -20,21 +20,23 @@ public class GameWorld extends World {
     private boolean waitingForNextWave = true;
     private boolean keyHeld = false;
     private boolean towerPlacedThisClick = false;
-    private int lives = 100; // or however many you want
+    private int lives = 100;
     private Label livesLabel;
 
     public GameWorld() {
         super(1000, 600, 1);
+        setBackground("grass.png");
 
         moneyLabel = new Label("Money: $" + money, 30);
         waveLabel = new Label("Wave: " + wave, 30);
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
         livesLabel = new Label("Lives: " + lives, 30);
+
         Base base = new Base();
-        setBackground("grass.png");
         addObject(base, 925, 300);
-        addObject(livesLabel, 400, 30); // Position as you like
+
+        addObject(livesLabel, 400, 30);
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
@@ -48,7 +50,6 @@ public class GameWorld extends World {
         resetInputFlags();
     }
 
-    // === Enemy Spawning Logic ===
     private void handleEnemySpawning() {
         spawnTimer++;
         if (enemiesSpawned < enemiesToSpawn && spawnTimer >= spawnDelay) {
@@ -62,103 +63,61 @@ public class GameWorld extends World {
         }
     }
 
-    // Updated spawnEnemy method ONLY:
     private void spawnEnemy() {
         int y = getUniqueYPosition();
         int type = Greenfoot.getRandomNumber(100);
         int hp;
         int speed;
-    
+
         if (wave <= 2) {
             hp = getEnemyHealth("Basic");
-            speed = getEnemySpeed("Basic"); // Base speed
-            addObject(new Enemy(speed, hp), 0, y);
+            speed = getEnemySpeed("Basic");
+            addObject(new BasicEnemy(speed, hp), 0, y);
         } else if (wave >= 3 && wave < 7) {
             if (type < 70) {
                 hp = getEnemyHealth("Basic");
-                speed = getEnemySpeed("Basic"); // instead of getEnemySpeed()
-                addObject(new Enemy(speed, hp), 0, y);
+                speed = getEnemySpeed("Basic");
+                addObject(new BasicEnemy(speed, hp), 0, y);
             } else {
                 hp = getEnemyHealth("Fast");
-                speed = getEnemySpeed("Fast"); // Fast enemy = base speed + 2
+                speed = getEnemySpeed("Fast");
                 addObject(new FastEnemy(speed, hp), 0, y);
             }
         } else if (wave >= 7 && wave < 18) {
             if (type < 50) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
-                addObject(new Enemy(speed, hp), 0, y);
+                addObject(new BasicEnemy(speed, hp), 0, y);
             } else if (type < 85) {
                 hp = getEnemyHealth("Fast");
                 speed = getEnemySpeed("Fast");
                 addObject(new FastEnemy(speed, hp), 0, y);
             } else {
                 hp = getEnemyHealth("Tank");
-                speed = Math.max(1, getEnemySpeed("Tank")); // Tank enemy = base speed - 1 (minimum 1)
+                speed = getEnemySpeed("Tank");
                 addObject(new TankEnemy(speed, hp), 0, y);
             }
         } else {
             if (type < 40) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
-                addObject(new Enemy(speed, hp), 0, y);
+                addObject(new BasicEnemy(speed, hp), 0, y);
             } else if (type < 70) {
                 hp = getEnemyHealth("Fast");
-                speed = getEnemySpeed("Fast") + 2;
+                speed = getEnemySpeed("Fast");
                 addObject(new FastEnemy(speed, hp), 0, y);
             } else if (type < 90) {
                 hp = getEnemyHealth("Tank");
-                speed = Math.max(1, getEnemySpeed("Tank"));
+                speed = getEnemySpeed("Tank");
                 addObject(new TankEnemy(speed, hp), 0, y);
             } else {
                 hp = getEnemyHealth("Big");
-                speed = getEnemySpeed("Big"); // Use base speed or adjust if needed
+                speed = getEnemySpeed("Big");
                 addObject(new BigEnemy(speed, hp), 0, y);
             }
         }
     }
 
-
-    public int getEnemyBaseHealth(String type) {
-        switch (type) {
-            case "Basic": return 1;
-            case "Fast": return 4;
-            case "Tank": return 15;
-            case "Big": return 50;
-            default: return 1;
-        }
-    }
-
-    public int getEnemyHealth(String type) {
-        int base = getEnemyBaseHealth(type);
-    
-        if (wave <= 20) {
-            return base;  // No early ramping
-        } else {
-            double multiplier;
-    
-            switch (type) {
-                case "Basic": multiplier = 1.02; break;
-                case "Fast":  multiplier = 1.03; break;
-                case "Tank":  multiplier = 1.07; break;
-                case "Big":   multiplier = 1.1;  break;
-                default:      multiplier = 1.02; break;
-            }
-    
-            int wavesOver20 = wave - 20;
-            return (int)(base * Math.pow(multiplier, wavesOver20));
-        }
-    }
-        // Updated getEnemySpeed method ONLY:
-    private int getEnemySpeed(String type) {
-        int base = 1 + wave / 5;
-        switch (type) {
-            case "Fast": return base + 2;
-            case "Tank": return Math.max(1, base - 1);
-            default: return base;
-        }
-    }
-    
     private int getUniqueYPosition() {
         int y;
         int attempts = 0;
@@ -170,7 +129,45 @@ public class GameWorld extends World {
         return y;
     }
 
-    // === Wave Control ===
+    private int getEnemyBaseHealth(String type) {
+        switch (type) {
+            case "Basic": return 1;
+            case "Fast": return 4;
+            case "Tank": return 15;
+            case "Big": return 50;
+            default: return 1;
+        }
+    }
+
+    private int getEnemyHealth(String type) {
+        int base = getEnemyBaseHealth(type);
+
+        if (wave <= 20) {
+            return base;
+        }
+
+        double multiplier;
+        switch (type) {
+            case "Basic": multiplier = 1.02; break;
+            case "Fast":  multiplier = 1.03; break;
+            case "Tank":  multiplier = 1.07; break;
+            case "Big":   multiplier = 1.10; break;
+            default:      multiplier = 1.02; break;
+        }
+
+        int wavesOver20 = wave - 20;
+        return (int)(base * Math.pow(multiplier, wavesOver20));
+    }
+
+    private int getEnemySpeed(String type) {
+        int base = 1 + wave / 5;
+        switch (type) {
+            case "Fast": return base + 2;
+            case "Tank": return Math.max(1, base - 1);
+            default: return base;
+        }
+    }
+
     private void handleWaveProgression() {
         if (waitingForNextWave && Greenfoot.isKeyDown("space")) {
             nextWave();
@@ -179,10 +176,10 @@ public class GameWorld extends World {
             if (spawnBatchSize < 5) spawnBatchSize++;
         }
 
-        if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(Enemy.class).isEmpty()) {
+        if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(BasicEnemy.class).isEmpty()) {
             waitingForNextWave = true;
             wavePrompt.setValue("Press SPACE to start next wave");
-            addMoney(200); // Give $200 for surviving the wave
+            addMoney(200);
         }
     }
 
@@ -194,28 +191,24 @@ public class GameWorld extends World {
         usedYPositions.clear();
         updateWaveLabel();
 
-        if (wave % 3 == 0 && spawnBatchSize < 6) {
-            spawnBatchSize++;
-        }
-        if (wave % 5 == 0 && spawnDelay > 20) {
-            spawnDelay -= 5;
-        }
+        if (wave % 3 == 0 && spawnBatchSize < 6) spawnBatchSize++;
+        if (wave % 5 == 0 && spawnDelay > 20) spawnDelay -= 5;
     }
 
-    // === Tower Drag-and-Drop ===
     private void handleTowerDragging() {
         if (towerPreview == null) {
             if (!keyHeld) {
                 trySwitchPreview("1", "Basic");
                 trySwitchPreview("2", "Sniper");
                 trySwitchPreview("3", "MachineGun");
-                trySwitchPreview("4", "Nuke");
+                trySwitchPreview("4", "FlameThrower");
+                trySwitchPreview("5", "Nuke");
             }
         } else {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
                 towerPreview.setLocation(mi.getX(), mi.getY());
-        
+
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
                     if (mi.getButton() == 1) {
                         placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
@@ -226,28 +219,27 @@ public class GameWorld extends World {
                     }
                 }
             }
-        
+
             if (Greenfoot.isKeyDown("escape")) {
                 cancelDragging();
             }
-        
-            // These now use the helper safely
+
+            // Allow switching tower preview while dragging
             trySwitchPreview("1", "Basic");
             trySwitchPreview("2", "Sniper");
             trySwitchPreview("3", "MachineGun");
-            trySwitchPreview("4", "Nuke");
-        }
-        
-        if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") && !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4")) {
-            keyHeld = false;
+            trySwitchPreview("4", "FlameThrower");
+            trySwitchPreview("5", "Nuke");
         }
 
+        if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") &&
+            !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4") && !Greenfoot.isKeyDown("5")) {
+            keyHeld = false;
+        }
     }
 
     private void startDraggingTower(String towerType) {
-        if (towerPreview != null) {
-            removeObject(towerPreview);
-        }
+        if (towerPreview != null) removeObject(towerPreview);
         towerPreview = new TowerPreview(towerType);
         addObject(towerPreview, getWidth() / 2, getHeight() / 2);
     }
@@ -271,7 +263,6 @@ public class GameWorld extends World {
         }
     }
 
-    
     private void trySwitchPreview(String key, String towerType) {
         if (Greenfoot.isKeyDown(key)) {
             if (towerPreview == null || !towerPreview.getTowerType().equals(towerType)) {
@@ -283,9 +274,10 @@ public class GameWorld extends World {
 
     private int getTowerCost(String towerType) {
         switch (towerType) {
-            case "Sniper": return 300;
             case "Basic": return 50;
+            case "Sniper": return 300;
             case "MachineGun": return 750;
+            case "FlameThrower": return 4500;
             case "Nuke": return 15000;
             default: return 0;
         }
@@ -293,22 +285,22 @@ public class GameWorld extends World {
 
     private Tower createTower(String towerType) {
         switch (towerType) {
+            case "Basic": return new BasicTower();
             case "Sniper": return new SniperTower();
             case "MachineGun": return new MachineGunTower();
-            case "Basic": return new BasicTower();
+            case "FlameThrower": return new FlameThrowerTower();
             case "Nuke": return new NukeTower();
             default: return new BasicTower();
         }
     }
 
-    // === Tower Upgrade ===
     private void handleTowerClickUpgrade() {
         if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
-                Actor clicked = getObjectsAt(mi.getX(), mi.getY(), Tower.class).stream().findFirst().orElse(null);
-                if (clicked != null) {
-                    Tower tower = (Tower) clicked;
+                List<Tower> towers = getObjectsAt(mi.getX(), mi.getY(), Tower.class);
+                if (!towers.isEmpty()) {
+                    Tower tower = towers.get(0);
                     if (mi.getButton() == 1) {
                         if (!tower.upgrade()) {
                             System.out.println("Not enough money or max level reached!");
@@ -321,14 +313,12 @@ public class GameWorld extends World {
         }
     }
 
-    // === Reset Mouse Flags ===
     private void resetInputFlags() {
         if (!Greenfoot.mousePressed(null)) {
             towerPlacedThisClick = false;
         }
     }
 
-    // === Money/Wave UI ===
     public int getMoney() {
         return money;
     }
@@ -354,11 +344,10 @@ public class GameWorld extends World {
     private void updateWaveLabel() {
         waveLabel.setValue("Wave: " + wave);
     }
-    
+
     public void loseLife(int amount) {
         lives -= amount;
         updateLivesLabel();
-        
         if (lives <= 0) {
             gameOver();
         }
@@ -370,7 +359,6 @@ public class GameWorld extends World {
 
     private void gameOver() {
         showText("Game Over!", getWidth() / 2, getHeight() / 2);
-        Greenfoot.stop(); // Stops the game
+        Greenfoot.stop();
     }
-
 }

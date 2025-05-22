@@ -4,12 +4,12 @@ import java.util.List;
 public class SniperTower extends Tower {
     public SniperTower() {
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
-        img.scale(50, 50);
+        img.scale(80, 80);
         setImage(img);
 
         cooldownTime = 120;  // slower fire rate
         range = 1000;        // long range
-        damage = 10;         // high damage
+        damage = 30;         // high damage
         bulletSpeed = 30;
         baseCost = 300;
         upgradeCostPerLevel = 150;
@@ -22,8 +22,8 @@ public class SniperTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 5;                    // boost damage significantly
-            cooldownTime = Math.max(60, cooldownTime - 20); // slightly faster
+            damage += 10;                    // boost damage significantly
+            cooldownTime = Math.max(45, cooldownTime - 30); // slightly faster
             totalInvested += upgradeCost;
             upgradeCost += 100;            // higher cost per upgrade
             updateImage();
@@ -35,7 +35,7 @@ public class SniperTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
-        img.scale(50, 50);
+        img.scale(80, 80);
         setImage(img);
     
         super.updateImage();  // This will add the outline based on level
