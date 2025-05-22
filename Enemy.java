@@ -4,9 +4,9 @@ public class Enemy extends Actor {
     protected int speed;
     protected int health;
 
-    public Enemy(int speed) {
+    public Enemy(int speed, int health) {
         this.speed = speed;
-        this.health = 1;
+        this.health = health;
         setImage("man.png");
     }
 
@@ -14,12 +14,15 @@ public class Enemy extends Actor {
         return speed;
     }
 
-    public void takeDamage(int amount) {
-        health -= amount;
+    public void takeDamage(int damage) {
+        health -= damage;
         if (health <= 0 && getWorld() != null) {
             ((GameWorld)getWorld()).addMoney(10);
             getWorld().removeObject(this);
         }
+    }
+    public int getHealth() {
+        return health;
     }
 
     // Allow subclasses to define how many lives to subtract

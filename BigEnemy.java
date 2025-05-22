@@ -8,9 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class BigEnemy extends Enemy {
 
-    public BigEnemy(int speed) {
-        super(speed);
-        this.health = 30; // big enemy has more health
+    public BigEnemy(int speed, int health) {
+        super(speed, health); // big enemy has more health
         setImage("teddybear.png"); // make sure to use a bigger image if you have one
     }
 

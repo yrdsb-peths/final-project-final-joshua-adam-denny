@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 30000;
+    private int money = 200;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -63,42 +63,83 @@ public class GameWorld extends World {
     // Updated spawnEnemy method ONLY:
     private void spawnEnemy() {
         int y = getUniqueYPosition();
-        int speed = getEnemySpeed();
-
+        int speed = getEnemySpeed();  
         int type = Greenfoot.getRandomNumber(100);
+    
+        int hp;
 
-        if (wave <= 2) {
-            // Waves 1-2: Only normal enemies
-            addObject(new Enemy(speed), 0, y);
-        } else if (wave >= 3 && wave < 7) {
-            // Waves 3-6: Normal and Fast enemies
-            if (type < 70) {
-                addObject(new Enemy(speed), 0, y);
-            } else {
-                addObject(new FastEnemy(speed), 0, y);
-            }
-        } else if (wave >= 7 && wave < 18) {
-            // Waves 7-17: Normal, Fast, and Tank enemies
-            if (type < 50) {
-                addObject(new Enemy(speed), 0, y);
-            } else if (type < 85) {
-                addObject(new FastEnemy(speed), 0, y);
-            } else {
-                addObject(new TankEnemy(speed), 0, y);
-            }
+    if (wave <= 2) {
+        hp = getEnemyHealth("Basic");
+        addObject(new Enemy(speed, hp), 0, y);
+    } else if (wave >= 3 && wave < 7) {
+        if (type < 70) {
+            hp = getEnemyHealth("Basic");
+            addObject(new Enemy(speed, hp), 0, y);
         } else {
-            // Waves 18+: All enemy types including BigEnemy
-            if (type < 40) {
-                addObject(new Enemy(speed), 0, y);
-            } else if (type < 70) {
-                addObject(new FastEnemy(speed), 0, y);
-            } else if (type < 90) {
-                addObject(new TankEnemy(speed), 0, y);
-            } else {
-                addObject(new BigEnemy(speed), 0, y);
-            }
+            hp = getEnemyHealth("Fast");
+            addObject(new FastEnemy(speed, hp), 0, y);
+        }
+    } else if (wave >= 7 && wave < 18) {
+        if (type < 50) {
+            hp = getEnemyHealth("Basic");
+            addObject(new Enemy(speed, hp), 0, y);
+        } else if (type < 85) {
+            hp = getEnemyHealth("Fast");
+            addObject(new FastEnemy(speed, hp), 0, y);
+        } else {
+            hp = getEnemyHealth("Tank");
+            addObject(new TankEnemy(speed, hp), 0, y);
+        }
+    } else {
+        if (type < 40) {
+            hp = getEnemyHealth("Basic");
+            addObject(new Enemy(speed, hp), 0, y);
+        } else if (type < 70) {
+            hp = getEnemyHealth("Fast");
+            addObject(new FastEnemy(speed, hp), 0, y);
+        } else if (type < 90) {
+            hp = getEnemyHealth("Tank");
+            addObject(new TankEnemy(speed, hp), 0, y);
+        } else {
+            hp = getEnemyHealth("Big");
+            addObject(new BigEnemy(speed, hp), 0, y);
         }
     }
+}
+
+    public int getEnemyBaseHealth(String type) {
+        switch (type) {
+            case "Basic": return 1;
+            case "Fast": return 4;
+            case "Tank": return 15;
+            case "Big": return 50;
+            default: return 1;
+        }
+    }
+
+    public int getEnemyHealth(String type) {
+        int base = getEnemyBaseHealth(type);
+    
+        if (wave <= 20) {
+            return base;  // No early ramping
+        } else {
+            double multiplier;
+    
+            switch (type) {
+                case "Basic": multiplier = 1.02; break;
+                case "Fast":  multiplier = 1.03; break;
+                case "Tank":  multiplier = 1.07; break;
+                case "Big":   multiplier = 1.1;  break;
+                default:      multiplier = 1.02; break;
+            }
+    
+            int wavesOver20 = wave - 20;
+            return (int)(base * Math.pow(multiplier, wavesOver20));
+        }
+    }
+
+
+
 
     // Updated getEnemySpeed method ONLY:
     private int getEnemySpeed() {
@@ -235,7 +276,7 @@ public class GameWorld extends World {
             case "Sniper": return 300;
             case "Basic": return 50;
             case "MachineGun": return 750;
-            case "Nuke": return 5000;
+            case "Nuke": return 15000;
             default: return 0;
         }
     }

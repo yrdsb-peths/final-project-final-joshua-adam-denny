@@ -8,9 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TankEnemy extends Enemy {
 
-    public TankEnemy(int speed) {
-        super(speed - 1); // slower but tanky
-        this.health = 10;
+    public TankEnemy(int speed, int health) {
+        super(speed, health); // slower but tanky
         setImage("hippo.png");
     }
 

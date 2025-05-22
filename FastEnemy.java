@@ -8,9 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class FastEnemy extends Enemy {
 
-    public FastEnemy(int speed) {
-        super(speed + 2); // faster than base enemy
-        this.health = 3;
+    public FastEnemy(int speed, int health) {
+        super(speed, health); // faster than base enemy
         setImage("bee2.png");
     }
 

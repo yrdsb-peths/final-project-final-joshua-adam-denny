@@ -36,8 +36,9 @@ public class Tower extends Actor {
     }
 
     protected void shoot(Enemy target) {
-        getWorld().addObject(new Bullet(target), getX(), getY());
+        getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
     }
+
 
 
     public boolean upgrade() {

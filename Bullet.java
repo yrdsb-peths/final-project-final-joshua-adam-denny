@@ -1,7 +1,8 @@
 public class Bullet extends Projectile {
-    public Bullet(Enemy target) {
-        super(target, 10, 5, "Bullet.png", 20); // Example values
+    public Bullet(Enemy target, int damage, int speed) {
+        super(target, damage, speed, "Bullet.png", 20); // 20 is radius
     }
+
 
     @Override
     protected void onHit() {
