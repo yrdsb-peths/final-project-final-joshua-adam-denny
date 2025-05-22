@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 2000;
+    private int money = 300;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -132,9 +132,11 @@ public class GameWorld extends World {
                 } else if (Greenfoot.isKeyDown("2")) {
                     startDraggingTower("Sniper");
                     keyHeld = true;
-                } else if (Greenfoot.isKeyDown("3")) 
-                {
+                } else if (Greenfoot.isKeyDown("3")) {
                     startDraggingTower("MachineGun");
+                    keyHeld = true;
+                } else if (Greenfoot.isKeyDown("4")) {
+                    startDraggingTower("Nuke");
                     keyHeld = true;
                 }
             }
@@ -164,13 +166,14 @@ public class GameWorld extends World {
                 startDraggingTower("Sniper");
             } else if (Greenfoot.isKeyDown("3") && !towerPreview.getTowerType().equals("MachineGun")) {
                 startDraggingTower("MachineGun");
+            } else if (Greenfoot.isKeyDown("4") && !towerPreview.getTowerType().equals("Nuke")) {
+                startDraggingTower("Nuke");
             }
         }
 
-        if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") && !Greenfoot.isKeyDown("3")) {
+        if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") && !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4")) {
             keyHeld = false;
         }
-
     }
 
     private void startDraggingTower(String towerType) {
@@ -205,6 +208,7 @@ public class GameWorld extends World {
             case "Sniper": return 300;
             case "Basic": return 50;
             case "MachineGun": return 750;
+            case "Nuke": return 5000;
             default: return 0;
         }
     }
@@ -214,6 +218,7 @@ public class GameWorld extends World {
             case "Sniper": return new SniperTower();
             case "MachineGun": return new MachineGunTower();
             case "Basic": return new BasicTower();
+            case "Nuke": return new NukeTower();
             default: return new BasicTower();
         }
     }
@@ -235,7 +240,6 @@ public class GameWorld extends World {
                         tower.sell();
                     }
                 }
-
             }
         }
     }
