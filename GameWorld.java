@@ -32,7 +32,7 @@ public class GameWorld extends World {
         wavePrompt.setLineColor(Color.BLACK);
         livesLabel = new Label("Lives: " + lives, 30);
         Base base = new Base();
-        
+        setBackground("grass.png");
         addObject(base, 925, 300);
         addObject(livesLabel, 400, 30); // Position as you like
         addObject(moneyLabel, 100, 30);
