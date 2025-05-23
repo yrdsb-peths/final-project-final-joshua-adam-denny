@@ -3,7 +3,7 @@ import greenfoot.*;
 public class MachineGunTower extends Tower {
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-        img.scale(80, 80);
+        img.scale(75, 53);
         setImage(img);
 
         cooldownTime = 10;             
@@ -34,7 +34,7 @@ public class MachineGunTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-        img.scale(80, 80);
+        img.scale(75, 53);
         setImage(img);
     
         super.updateImage();  // This will add the outline based on level
