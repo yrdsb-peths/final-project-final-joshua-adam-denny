@@ -3,22 +3,21 @@ import java.util.List;
 
 public class FlameProjectile extends Projectile {
     private int aoeRadius;
-    private int lifeSpan;  // new field to track remaining life in frames
+    private int lifeSpan;
+    private int towerLevel;
 
-    public FlameProjectile(Enemy target, int damage, int speed, int aoeRadius, int lifeSpan) {
+    public FlameProjectile(Enemy target, int damage, int speed, int aoeRadius, int lifeSpan, int towerLevel) {
         super(target, damage, speed, "flame.png", aoeRadius * 2);
         this.aoeRadius = aoeRadius;
-        this.lifeSpan = lifeSpan;  // set lifespan here
+        this.lifeSpan = lifeSpan;
+        this.towerLevel = towerLevel;
     }
 
     @Override
     public void act() {
-        // Reduce lifespan every act
         lifeSpan--;
-        if (lifeSpan <= 0) {
-            if (getWorld() != null) {
-                getWorld().removeObject(this);
-            }
+        if (lifeSpan <= 0 && getWorld() != null) {
+            getWorld().removeObject(this);
             return;
         }
 
@@ -32,10 +31,8 @@ public class FlameProjectile extends Projectile {
             }
         }
 
-        if (isAtEdge()) {
-            if (getWorld() != null) {
-                getWorld().removeObject(this);
-            }
+        if (isAtEdge() && getWorld() != null) {
+            getWorld().removeObject(this);
         }
     }
 
@@ -45,9 +42,16 @@ public class FlameProjectile extends Projectile {
             List<Enemy> enemies = getObjectsInRange(aoeRadius, Enemy.class);
             for (Enemy e : enemies) {
                 e.takeDamage(damage);
-                e.applyBurn(new BurnEffect(1, 5, 20));
+                
+                // Scale burn effect with tower level
+                int burnDamage = 1 + towerLevel / 2; // +0 at L1, +1 at L2-3, +2 at L4+
+                int totalTicks = 4 + towerLevel;     // more ticks with level
+                int interval = Math.max(8, 20 - 2 * towerLevel); // faster ticks with level
+                
+                e.applyBurn(new BurnEffect(burnDamage, totalTicks, interval));
             }
             getWorld().removeObject(this);
         }
     }
 }
+

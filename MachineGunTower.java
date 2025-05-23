@@ -8,7 +8,7 @@ public class MachineGunTower extends Tower {
 
         cooldownTime = 10;             
         range = 300;                   
-        damage = 2;                   
+        damage = 3;                   
         bulletSpeed = 10;
 
         baseCost = 750;
@@ -21,7 +21,7 @@ public class MachineGunTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 1;
+            damage += 2;
             cooldownTime = Math.max(4, cooldownTime - 2);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 150;

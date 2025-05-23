@@ -63,7 +63,7 @@ public class FlameThrowerTower extends Tower {
             double offset = ((double)i / (coneProjectiles - 1) - 0.5) * coneAngle;
             double projectileAngle = baseAngle + offset;
 
-            FlameProjectile fp = new FlameProjectile(target, damage, bulletSpeed, 50, 20);
+            FlameProjectile fp = new FlameProjectile(target, damage, bulletSpeed, 50, 20, level);
             fp.setRotation((int) projectileAngle);
 
             getWorld().addObject(fp, getX(), getY());

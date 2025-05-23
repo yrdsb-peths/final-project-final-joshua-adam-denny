@@ -23,7 +23,7 @@ public class SniperTower extends Tower {
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
             damage += 10;                    // boost damage significantly
-            cooldownTime = Math.max(45, cooldownTime - 30); // slightly faster
+            cooldownTime = Math.max(60, cooldownTime - 30); // slightly faster
             totalInvested += upgradeCost;
             upgradeCost += 100;            // higher cost per upgrade
             updateImage();
