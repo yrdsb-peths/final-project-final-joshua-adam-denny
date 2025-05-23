@@ -9,6 +9,7 @@ public class TowerPreview extends Actor {
         
         try {
             img = new GreenfootImage(towerType + "_tower.png");
+            img.scale(60, 60);
             if (img.getWidth() <= 1 || img.getHeight() <= 1) {
                 throw new Exception("Image not found or invalid size");
             }
