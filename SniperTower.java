@@ -4,7 +4,7 @@ import java.util.List;
 public class SniperTower extends Tower {
     public SniperTower() {
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
-        img.scale(80, 80);
+        img.scale(60, 60);
         setImage(img);
 
         cooldownTime = 120;  // slower fire rate
@@ -35,7 +35,7 @@ public class SniperTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
-        img.scale(80, 80);
+        img.scale(60, 60);
         setImage(img);
     
         super.updateImage();  // This will add the outline based on level
