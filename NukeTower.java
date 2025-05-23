@@ -9,7 +9,7 @@ public class NukeTower extends Tower {
 
     public NukeTower() {
         GreenfootImage img = new GreenfootImage("Nuke_tower.png");
-        img.scale(80, 80);
+        img.scale(150, 150);
         setImage(img);
 
         baseCost = 10000;
@@ -64,7 +64,7 @@ public class NukeTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage baseImg = new GreenfootImage("Nuke_tower.png");
-        baseImg.scale(60, 60);
+        baseImg.scale(150, 150);
 
         if (level == 1) {
             setImage(createOutlinedImage(baseImg, Color.GREEN));
