@@ -1,4 +1,5 @@
-public class BurnEffect {
+import greenfoot.Actor;
+public class BurnEffect extends Actor{
     private int damagePerTick;
     private int ticksRemaining;
     private int tickInterval;
