@@ -19,7 +19,7 @@ public class TowerPreview extends Actor {
             img.fill();
         }
     
-        img.scale(50, 50);
+        
         img.setTransparency(100); // semi-transparent
         setImage(img);
     }
