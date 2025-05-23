@@ -6,7 +6,6 @@ public class NukeTower extends Tower {
     private int nukeDamage = 500;
     private int missileSpeed = 2;
     private int explosionRadius = 300;
-
     public NukeTower() {
         GreenfootImage img = new GreenfootImage("Nuke_tower.png");
         img.scale(150, 150);
@@ -18,6 +17,7 @@ public class NukeTower extends Tower {
 
         level = 0;
         maxLevel = 3;
+        range = 200;
     }
 
     @Override
