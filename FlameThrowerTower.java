@@ -11,7 +11,7 @@ public class FlameThrowerTower extends Tower {
         img.scale(80, 80);
         setImage(img);
 
-        cooldownTime = 10;    // Much faster firing rate
+        cooldownTime = 7;    // Much faster firing rate
         range = 100;         // Shorter range for flame thrower
         damage = 1;
         bulletSpeed = 15;    // Speed of flame projectiles
