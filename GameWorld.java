@@ -131,7 +131,7 @@ public class GameWorld extends World {
 
     private int getEnemyBaseHealth(String type) {
         switch (type) {
-            case "Basic": return 1;
+            case "Basic": return 2;
             case "Fast": return 4;
             case "Tank": return 15;
             case "Big": return 50;

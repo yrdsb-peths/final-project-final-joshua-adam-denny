@@ -9,7 +9,7 @@ public class NukeTower extends Tower {
 
     public NukeTower() {
         GreenfootImage img = new GreenfootImage("Nuke_tower.png");
-        img.scale(60, 60);
+        img.scale(80, 80);
         setImage(img);
 
         baseCost = 10000;
