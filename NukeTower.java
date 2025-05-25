@@ -146,7 +146,7 @@ public class NukeTower extends Tower {
         outline.drawImage(baseImg, 2, 2);
         return outline;
     }
-
+    
     private void replaceColor(GreenfootImage img, Color outlineColor) {
         int width = img.getWidth();
         int height = img.getHeight();

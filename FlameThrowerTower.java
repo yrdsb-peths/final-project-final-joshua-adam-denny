@@ -56,19 +56,23 @@ public class FlameThrowerTower extends Tower {
     @Override
     protected void shoot(Enemy target) {
         if (target == null) return;
-
-        double baseAngle = Math.atan2(target.getY() - getY(), target.getX() - getX()) * 180 / Math.PI;
-
+    
+        double baseAngle = Math.atan2(target.getY() - getY(), target.getX() - getX());
+        int baseRotation = (int) Math.toDegrees(baseAngle);
+    
+        // Rotate the flamethrower tower itself to face the target
+        setRotation(baseRotation);
+    
         for (int i = 0; i < coneProjectiles; i++) {
             double offset = ((double)i / (coneProjectiles - 1) - 0.5) * coneAngle;
-            double projectileAngle = baseAngle + offset;
-
+            double projectileAngle = Math.toDegrees(baseAngle) + offset;
+    
             FlameProjectile fp = new FlameProjectile(target, damage, bulletSpeed, 50, 20, level);
             fp.setRotation((int) projectileAngle);
-
             getWorld().addObject(fp, getX(), getY());
         }
     }
+
 
     @Override
     public void sell() {

@@ -36,8 +36,16 @@ public class Tower extends Actor {
     }
 
     protected void shoot(Enemy target) {
+        // Rotate the tower to face the enemy
+        int dx = target.getX() - getX();
+        int dy = target.getY() - getY();
+        double angle = Math.toDegrees(Math.atan2(dy, dx));
+        setRotation((int) angle);
+    
+        // Shoot a bullet
         getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
     }
+
 
 
 
