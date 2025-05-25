@@ -6,7 +6,7 @@ public class NukeMissile extends Projectile {
     private int explosionRadius = 300;
 
     public NukeMissile(Enemy target, int damage, int speed, int radius) {
-        super(target, damage, speed, "NukeMissile.png", 30);
+        super(target, damage, speed, "NukeMissile.png", 100);
         this.explosionRadius = radius;
     }
 
