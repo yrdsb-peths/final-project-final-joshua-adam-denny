@@ -110,6 +110,25 @@ public class Tower extends Actor {
         return outline;
     }
 
+    public int getRange() 
+    {
+        return range;
+    }
+    
+    public int getLevel() 
+    {
+        return level;
+    }
+    
+    public int getUpgradeCost() 
+    {
+        return upgradeCost;
+    }
+    
+    public int getSellValue() 
+    {
+        return (int)(totalInvested * 0.8);
+    }
     // Replace all visible pixels with outlineColor (keeping alpha)
     private void replaceColor(GreenfootImage img, Color outlineColor) {
         int width = img.getWidth();

@@ -44,17 +44,4 @@ public class BasicTower extends Tower {
     }
 
 
-    /*@Override
-    protected Enemy getEnemyInRange() {
-        return super.getEnemyInRange(); // Use default targeting
-    }
-
-    @Override
-    protected void shoot(Enemy target) {
-        getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
-    }
-
-    public void sell() {
-
-    }*/
 }

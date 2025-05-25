@@ -2,11 +2,12 @@ import greenfoot.*;
 
 public class TowerPreview extends Actor {
     private String towerType;
+    private RangeCircle rangeCircle;
 
-    public TowerPreview(String towerType) {
+    public TowerPreview(String towerType, int range) {
         this.towerType = towerType;
+
         GreenfootImage img;
-        
         try {
             img = new GreenfootImage(towerType + "_tower.png");
             img.scale(60, 60);
@@ -14,26 +15,40 @@ public class TowerPreview extends Actor {
                 throw new Exception("Image not found or invalid size");
             }
         } catch (Exception e) {
-            // fallback preview
             img = new GreenfootImage(40, 40);
             img.setColor(Color.GREEN);
             img.fill();
         }
-    
-        
-        img.setTransparency(100); // semi-transparent
+        img.setTransparency(100);
         setImage(img);
+
+        rangeCircle = new RangeCircle(range);
     }
 
+    @Override
+    protected void addedToWorld(World world) {
+        // Add the range circle to the world at the same position
+        world.addObject(rangeCircle, getX(), getY());
+    }
 
+    @Override
     public void act() {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse != null) {
             setLocation(mouse.getX(), mouse.getY());
+            rangeCircle.setLocation(getX(), getY());
         }
     }
 
     public String getTowerType() {
         return towerType;
+    }
+
+    public void removePreview() {
+        World world = getWorld();
+        if (world != null) {
+            world.removeObject(rangeCircle);
+            world.removeObject(this);
+        }
     }
 }

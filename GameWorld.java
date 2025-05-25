@@ -209,7 +209,7 @@ public class GameWorld extends World {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
                 towerPreview.setLocation(mi.getX(), mi.getY());
-
+                
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
                     if (mi.getButton() == 1) {
                         placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
@@ -240,29 +240,39 @@ public class GameWorld extends World {
     }
 
     private void startDraggingTower(String towerType) {
-        if (towerPreview != null) removeObject(towerPreview);
-        towerPreview = new TowerPreview(towerType);
+        if (towerPreview != null) {
+            towerPreview.removePreview();  // safely remove old preview and circle
+        }
+        // pass the tower range to TowerPreview constructor:
+        Tower tower = createTower(towerType);
+        towerPreview = new TowerPreview(towerType, tower.getRange());
         addObject(towerPreview, getWidth() / 2, getHeight() / 2);
     }
+
 
     private void placeTower(String towerType, int x, int y) {
         int cost = getTowerCost(towerType);
         if (spendMoney(cost)) {
             Tower tower = createTower(towerType);
             addObject(tower, x, y);
-            removeObject(towerPreview);
-            towerPreview = null;
+    
+            if (towerPreview != null) {
+                towerPreview.removePreview();  // removes preview + range circle
+                towerPreview = null;
+            }
         } else {
             System.out.println("Not enough money!");
         }
     }
 
+
     private void cancelDragging() {
         if (towerPreview != null) {
-            removeObject(towerPreview);
+            towerPreview.removePreview();  // removes preview + range circle
             towerPreview = null;
         }
     }
+
 
     private void trySwitchPreview(String key, String towerType) {
         if (Greenfoot.isKeyDown(key)) {
@@ -324,6 +334,14 @@ public class GameWorld extends World {
         return money;
     }
 
+    public int getLives() {
+        return lives;
+    }
+    
+    public int getWave() {
+        return wave;
+    }
+    
     public void addMoney(int amount) {
         money += amount;
         updateMoneyLabel();
@@ -362,4 +380,5 @@ public class GameWorld extends World {
         showText("Game Over!", getWidth() / 2, getHeight() / 2);
         Greenfoot.stop();
     }
+    
 }

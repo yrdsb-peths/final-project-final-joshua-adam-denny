@@ -57,12 +57,4 @@ public class SniperTower extends Tower {
         return farthest;
     }
 
-    /*@Override
-    protected void shoot(Enemy target) {
-        getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
-    }
-    
-    public void sell() {
-
-    }*/
 }
