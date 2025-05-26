@@ -139,7 +139,7 @@ public class GameWorld extends World {
         return y;
     }
 
-    private int getEnemyBaseHealth(String type) {
+    public int getEnemyBaseHealth(String type) {
         switch (type) {
             case "Basic": return 4;
             case "Fast": return 3;
@@ -151,7 +151,7 @@ public class GameWorld extends World {
     }
 
 
-    private int getEnemyHealth(String type) {
+    public int getEnemyHealth(String type) {
         int base = getEnemyBaseHealth(type);
 
         if (wave <= 20) {
@@ -173,7 +173,7 @@ public class GameWorld extends World {
 
     }
 
-    private int getEnemySpeed(String type) {
+    public int getEnemySpeed(String type) {
         int base = 1 + wave / 5;
         switch (type) {
             case "Fast": return base + 2;
