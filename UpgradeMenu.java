@@ -39,15 +39,16 @@ public class UpgradeMenu extends Actor {
     public void handleClick(int globalX, int globalY) {
         int localX = globalX - getX() + getImage().getWidth() / 2;
         int localY = globalY - getY() + getImage().getHeight() / 2;
-
+    
         GameWorld world = (GameWorld) getWorld();
-
+    
         if (localY < 30) {
             if (tower.isMaxUpgraded()) {
                 System.out.println("Tower is already at max upgrade.");
             } else if (tower.upgrade()) {
                 System.out.println("Tower upgraded!");
-                updateImage();  // Update buttons after upgrade
+                updateImage();  // Update upgrade button
+                updateRangeCircle();  // <-- NEW: update the range circle radius
             } else {
                 System.out.println("Upgrade failed.");
             }
@@ -57,12 +58,22 @@ public class UpgradeMenu extends Actor {
             closeMenu();
             world.removeObject(this);
             world.clearUpgradeMenu();
-            return;  // Exit early since menu is gone
+            return;
         }
-
-        // Keep menu open and update image if upgrade was successful or failed
+    
+        // Just updating buttons again in case upgrade failed
         updateImage();
     }
+
+    private void updateRangeCircle() {
+        if (rangeCircle != null && getWorld() != null) {
+            getWorld().removeObject(rangeCircle);
+        }
+    
+        showRangeCircle();  // Re-adds the circle with new range
+    }
+
+    
 
     public boolean contains(int globalX, int globalY) {
         int myX = getX();
