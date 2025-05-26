@@ -101,7 +101,8 @@ public class NukeTower extends Tower {
         if (world.getMoney() >= cost) {
             world.addMoney(-cost);
             level++;
-            totalInvested += cost;
+            totalInvested += upgradeCost; // track what's actually spent
+            upgradeCost += 2000;
 
             missileCooldownTime = Math.max(600, missileCooldownTime - 900);
             nukeDamage += 250;
