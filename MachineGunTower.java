@@ -1,8 +1,9 @@
 import greenfoot.*;
 
 public class MachineGunTower extends Tower {
+    public String imageName = ("MachineGun_tower.png");
     public MachineGunTower() {
-        GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
+        GreenfootImage img = new GreenfootImage(imageName);
         img.scale(75, 53);
         setImage(img);
 
@@ -26,6 +27,9 @@ public class MachineGunTower extends Tower {
             cooldownTime = Math.max(4, cooldownTime - 2);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 150;
+            if (level == 1) {
+                imageName = "MachineGun_tower_1.png";
+            }
             updateImage();
             return true;
         }
@@ -34,8 +38,7 @@ public class MachineGunTower extends Tower {
 
     @Override
     protected void updateImage() {
-        GreenfootImage img = new GreenfootImage("MachineGun_tower.png");
-        img.scale(75, 53);
+        GreenfootImage img = new GreenfootImage(imageName);
         setImage(img);
     
         super.updateImage();  // This will add the outline based on level
