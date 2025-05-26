@@ -10,7 +10,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 1000000;
+    private int money = 100000000;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -65,16 +65,24 @@ public class GameWorld extends World {
     }
 
     private void spawnEnemy() {
+        // Special boss wave logic
+        if (wave % 10 == 0 && enemiesSpawned == 0) {
+            int hp = getEnemyHealth("Boss");
+            int speed = getEnemySpeed("Boss");
+            addObject(new BossEnemy(speed, hp), 0, getHeight() / 2);
+            return;
+        }
+    
         int y = getUniqueYPosition();
         int type = Greenfoot.getRandomNumber(100);
         int hp;
         int speed;
-
+    
         if (wave <= 2) {
             hp = getEnemyHealth("Basic");
             speed = getEnemySpeed("Basic");
             addObject(new BasicEnemy(speed, hp), 0, y);
-        } else if (wave >= 3 && wave < 7) {
+        } else if (wave < 7) {
             if (type < 70) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
@@ -84,7 +92,7 @@ public class GameWorld extends World {
                 speed = getEnemySpeed("Fast");
                 addObject(new FastEnemy(speed, hp), 0, y);
             }
-        } else if (wave >= 7 && wave < 18) {
+        } else if (wave < 18) {
             if (type < 50) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
@@ -119,6 +127,7 @@ public class GameWorld extends World {
         }
     }
 
+
     private int getUniqueYPosition() {
         int y;
         int attempts = 0;
@@ -132,13 +141,15 @@ public class GameWorld extends World {
 
     private int getEnemyBaseHealth(String type) {
         switch (type) {
-            case "Basic": return 2;
-            case "Fast": return 4;
-            case "Tank": return 15;
-            case "Big": return 50;
+            case "Basic": return 4;
+            case "Fast": return 3;
+            case "Tank": return 30;
+            case "Big": return 60;
+            case "Boss": return 500;  // VERY TOUGH
             default: return 1;
         }
     }
+
 
     private int getEnemyHealth(String type) {
         int base = getEnemyBaseHealth(type);
@@ -153,6 +164,7 @@ public class GameWorld extends World {
             case "Fast":  multiplier = 1.03; break;
             case "Tank":  multiplier = 1.07; break;
             case "Big":   multiplier = 1.10; break;
+            case "Boss": multiplier = 1.15; break;
             default:      multiplier = 1.02; break;
         }
 
@@ -166,6 +178,7 @@ public class GameWorld extends World {
         switch (type) {
             case "Fast": return base + 2;
             case "Tank": return Math.max(1, base - 1);
+            case "Boss": return 1;
             default: return base;
         }
     }
