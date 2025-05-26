@@ -22,7 +22,8 @@ public class GameWorld extends World {
     private boolean towerPlacedThisClick = false;
     private int lives = 100;
     private Label livesLabel;
-
+    private UpgradeMenu currentMenu = null;
+    
     public GameWorld() {
         super(1000, 600, 1);
         setBackground("grass.png");
@@ -305,24 +306,67 @@ public class GameWorld extends World {
         }
     }
 
+    private Tower selectedTower = null;
+
     private void handleTowerClickUpgrade() {
         if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
-                List<Tower> towers = getObjectsAt(mi.getX(), mi.getY(), Tower.class);
+                int mouseX = mi.getX();
+                int mouseY = mi.getY();
+    
+                // Check if clicked inside an open menu
+                if (currentMenu != null && currentMenu.contains(mouseX, mouseY)) {
+                    currentMenu.handleClick(mouseX, mouseY);
+                    return;
+                }
+    
+                // Check if clicked a tower
+                List<Tower> towers = getObjectsAt(mouseX, mouseY, Tower.class);
                 if (!towers.isEmpty()) {
                     Tower tower = towers.get(0);
-                    if (mi.getButton() == 1) {
-                        if (!tower.upgrade()) {
-                            System.out.println("Not enough money or max level reached!");
-                        }
-                    } else if (mi.getButton() == 3) {
-                        tower.sell();
+    
+                    // If same tower is clicked, toggle menu off
+                    if (tower == selectedTower && currentMenu != null) {
+                        currentMenu.closeMenu();
+                        removeObject(currentMenu);
+                        currentMenu = null;
+                        selectedTower = null;
+                        return;
+                    }
+    
+                    // Close old menu
+                    if (currentMenu != null) {
+                        currentMenu.closeMenu();
+                        removeObject(currentMenu);
+                    }
+    
+                    // Create new menu
+                    currentMenu = new UpgradeMenu(tower);
+                    addObject(currentMenu, tower.getX() + 80, tower.getY());
+                    selectedTower = tower;
+    
+                    // SHOW RANGE CIRCLE AFTER MENU IS ADDED
+                    currentMenu.showRangeCircle();
+                } else {
+                    // Clicked elsewhere, remove any open menu
+                    if (currentMenu != null) {
+                        currentMenu.closeMenu();
+                        removeObject(currentMenu);
+                        currentMenu = null;
+                        selectedTower = null;
                     }
                 }
             }
         }
     }
+
+    
+
+    public void clearUpgradeMenu() {
+        currentMenu = null;
+    }
+
 
     private void resetInputFlags() {
         if (!Greenfoot.mousePressed(null)) {

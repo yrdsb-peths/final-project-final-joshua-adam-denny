@@ -129,6 +129,11 @@ public class Tower extends Actor {
     {
         return (int)(totalInvested * 0.8);
     }
+    
+    public boolean isMaxUpgraded() {
+        return level >= maxLevel;  // assuming you track level and max level
+    }
+
     // Replace all visible pixels with outlineColor (keeping alpha)
     private void replaceColor(GreenfootImage img, Color outlineColor) {
         int width = img.getWidth();
