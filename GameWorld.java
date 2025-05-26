@@ -434,7 +434,8 @@ public class GameWorld extends World {
     }
 
     private void gameOver() {
-        showText("Game Over!", getWidth() / 2, getHeight() / 2);
+        EndGamePopup endPopup = new EndGamePopup(wave, money, money);
+        addObject(endPopup, getWidth() / 2, getHeight() / 2);
         Greenfoot.stop();
     }
     
