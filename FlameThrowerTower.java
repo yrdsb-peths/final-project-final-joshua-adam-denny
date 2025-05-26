@@ -19,6 +19,7 @@ public class FlameThrowerTower extends Tower {
         baseCost = 4500;
         upgradeCostPerLevel = 900;
         upgradeCost = upgradeCostPerLevel;
+        totalInvested = baseCost;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class FlameThrowerTower extends Tower {
             if (coneProjectiles < maxProjectiles) {
                 coneProjectiles++;
             }
-
+            totalInvested += upgradeCost;
             upgradeCost += 300;
             updateImage();
             return true;
@@ -73,11 +74,4 @@ public class FlameThrowerTower extends Tower {
         }
     }
 
-
-    @Override
-    public void sell() {
-        GameWorld world = (GameWorld)getWorld();
-        world.addMoney(totalInvested / 2);
-        world.removeObject(this);
-    }
 }

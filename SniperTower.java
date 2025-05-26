@@ -13,8 +13,9 @@ public class SniperTower extends Tower {
         bulletSpeed = 30;
         baseCost = 300;
         upgradeCostPerLevel = 150;
-
-        upgradeCost = upgradeCostPerLevel;   // more expensive to upgrade
+        
+        upgradeCost = upgradeCostPerLevel;  
+        totalInvested = baseCost;
     }
 
     @Override

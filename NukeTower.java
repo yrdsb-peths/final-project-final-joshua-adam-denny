@@ -28,6 +28,7 @@ public class NukeTower extends Tower {
         level = 0;
         maxLevel = 3;
         range = 200;
+        totalInvested = baseCost;
     }
 
     private void loadAnimationFrames() {

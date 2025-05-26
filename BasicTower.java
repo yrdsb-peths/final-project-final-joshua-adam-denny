@@ -14,6 +14,7 @@ public class BasicTower extends Tower {
         baseCost = 50;
         upgradeCostPerLevel = 10;
         upgradeCost = upgradeCostPerLevel;
+        totalInvested = baseCost;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class MachineGunTower extends Tower {
         baseCost = 750;
         upgradeCostPerLevel = 150;
         upgradeCost = upgradeCostPerLevel;
+        totalInvested = baseCost;
     }
 
     @Override
