@@ -1,8 +1,9 @@
 import greenfoot.*;
 
 public class BasicTower extends Tower {
+    public String imageName = "Basic_tower.png";
     public BasicTower() {
-        GreenfootImage img = new GreenfootImage("Basic_tower.png");
+        GreenfootImage img = new GreenfootImage(imageName);
         img.scale(50, 50);
         setImage(img);
 
@@ -27,6 +28,9 @@ public class BasicTower extends Tower {
             cooldownTime = Math.max(30, cooldownTime - 10);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 10;
+            //if(level == 1) {
+            //    imageName = "Basic_tower_1.png";
+            //}
 
             updateImage();
             return true;
@@ -37,10 +41,8 @@ public class BasicTower extends Tower {
 
     @Override
     protected void updateImage() {
-        GreenfootImage img = new GreenfootImage("Basic_tower.png");
-        img.scale(50, 50);
+        GreenfootImage img = new GreenfootImage(imageName);
         setImage(img);
-    
         super.updateImage();  // This will add the outline based on level
     }
 
