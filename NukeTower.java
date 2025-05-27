@@ -93,19 +93,19 @@ public class NukeTower extends Tower {
 
     @Override
     public boolean upgrade() {
-        if (level >= maxLevel) return false;
-
         GameWorld world = (GameWorld) getWorld();
-        world.addMoney(-upgradeCost);
-        level++;
-        totalInvested += upgradeCost; // track what's actually spent
-        upgradeCost += 2000;
-
-        missileCooldownTime = Math.max(600, missileCooldownTime - 900);
-        nukeDamage += 250;
-        explosionRadius += 50;
-        updateImage();
-        return true;
+        if (level < maxLevel && world.spendMoney(upgradeCost)) {
+            level++;
+            totalInvested += upgradeCost; // track what's actually spent
+            upgradeCost += 2000;
+    
+            missileCooldownTime = Math.max(600, missileCooldownTime - 900);
+            nukeDamage += 250;
+            explosionRadius += 50;
+            updateImage();
+            return true;
+        }
+        return false;
     }
 
     @Override
