@@ -20,9 +20,6 @@ public class PolyRender extends DDCRender
     GreenfootImage renderScreen;
     SimpleTimer deltaTime = new SimpleTimer();
     
-    private boolean initialized = false;
-    private Camera camera;
-    
     // default values
     private double fov = Math.toRadians(90);
     private double near = 0.1;
@@ -288,6 +285,7 @@ public class PolyRender extends DDCRender
     }
     
     // convert Ngons into tri cuz I HATE NGONs, (literally makes zero sense for a face to have 3+ vert)
+    // and rasterize (wtff is this) triangles with per-vertex brightness with gouraud shading
     private void fillPolyGouraud(int[] sx, int[] sy, int[] bv) {
         int n = sx.length;
         for (int i = 1; i < n-1; i++) {
@@ -321,7 +319,6 @@ public class PolyRender extends DDCRender
         for (double[][] face : originalModel) {
             int n = face.length;
             double[][] viewCoords = new double[n][];
-            boolean depthOk = false;
 
             // 1) world -> view transforms into a list
             List<double[]> poly = new ArrayList<>();

@@ -19,7 +19,7 @@ public class EndGamePopup extends UI
     private GreenfootImage image;
     private int startY;
     private int targetY;
-        
+    private boolean lockedIn = false;
 
     /**
      * Constructor for objects of class EndGamePopup.
@@ -52,8 +52,7 @@ public class EndGamePopup extends UI
         targetY = w.getHeight()/2; // always center to it to the middle of the world.
     }
 
-
-    public void act()
+    private void start()
     {
         int elapsed = deltaTime.millisElapsed();
 
@@ -90,6 +89,20 @@ public class EndGamePopup extends UI
         if (dtActive >= timeToFade) {
             image.setTransparency(255);
             setLocation(getX(), targetY);
+            lockedIn = true;
         }
+    }
+
+
+    public void act()
+    {
+        if (!lockedIn)
+        {
+            start();
+        }
+
+        // todo: uhhhhhhhhhhhhhhhhh buttons needs to be interactable n stuf
+        // comment: type sh
+        
     }
 }

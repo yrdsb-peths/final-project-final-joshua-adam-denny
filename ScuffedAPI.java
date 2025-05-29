@@ -18,7 +18,7 @@ public class ScuffedAPI {
     private static ScuffedAPI instance;
     //private final String api_url = "https://api-ddc.scuffed.dev";
     private final String api_url = "http://localhost:8080";
-    private final String api_key = "ballsballsballs";// not really a key, but i hate bots so yuh.
+    private final String api_key = "ballsballsballs";// not really a key, but i hate bots so yuh. too lazy to implement a proper key system., unused
     private final String user = UUID.randomUUID().toString().replace("-", "").substring(0, 8);;
     private static final Pattern PLACE_PATTERN = Pattern.compile("\"place\"\\s*:\\s*(\\d+)");
 
@@ -85,7 +85,7 @@ public class ScuffedAPI {
         List<LeaderboardEntry> list = new ArrayList<>();
 
         for (String line : resp.split("\\r?\\n")) {
-            if (line.isBlank())
+            if (line.length() == 0)
                 continue;
             String[] parts = line.split(",");
             if (parts.length < 3)

@@ -1,5 +1,4 @@
 import greenfoot.*;
-import java.util.List;
 
 public class FlameThrowerTower extends Tower {
     private int coneProjectiles = 3;  // Start with 3 projectiles
