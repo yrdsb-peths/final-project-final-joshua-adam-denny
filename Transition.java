@@ -1,10 +1,10 @@
 import greenfoot.*;
 
 /**
- * Write a description of class Transition here.
+ * Transition class for handling fade in between worlds, and game states.
  * 
- * @author (your name)
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0 (May 29, 2025)
  */
 public class Transition extends UI {
 
@@ -16,6 +16,10 @@ public class Transition extends UI {
     private GreenfootImage screen;
     private String state = "none"; // "fadeIn", "fadeOut", or "none"
 
+    /**
+     * Constructor for Transition class.
+     * Initializes the transition screen with default values.
+     */
     public Transition() {
         deltaTime = new SimpleTimer();
         deltaTime.mark();
@@ -26,6 +30,13 @@ public class Transition extends UI {
         setImage(screen);
     }
 
+
+    /**
+     * Singleton instance getter for Transition class.
+     * Ensures only one instance of Transition exists.
+     * 
+     * @return The single instance of Transition.
+     */
     public static Transition getInstance() {
         if (_instance == null) {
             _instance = new Transition();
@@ -33,48 +44,54 @@ public class Transition extends UI {
         return _instance;
     }
 
+
+
+    /**
+     * Starts a fadein transition to the specified target opacity over the specified time.
+     * @param targetOpacity (0-255)
+     * @param targetTime time in ms to complete the fadein
+     */
     public void fadeIn(int targetOpacity, int targetTime) {
         this.timeToFade = Math.max(targetTime, 0);
-        this.targetOpacity = Math.max(targetOpacity, 0);
+        this.targetOpacity = (int) Utils.clamp(targetOpacity, 0, 255);
         state = "fadeIn";
         deltaTime.mark();
     }
 
+    /**
+     * Starts a fadeout transition to the specified target opacity over the specified time.
+     * @param targetOpacity (0-255)
+     * @param targetTime time in ms to complete the fadeout
+     */
     public void fadeOut(int targetOpacity, int targetTime) {
         this.timeToFade = Math.max(targetTime, 0);
-        this.targetOpacity = Math.min(targetOpacity, 255);
+        this.targetOpacity = (int) Utils.clamp(targetOpacity, 0, 255);
         state = "fadeOut";
         deltaTime.mark();
     }
 
     public void act() {
+
         int elapsed = deltaTime.millisElapsed();
-        if ("fadeIn".equals(state)) {
+        if (!state.equals("none")) {
             int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
             screen.setTransparency(opacity);
             screen.fill();
             setImage(screen);
 
             System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
-            if (opacity >= targetOpacity) {
+            if (opacity >= targetOpacity && state.equals("fadeIn")) {
                 currentOpacity = targetOpacity;
-
-                state = "none"; // Reset state after fade in completes
+                state = "none"; 
             }
 
-        } else if ("fadeOut".equals(state)) {
-            int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
-            screen.setTransparency(opacity);
-            screen.fill();
-            setImage(screen);
-
-            System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
-            if (opacity <= targetOpacity) {
+            if (opacity <= targetOpacity && state.equals("fadeOut")) {
                 currentOpacity = targetOpacity;
                 state = "none"; // Reset state after fade out completes
             }
-            
+
         }
+
     }
 
 }

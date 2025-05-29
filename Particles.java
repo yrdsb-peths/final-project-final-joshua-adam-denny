@@ -14,6 +14,15 @@ public class Particles extends Actor
     private Color color = Color.RED;
     GreenfootImage renderScreen;
     
+    /**
+     * Constructor for Particles class.
+     * Initializes the particle with position, angle, speed, and color.
+     * 
+     * @param pos The initial position of the particle as an array [x, y].
+     * @param angle The angle of output in degrees, 360 will spray in a circle.
+     * @param speed The initial speed of the particle.
+     * @param color The color of the particle. using greenfoot weird ahh color system.
+     */
     public Particles(double[] pos, double angle, double speed, Color color)
     {
         this.pos = pos;
@@ -42,6 +51,11 @@ public class Particles extends Actor
 
     }
     
+    /**
+     * Renders the particle(s) on the screen
+     * This method calculates the render points based on the position, angle, and speed,
+     * and redraws a polygon representing the particle
+     */
     public void render()
     {
         double angleRAD = Math.toRadians(angleDEG);
@@ -70,6 +84,7 @@ public class Particles extends Actor
         }
         
         renderScreen.clear();
+        renderScreen.setColor(color);
         renderScreen.fillPolygon(xRender, yRender, xRender.length);
         setImage(renderScreen);
     }

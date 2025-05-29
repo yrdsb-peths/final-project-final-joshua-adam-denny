@@ -21,6 +21,13 @@ public class Utils
         return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
     
+    /**
+     * Clamps a value between a minimum and maximum.
+     * @param value the value to clamp
+     * @param min the minimum value
+     * @param max the maximum value
+     * @return the clamped value
+     */
     public static double clamp(int value, int min, int max)
     {
         return Math.max(min, Math.min(value, max));
