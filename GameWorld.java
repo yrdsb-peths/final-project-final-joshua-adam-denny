@@ -49,6 +49,7 @@ public class GameWorld extends World {
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
         setPaintOrder(
+            Button.class,
             EndGamePopup.class,
             Transition.class, 
             PolyRender.class, 

@@ -18,7 +18,21 @@ public class Sidebar extends UI
     {
         GreenfootImage img = new GreenfootImage("ui/sidebar.png");
         setImage(img);
+        GreenfootImage balls1 = new GreenfootImage("bee2.png");
+        GreenfootImage balls2 = new GreenfootImage("man.png");
+        Button balls = new Button(true, balls1, balls2, 100, 100); 
+        
     }
+    
+    @Override
+    protected void addedToWorld(World w) {
+        GreenfootImage balls1 = new GreenfootImage("bee2.png");
+        GreenfootImage balls2 = new GreenfootImage("man.png");
+        Button balls = new Button(true, balls1, balls2, 100, 100);
+        w.addObject(balls,w.getWidth()/2,w.getHeight()/2);
+    }
+    
+    
 
     public static Sidebar getInstance()
     {
