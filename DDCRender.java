@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class DDCRender here.
+ * Head Processor for 3D rendering.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0 (May 27, 2025)
  */
 public class DDCRender extends Actor
 {
@@ -23,35 +23,44 @@ public class DDCRender extends Actor
     public double X_Rot = 0;
     public double Y_Rot = 0;
     public double Z_Rot = 0;
+    int halfWidth = 0;
+    int halfHeight = 0;
     
 
     
 
-    public DDCRender(World world) {
-        int halfWidth = world.getWidth()/2;
-        int halfHeight = world.getHeight()/2;
+    public DDCRender() {
+        _instance = this;
+    }
+
+    protected void addedToWorld(World world)
+    {
+        // i literally hate greenfoot so much, // stupid handling of static variables
+        if (this.getClass() == DDCRender.class) {
+            double[] vertex_1 = { -125, -125, -125 };
+            double[] vertex_2 = { 125, -125, -125 };
+            double[] vertex_3 = { 125, 125, -125 };
+            double[] vertex_4 = { -125, 125, -125 };
+            
+            double[] vertex_5 = { -125, -125, 125 };
+            double[] vertex_6 = { 125, -125, 125 };
+            double[] vertex_7 = { 125, 125, 125 };
+            double[] vertex_8 = { -125, 125, 125 };
+            
+            double[][] poly_1 = {vertex_1,vertex_2,vertex_3,vertex_4}; // Front Facing
+            double[][] poly_2 = {vertex_5,vertex_1,vertex_4,vertex_8}; // Left Facing
+            double[][] poly_3 = {vertex_2,vertex_6,vertex_7,vertex_3}; // Right Facing
+            double[][] poly_4 = {vertex_5,vertex_6,vertex_2,vertex_1}; // Top Facng
+            double[][] poly_5 = {vertex_4,vertex_3,vertex_7,vertex_8}; // Bottom Facing
+            double[][] poly_6 = {vertex_6,vertex_5,vertex_8, vertex_7}; // Back Facing
+            
+            double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
         
-        double[] vertex_1 = { -125, -125, -125 };
-        double[] vertex_2 = { 125, -125, -125 };
-        double[] vertex_3 = { 125, 125, -125 };
-        double[] vertex_4 = { -125, 125, -125 };
-        
-        double[] vertex_5 = { -125, -125, 125 };
-        double[] vertex_6 = { 125, -125, 125 };
-        double[] vertex_7 = { 125, 125, 125 };
-        double[] vertex_8 = { -125, 125, 125 };
-        
-        double[][] poly_1 = {vertex_1,vertex_2,vertex_3,vertex_4}; // Front Facing
-        double[][] poly_2 = {vertex_5,vertex_1,vertex_4,vertex_8}; // Left Facing
-        double[][] poly_3 = {vertex_2,vertex_6,vertex_7,vertex_3}; // Right Facing
-        double[][] poly_4 = {vertex_5,vertex_6,vertex_2,vertex_1}; // Top Facng
-        double[][] poly_5 = {vertex_4,vertex_3,vertex_7,vertex_8}; // Bottom Facing
-        double[][] poly_6 = {vertex_6,vertex_5,vertex_8, vertex_7}; // Back Facing
-        
-        double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
-        
-        poly2 = new PolyRender(cube);
-        world.addObject(poly2, halfWidth,halfHeight);
+            poly2 = new PolyRender(cube);
+            int halfWidth = getX();
+            int halfHeight = getY();
+            world.addObject(poly2, halfWidth,halfHeight);
+        }
     }
 
     public static DDCRender getInstance() {
@@ -63,9 +72,6 @@ public class DDCRender extends Actor
     {
         rotation+= 0.5;
         position+= 0.05;
-        //position2+= 1;
-        //scale+= 0.01;
-        
         
         if (rotation > 360) rotation = 0;
         

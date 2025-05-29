@@ -14,7 +14,7 @@ import java.util.Comparator;
 
 
 
-public class PolyRender extends Actor
+public class PolyRender extends DDCRender
 {
     World world;
     GreenfootImage renderScreen;
@@ -188,10 +188,6 @@ public class PolyRender extends Actor
         this.rotX = xRad; 
         this.rotY = yRad; 
         this.rotZ = zRad;
-    }
-    
-    public static double map(double x, double inMin, double inMax, double outMin, double outMax) {
-        return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
     
     
@@ -405,7 +401,7 @@ public class PolyRender extends Actor
             
             //Render system v1 (Grayscale distance shading (per face))
             
-            double DepthColorDoubleValue = map(balls, 0.0, indicesSize-1, 10.0, 245.0);
+            double DepthColorDoubleValue = Utils.map(balls, 0.0, indicesSize-1, 10.0, 245.0);
             int DepthColorInt = (int)DepthColorDoubleValue;
             Color depthColor = new Color(DepthColorInt, DepthColorInt, DepthColorInt);
             renderScreen.setColor(depthColor);
