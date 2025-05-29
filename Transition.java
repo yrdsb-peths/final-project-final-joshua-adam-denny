@@ -47,34 +47,34 @@ public class Transition extends UI {
         deltaTime.mark();
     }
 
-    // public void act() {
-    //     int elapsed = deltaTime.millisElapsed();
-    //     if ("fadeIn".equals(state)) {
-    //         int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
-    //         screen.setTransparency(opacity);
-    //         screen.fill();
-    //         setImage(screen);
+    public void act() {
+        int elapsed = deltaTime.millisElapsed();
+        if ("fadeIn".equals(state)) {
+            int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
+            screen.setTransparency(opacity);
+            screen.fill();
+            setImage(screen);
 
-    //         System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
-    //         if (opacity >= targetOpacity) {
-    //             currentOpacity = targetOpacity;
+            System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
+            if (opacity >= targetOpacity) {
+                currentOpacity = targetOpacity;
 
-    //             state = "none"; // Reset state after fade in completes
-    //         }
+                state = "none"; // Reset state after fade in completes
+            }
 
-    //     } else if ("fadeOut".equals(state)) {
-    //         int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
-    //         screen.setTransparency(opacity);
-    //         screen.fill();
-    //         setImage(screen);
+        } else if ("fadeOut".equals(state)) {
+            int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
+            screen.setTransparency(opacity);
+            screen.fill();
+            setImage(screen);
 
-    //         System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
-    //         if (opacity <= targetOpacity) {
-    //             currentOpacity = targetOpacity;
-    //             state = "none"; // Reset state after fade out completes
-    //         }
+            System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
+            if (opacity <= targetOpacity) {
+                currentOpacity = targetOpacity;
+                state = "none"; // Reset state after fade out completes
+            }
             
-    //     }
-    // }
+        }
+    }
 
 }

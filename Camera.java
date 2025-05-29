@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
- * 3D Positioned Camera/Player for Greenfoot
+ * 3D Positioned Camera/Player for Greenfoot, modifed for final-project
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (May 21 2025)

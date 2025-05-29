@@ -1,8 +1,8 @@
 /**
  * Write a description of class utils here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0 (May 29th 2025)
  */
 public class Utils  
 {
@@ -19,5 +19,10 @@ public class Utils
     
     public static double map(double x, double inMin, double inMax, double outMin, double outMax) {
         return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+    
+    public static double clamp(int value, int min, int max)
+    {
+        return Math.max(min, Math.min(value, max));
     }
 }

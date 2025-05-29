@@ -77,6 +77,7 @@ public class EndGamePopup extends UI
 
         // update transparency of the image
         int alpha = (int)(ease * 255);
+        alpha = (int)Utils.clamp(alpha, 0, 255);
         image.setTransparency(alpha);
         setImage(image);
 

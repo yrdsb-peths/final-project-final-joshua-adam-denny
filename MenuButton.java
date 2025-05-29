@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class MenuButton extends Actor {
+public class MenuButton extends UI {
     private String label;
 
     public MenuButton(String label) {

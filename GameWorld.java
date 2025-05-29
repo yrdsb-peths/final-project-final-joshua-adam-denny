@@ -2,6 +2,7 @@ import greenfoot.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.io.IOException;
 
 public class GameWorld extends World {
     private int wave = 0;
@@ -55,6 +56,19 @@ public class GameWorld extends World {
             Tower.class, 
             Enemy.class
         );
+        ScuffedAPI client = ScuffedAPI.getInstance();
+        if (!client.connect()) {
+            System.err.println("Server not reachable!");
+        }
+        
+        try {
+            int place = client.sendScore(1234, 5);
+            System.out.println("You placed: " + place);
+            client.getLeaderboard().forEach(System.out::println);
+        } catch (IOException e) {
+            // some handling here idfk im too tired
+        }
+
     }
 
     double rotation = 0;
