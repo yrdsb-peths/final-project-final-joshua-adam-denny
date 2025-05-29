@@ -5,9 +5,9 @@ public abstract class Enemy extends Actor {
     protected int speed;
     protected int health;
     private List<BurnEffect> burnEffects = new ArrayList<>();
-
     private GreenfootImage baseImage;
     private boolean isBurning = false;
+    private boolean isDead = false;
 
     public Enemy(int speed, int health) {
         this.speed = speed;
@@ -51,15 +51,30 @@ public abstract class Enemy extends Actor {
             updateImage();
         }
     }
-
+    private int totalCount = 0;
     public void act() {
         updateBurns();
         move(speed);
         updateImage();
         World world = getWorld();
-        if (world != null && getX() >= world.getWidth() - 1) {
+        if (world != null && getX() >= world.getWidth() - 160) {
             ((GameWorld) world).loseLife(getLifeDamage());
             world.removeObject(this);
+        }
+        
+        if (isDead)
+        {
+            if (totalCount < 5)
+            {
+                totalCount++;
+                double[] balls = {getX(), getY()};
+                Particles particle = new Particles(balls, Greenfoot.getRandomNumber(360) - 135.0, Greenfoot.getRandomNumber(5) + 2.5, Color.RED);
+                world.addObject(particle, world.getWidth()/2, world.getHeight()/2);
+                
+            } else 
+            {
+                getWorld().removeObject(this);
+            }
         }
     }
 
@@ -70,7 +85,8 @@ public abstract class Enemy extends Actor {
         health -= damage;
         if (health <= 0 && getWorld() != null) {
             ((GameWorld) getWorld()).addMoney(10);
-            getWorld().removeObject(this);
+            isDead = true;
+            
         }
     }
 }

@@ -21,7 +21,7 @@ public class Particles extends Actor
         this.speed = speed;
         this.color = color;
         
-        renderScreen = new GreenfootImage(640, 359);
+        renderScreen = new GreenfootImage(1160, 600);
         renderScreen.setColor(color);        
     }
     

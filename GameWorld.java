@@ -1,6 +1,7 @@
 import greenfoot.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class GameWorld extends World {
     private int wave = 0;
@@ -24,8 +25,12 @@ public class GameWorld extends World {
     private Label livesLabel;
     private UpgradeMenu currentMenu = null;
     
+    private PolyRender poly2;
+    
+    private DDCRender ddcRender;
+    
     public GameWorld() {
-        super(1000, 600, 1);
+        super(1160, 600, 1);
         setBackground("grass.png");
 
         moneyLabel = new Label("Money: $" + money, 30);
@@ -33,7 +38,45 @@ public class GameWorld extends World {
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
         livesLabel = new Label("Lives: " + lives, 30);
-
+        
+        Sidebar sidebar = new Sidebar();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        int halfWidth = getWidth()/2;
+        int halfHeight = getHeight()/2;
+        
+        double[] vertex_1 = { -125, -125, -125 };
+        double[] vertex_2 = { 125, -125, -125 };
+        double[] vertex_3 = { 125, 125, -125 };
+        double[] vertex_4 = { -125, 125, -125 };
+        
+        double[] vertex_5 = { -125, -125, 125 };
+        double[] vertex_6 = { 125, -125, 125 };
+        double[] vertex_7 = { 125, 125, 125 };
+        double[] vertex_8 = { -125, 125, 125 };
+        
+        double[][] poly_1 = {vertex_1,vertex_2,vertex_3,vertex_4}; // Front Facing
+        double[][] poly_2 = {vertex_5,vertex_1,vertex_4,vertex_8}; // Left Facing
+        double[][] poly_3 = {vertex_2,vertex_6,vertex_7,vertex_3}; // Right Facing
+        double[][] poly_4 = {vertex_5,vertex_6,vertex_2,vertex_1}; // Top Facng
+        double[][] poly_5 = {vertex_4,vertex_3,vertex_7,vertex_8}; // Bottom Facing
+        double[][] poly_6 = {vertex_6,vertex_5,vertex_8, vertex_7}; // Back Facing
+        
+        double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
+        
+        poly2 = new PolyRender(cube);
+        addObject(poly2, halfWidth,halfHeight);
+        
+        
+        
+        
         Base base = new Base();
         addObject(base, 925, 300);
 
@@ -41,7 +84,15 @@ public class GameWorld extends World {
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
+        
+        addObject(sidebar, getWidth()-80, getHeight()/2);
+        
+        Class[] orderOfRender = new Class[] {PolyRender.class, UI.class, Tower.class, Enemy.class};
+        setPaintOrder(orderOfRender);
     }
+    
+    double rotation = 0;
+    double position  = 0;
 
     public void act() {
         handleEnemySpawning();
@@ -49,6 +100,19 @@ public class GameWorld extends World {
         handleTowerDragging();
         handleTowerClickUpgrade();
         resetInputFlags();
+        
+        
+        rotation+= 0.5;
+        position+= 0.05;
+        //position2+= 1;
+        //scale+= 0.01;
+        
+        
+        if (rotation > 360) rotation = 0;
+        
+        poly2.rotate(Math.toRadians(180), Math.toRadians(rotation), 0);
+
+        poly2.position(-900,Math.sin(position)*30 + 250,700);
     }
 
     private void handleEnemySpawning() {
@@ -222,11 +286,16 @@ public class GameWorld extends World {
         } else {
             MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
-                towerPreview.setLocation(mi.getX(), mi.getY());
+                int xData = mi.getX();
+                if (xData > 1000)
+                {
+                    xData = 1000;
+                }
+                towerPreview.setLocation(xData, mi.getY());
                 
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
                     if (mi.getButton() == 1) {
-                        placeTower(towerPreview.getTowerType(), mi.getX(), mi.getY());
+                        placeTower(towerPreview.getTowerType(), xData, mi.getY());
                         towerPlacedThisClick = true;
                     } else if (mi.getButton() == 3) {
                         cancelDragging();
