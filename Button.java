@@ -1,38 +1,40 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Button here.
+ * Button UI
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0
  */
 public class Button extends UI
 {
     private int buttonWidth = 0;
     private int buttonHeight = 0;
-    private GreenfootImage[] buttonImage = new GreenfootImage[2];
+    private GreenfootImage[] buttonImage;
+    private GreenfootImage currentButton;
     private boolean pressed = false;
     private boolean active = false;
     private int leftSide = 0;
     private int rightSide = 0;
     private int topSide = 0;
     private int bottomSide = 0;
+    private boolean hasHighlighted = false;
     
     
     
-    public Button(boolean isActive, GreenfootImage buttonReleased, GreenfootImage buttonPressed, int width, int height)
+    public Button(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
     {
         active = isActive;
         buttonWidth = width;
         buttonHeight = height;
         
-        buttonImage[0] = buttonReleased;
-        buttonImage[1] = buttonPressed;
+        buttonImage = buttonImages;
         
         buttonImage[0].scale(width,height);
         buttonImage[1].scale(width,height);
         
-        setImage(buttonImage[0]);
+        currentButton = buttonImage[0];
+        setImage(currentButton);
     }
     
     @Override
@@ -43,43 +45,40 @@ public class Button extends UI
         bottomSide = getY() + (buttonHeight/2);
     }
     
+    
+    
+    //Getter functions
+    
     public boolean isPressed()
     {
         return pressed;
     }
     
+    //setter functions
+    
     public void setActive(boolean activeSet)
     {
         active = activeSet;
+        currentButton = (active) ? buttonImage[0] : buttonImage[1];
+        
+        setImage(currentButton);
     }
+
     
-    private void HandlePressing()
+    public void setTransparency(int alpha)
     {
-        MouseInfo mi = Greenfoot.getMouseInfo();
-        if (mi != null) {
-            int xData = mi.getX();
-            int yData = mi.getY();
-            
-            if (yData >= topSide && yData <= bottomSide)
-            {
-                System.out.println("y side");
-                if (xData >= leftSide && xData <= rightSide)
-                {
-                    System.out.println("x side");
-                    if (mi.getButton() == 0)
-                    {
-                        System.out.println("holy fuck im cumming");
-                        pressed = true;
-                        setImage(buttonImage[1]);
-                    } else
-                    {
-                        pressed = false;
-                        setImage(buttonImage[0]);
-                    }
-                }
-            }
+        alpha = (int)Utils.clamp(alpha,0,255);
+        for(GreenfootImage button : buttonImage)
+        {  
+            button.setTransparency(alpha);
         }
         
+    }
+    
+    public void setButtons(GreenfootImage[] buttonImages)
+    {
+        buttonImage = buttonImages;
+    
     }
     
     public void act()
@@ -88,15 +87,19 @@ public class Button extends UI
         {
             if (Greenfoot.mousePressed(this)) {
                 pressed = true;
-                setImage(buttonImage[1]);
+                currentButton = buttonImage[1];
             }
-            // when they release the mouse button _over this actor_
             if (Greenfoot.mouseClicked(this)) {
                 pressed = false;
-                setImage(buttonImage[0]);
-                // here you could also fire your “button action”
+                currentButton = buttonImage[0];
             }
+        } 
+        else
+        {
+            currentButton = buttonImage[1];
         }
+        
+        setImage(currentButton);
     }
     
     

@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndGamePopup here.
+ * End game popup UI
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung 
+ * @version Version 1.0.0 (May 30, 2025)
  */
 public class EndGamePopup extends UI
 {   
@@ -20,6 +20,12 @@ public class EndGamePopup extends UI
     private int startY;
     private int targetY;
     private boolean lockedIn = false;
+    
+    private final int buttonSize = 80;
+    
+    
+    private Button restartButton;
+    private Button creditsButton;
 
     /**
      * Constructor for objects of class EndGamePopup.
@@ -50,7 +56,23 @@ public class EndGamePopup extends UI
     protected void addedToWorld(World w) {
         startY = getY();
         targetY = w.getHeight()/2; // always center to it to the middle of the world.
+        GreenfootImage[] buttonImages = new GreenfootImage[2];
+        
+        buttonImages[0] = new GreenfootImage("ui/button-restart.png");
+        buttonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
+        
+        
+        restartButton = new Button(false, buttonImages, buttonSize, buttonSize);
+        creditsButton = new Button(false, buttonImages, buttonSize, buttonSize);
+        
+        restartButton.setTransparency(0);
+        creditsButton.setTransparency(0);
+        
+        w.addObject(restartButton, getX()+100, getY());
+        w.addObject(creditsButton, getX()-100, getY());
     }
+    
+    
 
     private void start()
     {
@@ -78,18 +100,25 @@ public class EndGamePopup extends UI
         int alpha = (int)(ease * 255);
         alpha = (int)Utils.clamp(alpha, 0, 255);
         image.setTransparency(alpha);
+        restartButton.setTransparency(alpha);
+        creditsButton.setTransparency(alpha);
         setImage(image);
 
         // update the position of the popup/actor
         int newY = startY + (int)(ease * (targetY - startY));
         setLocation(getX(), newY);
-
-
+        
+        restartButton.setLocation(getX()+70,newY+80);
+        creditsButton.setLocation(getX()-70,newY+80);
+        
         //lock tf IN.)
         if (dtActive >= timeToFade) {
             image.setTransparency(255);
             setLocation(getX(), targetY);
             lockedIn = true;
+            
+            restartButton.setActive(true);
+            creditsButton.setActive(true);
         }
     }
 

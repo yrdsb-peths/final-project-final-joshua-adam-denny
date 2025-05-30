@@ -1,35 +1,32 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Sidebar here.
+ * Sidebar UI 
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0 (May 30th, 2025)
  */
 public class Sidebar extends UI
 {
-    /**
-     * Act - do whatever the Sidebar wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    
     public static Sidebar _instance = null;
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
     
     public Sidebar()
     {
         GreenfootImage img = new GreenfootImage("ui/sidebar.png");
         setImage(img);
-        GreenfootImage balls1 = new GreenfootImage("bee2.png");
-        GreenfootImage balls2 = new GreenfootImage("man.png");
-        Button balls = new Button(true, balls1, balls2, 100, 100); 
+        
         
     }
     
     @Override
     protected void addedToWorld(World w) {
-        GreenfootImage balls1 = new GreenfootImage("bee2.png");
-        GreenfootImage balls2 = new GreenfootImage("man.png");
-        Button balls = new Button(true, balls1, balls2, 100, 100);
-        w.addObject(balls,w.getWidth()/2,w.getHeight()/2);
+        
     }
     
     

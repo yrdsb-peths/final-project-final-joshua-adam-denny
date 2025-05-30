@@ -9,7 +9,7 @@ import java.util.Comparator;
  * 3D Renderer for Greenfoot
  * 
  * @author Denny Ung
- * @version Version 1.0.0 (May 21 2025)
+ * @version Version 1.0.1 (May 30 2025)
  */
 
 
@@ -67,6 +67,20 @@ public class PolyRender extends DDCRender
         this.originalModel = deepCopy(model3d);
         this.renderScreen  = new GreenfootImage(width, height);
         
+    }
+    
+    public PolyRender(double[][][] model3d, int width, int height) {
+        global_count++;
+        id = global_count;
+        this.originalModel = deepCopy(model3d);
+        this.renderScreen  = new GreenfootImage(width, height);
+        
+        this.width = width;
+        this.height = height;
+        
+        aspect = (double) width/height;
+        proj[0][0] = f/aspect;
+         
     }
     
     private double[][][] deepCopy(double[][][] src) {
