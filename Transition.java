@@ -29,6 +29,15 @@ public class Transition extends UI {
         screen.fill();
         setImage(screen);
     }
+    
+    @Override
+    protected void addedToWorld(World w) 
+    {
+        currentOpacity = 0;
+        screen.setTransparency(currentOpacity);
+        
+        
+    }
 
 
     /**
