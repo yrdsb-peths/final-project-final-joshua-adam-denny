@@ -46,11 +46,12 @@ public class GameWorld extends World {
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
         setPaintOrder(
+            DDCRender.class,
             Label.class,
             Button.class,
             EndGamePopup.class,
             Transition.class, 
-            PolyRender.class, 
+            Sidebar.class,
             UI.class, 
             Tower.class, 
             Enemy.class
@@ -286,7 +287,7 @@ public class GameWorld extends World {
         }
     }
 
-    private void startDraggingTower(String towerType) {
+    public void startDraggingTower(String towerType) {
         if (towerPreview != null) {
             towerPreview.removePreview();  // safely remove old preview and circle
         }

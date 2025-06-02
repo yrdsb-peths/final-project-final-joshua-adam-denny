@@ -19,8 +19,6 @@ public abstract class Enemy extends Actor {
         setImage(new GreenfootImage(baseImage));
     }
 
-    // ... rest of your methods unchanged, except remove image init from act()
-
     private void updateImage() {
         if (baseImage == null) return;
         GreenfootImage img = new GreenfootImage(baseImage);
