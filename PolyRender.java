@@ -184,18 +184,20 @@ public class PolyRender extends DDCRender
         return new int[]{sx, sy};
     }
     
-    public void setScale(double scale) {
+    public void setScale(double scale) 
+    {
         this.modelScale = scale;
     }
     
-    public void position(double x, double y, double z) {
-        
-        System.out.println("balls");
+    public void position(double x, double y, double z) 
+    {
+
         this.modelX = x;  
         this.modelY = y;  
         this.modelZ = z;
     }
-    public void rotate(double xRad, double yRad, double zRad) {
+    public void rotate(double xRad, double yRad, double zRad) 
+    {
         this.rotX = xRad; 
         this.rotY = yRad; 
         this.rotZ = zRad;

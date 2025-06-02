@@ -36,7 +36,7 @@ public class GameWorld extends World {
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
 
-        //addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
+        addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
         addObject(UIManager.getInstance(),0,0);
 
         Base base = new Base();
@@ -46,11 +46,12 @@ public class GameWorld extends World {
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
         setPaintOrder(
+            DDCRender.class,
             Label.class,
             Button.class,
             EndGamePopup.class,
             Transition.class, 
-            PolyRender.class, 
+            Sidebar.class,
             UI.class, 
             Tower.class, 
             Enemy.class
