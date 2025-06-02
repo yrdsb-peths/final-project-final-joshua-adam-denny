@@ -80,6 +80,24 @@ public class Button extends UI
         buttonImage = buttonImages;
     
     }
+    public void resetPressedState() {
+        pressed = false;
+        currentButton = buttonImage[0];
+        setImage(currentButton);
+    }
+
+    public void setPressed(boolean isPressed) {
+        this.pressed = isPressed;
+        currentButton = isPressed ? buttonImage[1] : buttonImage[0];
+        setImage(currentButton);
+    }
+
+    public boolean isHovering() {
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        if (mouse == null) return false;
+        return (mouse.getX() >= leftSide && mouse.getX() <= rightSide &&
+                mouse.getY() >= topSide && mouse.getY() <= bottomSide);
+    }
     
     public void act()
     {
@@ -89,6 +107,13 @@ public class Button extends UI
                 pressed = true;
                 currentButton = buttonImage[1];
             }
+    
+            if (pressed && Greenfoot.mouseDragEnded(null)) {
+                // Reset if mouse drag ends (anywhere) while we were pressed
+                pressed = false;
+                currentButton = buttonImage[0];
+            }
+    
             if (Greenfoot.mouseClicked(this)) {
                 pressed = false;
                 currentButton = buttonImage[0];
@@ -98,9 +123,10 @@ public class Button extends UI
         {
             currentButton = buttonImage[1];
         }
-        
+    
         setImage(currentButton);
     }
+
     
     
 }

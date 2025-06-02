@@ -171,6 +171,7 @@ public class Sidebar extends UI
         return _instance;
     }
 
+    
     public void act()
     {
         GameWorld gw = (GameWorld) getWorld();
@@ -183,6 +184,7 @@ public class Sidebar extends UI
             }
         } else if (dragging1 && Greenfoot.mouseClicked(null)) {
             dragging1 = false;
+            button1.resetPressedState();
         }
     
         // Button 2 - Sniper Tower
@@ -193,6 +195,7 @@ public class Sidebar extends UI
             }
         } else if (dragging2 && Greenfoot.mouseClicked(null)) {
             dragging2 = false;
+            button2.resetPressedState();
         }
     
         // Button 3 - MachineGun Tower
@@ -203,6 +206,7 @@ public class Sidebar extends UI
             }
         } else if (dragging3 && Greenfoot.mouseClicked(null)) {
             dragging3 = false;
+            button3.resetPressedState();
         }
     
         // Button 4 - FlameThrower Tower
@@ -213,6 +217,7 @@ public class Sidebar extends UI
             }
         } else if (dragging4 && Greenfoot.mouseClicked(null)) {
             dragging4 = false;
+            button4.resetPressedState();
         }
     
         // Button 5 - Nuke Tower
@@ -223,6 +228,7 @@ public class Sidebar extends UI
             }
         } else if (dragging5 && Greenfoot.mouseClicked(null)) {
             dragging5 = false;
+            button5.resetPressedState();
         }
     }
 
