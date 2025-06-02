@@ -10,7 +10,8 @@ public class UIManager extends Actor
 
     public static UIManager _instance = null;
     private Transition transition = Transition.getInstance();
-    private Sidebar sidebar = Sidebar.getInstance();
+    private Sidebar sideBar = Sidebar.getInstance();
+    private HealthBar healthBar = HealthBar.getInstance();
 
     public UIManager()
     {
@@ -31,7 +32,8 @@ public class UIManager extends Actor
     protected void addedToWorld(World world)
     {
         world.addObject(transition, world.getWidth() / 2, world.getHeight() / 2);
-        world.addObject(sidebar, world.getWidth() - 80, world.getHeight() / 2);
+        world.addObject(sideBar, world.getWidth() - 80, world.getHeight() / 2);
+        world.addObject(healthBar, world.getWidth()/2, 0 + 100);
     }
     
     /**
@@ -41,7 +43,7 @@ public class UIManager extends Actor
      */
     public Sidebar getSidebar()
     {
-        return sidebar;
+        return sideBar;
     }
 
     /**
