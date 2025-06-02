@@ -33,7 +33,7 @@ public class UIManager extends Actor
     {
         world.addObject(transition, world.getWidth() / 2, world.getHeight() / 2);
         world.addObject(sideBar, world.getWidth() - 80, world.getHeight() / 2);
-        world.addObject(healthBar, world.getWidth()/2, 0 + 100);
+        world.addObject(healthBar, world.getWidth()/2 - 190, 0 + 30);
     }
     
     /**

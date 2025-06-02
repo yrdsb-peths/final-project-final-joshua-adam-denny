@@ -62,8 +62,8 @@ public class EndGamePopup extends UI
         buttonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
         
         
-        restartButton = new Button(false, buttonImages, buttonSize, buttonSize);
-        creditsButton = new Button(false, buttonImages, buttonSize, buttonSize);
+        restartButton = new EndGameButton(false, buttonImages, buttonSize, buttonSize);
+        creditsButton = new EndGameButton(false, buttonImages, buttonSize, buttonSize);
         
         restartButton.setTransparency(0);
         creditsButton.setTransparency(0);
