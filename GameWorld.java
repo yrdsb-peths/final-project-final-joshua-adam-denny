@@ -5,6 +5,13 @@ import java.lang.Math;
 import java.io.IOException;
 
 public class GameWorld extends World {
+    
+    private Label sniperCooldownLabel = null;
+    private boolean sniperAbilityAvailable = false;
+    private boolean sniperBoostActive = false;
+    private int sniperBoostTimer = 0;
+    private SniperAbility sniperIcon = null;
+    
     private int wave = 0;
     private int enemiesSpawned = 0;
     private int enemiesToSpawn = 0;
@@ -79,6 +86,7 @@ public class GameWorld extends World {
         handleWaveProgression();
         handleTowerDragging();
         handleTowerClickUpgrade();
+        handleSniperBoost();
         resetInputFlags();
     }
 
@@ -477,5 +485,47 @@ public class GameWorld extends World {
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
         addObject(endPopup, getWidth() / 2, 0);
         
+    }
+    
+    public void unlockSniperAbility() {
+        if (sniperAbilityAvailable) return;
+    
+        sniperAbilityAvailable = true;
+        sniperIcon = new SniperAbility();
+        addObject(sniperIcon, 1100, 540);
+    }
+    
+    public void activateSniperBoost() {
+        sniperBoostActive = true;
+        sniperBoostTimer = 300; // 5 seconds of boost at 60 FPS
+    }
+    
+    private void handleSniperBoost() {
+        if (sniperBoostActive) {
+            sniperBoostTimer--;
+        
+            if (sniperCooldownLabel != null) {
+                sniperCooldownLabel.setValue("" + (sniperBoostTimer / 60));
+            }
+        
+            if (sniperBoostTimer <= 0) {
+                sniperBoostActive = false;
+                if (sniperCooldownLabel != null) {
+                    sniperCooldownLabel.setValue("");
+                }
+            }
+        }
+    
+        if (sniperAbilityAvailable && Greenfoot.mouseClicked(sniperIcon) && !sniperBoostActive) {
+            sniperBoostActive = true;
+            sniperBoostTimer = 20 * 60; // 20 seconds at 60 FPS
+            sniperAbilityAvailable = false;
+            
+            System.out.println("Sniper boost activated!");
+        }
+    }
+    
+    public boolean isSniperBoostActive() {
+        return sniperBoostActive;
     }
 }

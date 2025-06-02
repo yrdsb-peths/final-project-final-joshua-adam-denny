@@ -3,6 +3,7 @@ import java.util.List;
 
 public class SniperTower extends Tower {
     public SniperTower() {
+        GameWorld world = (GameWorld) getWorld();
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
         img.scale(60, 60);
         setImage(img);
@@ -16,6 +17,11 @@ public class SniperTower extends Tower {
         
         upgradeCost = upgradeCostPerLevel;  
         totalInvested = baseCost;
+        
+        if (level == maxLevel) {
+            world.unlockSniperAbility();
+        }
+
     }
 
     @Override
@@ -28,6 +34,11 @@ public class SniperTower extends Tower {
             totalInvested += upgradeCost;
             upgradeCost += 100;            // higher cost per upgrade
             updateImage();
+            
+            if (level == maxLevel) {
+            world.unlockSniperAbility();
+        }
+        
             return true;
         }
         return false;
@@ -57,5 +68,5 @@ public class SniperTower extends Tower {
         }
         return farthest;
     }
-
+    
 }
