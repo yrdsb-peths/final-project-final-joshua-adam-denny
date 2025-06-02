@@ -36,7 +36,7 @@ public class GameWorld extends World {
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
 
-        addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
+        //addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
         addObject(UIManager.getInstance(),0,0);
 
         Base base = new Base();
@@ -287,7 +287,7 @@ public class GameWorld extends World {
         }
     }
 
-    private void startDraggingTower(String towerType) {
+    public void startDraggingTower(String towerType) {
         if (towerPreview != null) {
             towerPreview.removePreview();  // safely remove old preview and circle
         }

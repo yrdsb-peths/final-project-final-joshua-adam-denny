@@ -121,7 +121,7 @@ public class Sidebar extends UI
 
         poly2.position(0,0,200);
         poly2.setScale(0.01);
-        w.addObject(poly2, halfWidth,halfHeight);
+        
     }
     
     
@@ -136,6 +136,27 @@ public class Sidebar extends UI
 
     public void act()
     {
-        // Add your action code here.
+        GameWorld gw = (GameWorld) getWorld();
+        
+        if (button1.isPressed()) {
+            gw.startDraggingTower("Basic");
+            
+        } 
+        else if (button2.isPressed()) {
+            gw.startDraggingTower("Sniper");
+            
+        } 
+        else if (button3.isPressed()) {
+            gw.startDraggingTower("MachineGun");
+            
+        } 
+        else if (button4.isPressed()) {
+            gw.startDraggingTower("FlameThrower");
+            
+        } 
+        else if (button5.isPressed()) {
+            gw.startDraggingTower("Nuke");
+            
+        }
     }
 }
