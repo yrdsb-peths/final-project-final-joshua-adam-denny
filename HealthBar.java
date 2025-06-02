@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class HealthBar here.
+ * Healthbar UI
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.0 (June 2, 2025)
  */
 public class HealthBar extends UI
 {
@@ -36,7 +36,7 @@ public class HealthBar extends UI
         GameWorld gameWorld = (GameWorld) world;
         maxHealth = gameWorld.getLives();
         livesLabel = new Label(maxHealth, 30);
-        gameWorld.addObject(livesLabel, getX(), getY());
+        gameWorld.addObject(livesLabel, getX()-30, getY());
     }
     
     public static HealthBar getInstance()

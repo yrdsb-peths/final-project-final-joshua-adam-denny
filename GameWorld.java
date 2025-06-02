@@ -22,8 +22,7 @@ public class GameWorld extends World {
     private boolean waitingForNextWave = true;
     private boolean keyHeld = false;
     private boolean towerPlacedThisClick = false;
-    private int lives = 100;
-    private Label livesLabel;
+    private int lives = 100;;
     private UpgradeMenu currentMenu = null;
 
     private String status = "running"; // "running", "paused", "gameover"
@@ -36,7 +35,6 @@ public class GameWorld extends World {
         waveLabel = new Label("Wave: " + wave, 30);
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
-        livesLabel = new Label("Lives: " + lives, 30);
 
         //addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
         addObject(UIManager.getInstance(),0,0);
@@ -44,11 +42,11 @@ public class GameWorld extends World {
         Base base = new Base();
         addObject(base, 925, 300);
 
-        addObject(livesLabel, 400, 30);
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
         setPaintOrder(
+            Label.class,
             Button.class,
             EndGamePopup.class,
             Transition.class, 
@@ -453,19 +451,27 @@ public class GameWorld extends World {
 
     public void loseLife(int amount) {
         lives = Math.max(lives-amount, 0);
-        updateLivesLabel();
         if (lives <= 0 && status.equals("running")) {
             gameOver();
             status = "gameover";
         }
     }
 
-    private void updateLivesLabel() {
-        livesLabel.setValue("Lives: " + lives);
-    }
 
     private void gameOver() {
         int time = 500; // 500ms for fade in
+        setPaintOrder(
+            EndGameLabel.class,
+            EndGameButton.class,
+            EndGamePopup.class,
+            Transition.class, 
+            Label.class,
+            Button.class,
+            PolyRender.class, 
+            UI.class, 
+            Tower.class, 
+            Enemy.class
+        );
         UIManager.getInstance().fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
         addObject(endPopup, getWidth() / 2, 0);
