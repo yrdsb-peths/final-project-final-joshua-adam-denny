@@ -18,6 +18,11 @@ public class SniperTower extends Tower {
         upgradeCost = upgradeCostPerLevel;  
         totalInvested = baseCost;
         
+        
+        if (world != null && world.isSniperBoostActive()) {
+            damage *= 2; // Double the damage if the boost is active
+        }
+        
         if (level == maxLevel) {
             world.unlockSniperAbility();
         }

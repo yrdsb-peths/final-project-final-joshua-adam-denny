@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.awt.Font;
 public class SniperAbility extends Actor {
-    private int cooldown = 600; // 10 seconds at 60 FPS
+    private int cooldown = 3600; // 10 seconds at 60 FPS
     private int timer = 0;
     private boolean used = false;
 

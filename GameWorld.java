@@ -492,7 +492,7 @@ public class GameWorld extends World {
     
         sniperAbilityAvailable = true;
         sniperIcon = new SniperAbility();
-        addObject(sniperIcon, 1100, 540);
+        addObject(sniperIcon, 50, 540);
     }
     
     public void activateSniperBoost() {
