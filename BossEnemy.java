@@ -3,9 +3,8 @@ import greenfoot.*;
 public class BossEnemy extends Enemy {
     public BossEnemy(int speed, int health) {
         super(speed, health);
-        GreenfootImage img = new GreenfootImage(100, 200);
-        img.setColor(Color.MAGENTA);
-        img.fillOval(0, 0, 100, 200);
+        GreenfootImage img = new GreenfootImage("Boss.png");
+        img.scale(360, 160);
         setImage(img);
     }
 
