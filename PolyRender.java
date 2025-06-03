@@ -9,7 +9,7 @@ import java.util.Comparator;
  * 3D Renderer for Greenfoot
  * 
  * @author Denny Ung
- * @version Version 1.0.1 (May 30 2025)
+ * @version Version 1.0.4 (June 3, 2025)
  */
 
 

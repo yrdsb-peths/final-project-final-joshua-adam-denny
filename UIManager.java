@@ -15,7 +15,7 @@ public class UIManager extends Actor
 
     public UIManager()
     {
-
+        System.out.println("UI Manager running.");
     }
 
     public static UIManager getInstance()
@@ -34,6 +34,8 @@ public class UIManager extends Actor
         world.addObject(transition, world.getWidth() / 2, world.getHeight() / 2);
         world.addObject(sideBar, world.getWidth() - 80, world.getHeight() / 2);
         world.addObject(healthBar, world.getWidth()/2 - 190, 0 + 30);
+        
+        setImage(new GreenfootImage(1,1));
     }
     
     /**
