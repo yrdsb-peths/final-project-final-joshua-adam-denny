@@ -33,7 +33,19 @@ public class UpgradeMenu extends Actor {
         rangeCircle = new RangeCircle(tower.getRange());
         GameWorld world = (GameWorld) getWorld();
         world.addObject(rangeCircle, tower.getX(), tower.getY());
-        world.setPaintOrder(UpgradeMenu.class, RangeCircle.class);
+        world.setPaintOrder(
+            UpgradeMenu.class,
+            DDCRender.class,
+            Label.class,
+            Button.class,
+            EndGamePopup.class,
+            Transition.class, 
+            Sidebar.class, 
+            RangeCircle.class,
+            UI.class, 
+            Tower.class, 
+            Enemy.class
+        );
     }
 
     public void handleClick(int globalX, int globalY) {
