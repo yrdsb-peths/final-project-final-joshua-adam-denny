@@ -46,6 +46,10 @@ public class PolyRender extends DDCRender
     public double X_Rot = 0;
     public double Y_Rot = 0;
     public double Z_Rot = 0;
+    
+    private int versionRender = 1;
+    private double versionOneRender_min = 10.0;
+    private double versionOneRender_max = 245.0;
 
     
     private double[][] proj = {
@@ -53,6 +57,20 @@ public class PolyRender extends DDCRender
         { 0,           f,                              0,                              0 },
         { 0,           0,    (far+near)/(near-far),   (2*far*near)/(near-far)       },
         { 0,           0,                             -1,                              0 }
+    };
+    
+    
+    
+    
+    // Orthrographic 
+    private double top = near * Math.tan(fov/2);
+    private double right = aspect * top;
+    
+    private double[][] projOrtho = {
+        { 1.0/right,    0,                              0,                              0 },
+        { 0,           1.0/top,                              0,                              0 },
+        { 0,           0,    -2.0/(far-near),   -(far+near)/(near-far)       },
+        { 0,           0,                             0,                              1 }
     };
     
     
@@ -223,8 +241,6 @@ public class PolyRender extends DDCRender
         double ndcY =  r[1]/r[3];
         
         // map to screen
-        System.out.println(width);
-        System.out.println(height);
         int sx = (int)(( ndcX + 1)*0.5*width);
         int sy = (int)(((1 - ndcY)*0.5)*height);
         return new int[]{sx, sy};
@@ -247,6 +263,17 @@ public class PolyRender extends DDCRender
         this.rotX = xRad; 
         this.rotY = yRad; 
         this.rotZ = zRad;
+    }
+    
+    public void setRenderVersion(int version)
+    {
+        versionRender = (int)Utils.clamp(version, 1,3);
+    }
+    
+    public void setVersionOneRender_MinMaxLighting(double min, double max)
+    {
+        versionOneRender_min = min;
+        versionOneRender_max = max;
     }
     
     
@@ -443,7 +470,9 @@ public class PolyRender extends DDCRender
         }
         indices.sort((i, j) -> Double.compare(avgZs.get(j), avgZs.get(i)));
 
-        
+        double balls3 = 0;
+        double balls1 = 0;
+        double balls2 = 0;
         // Draw in sorted order, both for fixing face overlapping and shading needs, (super useful af)
         int indicesSize = indices.size();
         for (int balls = 0; balls < indicesSize; balls++) {
@@ -459,49 +488,69 @@ public class PolyRender extends DDCRender
             
             
             //Render system v1 (Grayscale distance shading (per face))
+            if (versionRender == 1)
+            {
+                double DepthColorDoubleValue = Utils.map(
+                    balls, 
+                    0.0, 
+                    indicesSize-1, 
+                    versionOneRender_min, 
+                    versionOneRender_max
+                );
+                int DepthColorInt = (int)DepthColorDoubleValue;
+                Color depthColor = new Color(DepthColorInt, DepthColorInt, DepthColorInt);
+                renderScreen.setColor(depthColor);
+                renderScreen.fillPolygon(sx, sy, n);
+            } 
+            else if (versionRender == 2)
+            {
+                //Render system v2 (Multi-color distance shading)
+                double t = (double)balls / (indicesSize - 1);
+                //which segment of the gradient?
+                double scaled = t * (anchors.length - 1);
+                int   idx0   = (int)Math.floor(scaled);
+                int   idx1   = Math.min(idx0 + 1, anchors.length - 1);
+                double localT = scaled - idx0;
             
-            double DepthColorDoubleValue = Utils.map(balls, 0.0, indicesSize-1, 10.0, 245.0);
-            int DepthColorInt = (int)DepthColorDoubleValue;
-            Color depthColor = new Color(DepthColorInt, DepthColorInt, DepthColorInt);
-            renderScreen.setColor(depthColor);
-            renderScreen.fillPolygon(sx, sy, n);
+                Color c0 = anchors[idx0], c1 = anchors[idx1];
+                int   r = (int)(c0.getRed()   + (c1.getRed()   - c0.getRed())   * localT);
+                int   g = (int)(c0.getGreen() + (c1.getGreen() - c0.getGreen()) * localT);
+                int   b = (int)(c0.getBlue()  + (c1.getBlue()  - c0.getBlue())  * localT);
             
-           
-           
-           
-            
-           
-            //Render system v2 (Multi-color distance shading)
-            /*
-            double t = (double)balls / (indicesSize - 1);
-            // which segment of the gradient?
-            double scaled = t * (anchors.length - 1);
-            int   idx0   = (int)Math.floor(scaled);
-            int   idx1   = Math.min(idx0 + 1, anchors.length - 1);
-            double localT = scaled - idx0;
-        
-            Color c0 = anchors[idx0], c1 = anchors[idx1];
-            int   r = (int)(c0.getRed()   + (c1.getRed()   - c0.getRed())   * localT);
-            int   g = (int)(c0.getGreen() + (c1.getGreen() - c0.getGreen()) * localT);
-            int   b = (int)(c0.getBlue()  + (c1.getBlue()  - c0.getBlue())  * localT);
-        
-            renderScreen.setColor(new Color(r, g, b));
-            
-            renderScreen.fillPolygon(sx, sy, n);
-            */
-            
-            
-            
-            
-            //Render system v3 (gouraud shading)
-            /*
-            int[] bv = new int[n];
-            for (int i = 0; i < n; i++) {
-                bv[i] = (int)map(vc[i][2], near, far, 255, 0);
+                renderScreen.setColor(new Color(r, g, b));
+                
+                renderScreen.fillPolygon(sx, sy, n);
             }
-
-            fillPolyGouraud(sx, sy, bv);
-            */
+            else if (versionRender == 3)
+            {
+                //Render system v3 (gouraud shading)
+                double lx = Math.sin(Math.toRadians(balls1))*10, ly = Math.sin(Math.toRadians(balls2))*10, lz = Math.sin(Math.toRadians(balls3))*10;
+                int[] bv = new int[n];
+                
+                
+                for (int i = 0; i < n; i++) {
+                    bv[i] = (int)Utils.map(vc[i][2], near, far, 255, 0);
+                }
+                
+                
+                double[] e1 = { vc[1][0]-vc[0][0], vc[1][1]-vc[0][1], vc[1][2]-vc[0][2] };
+                double[] e2 = { vc[2][0]-vc[0][0], vc[2][1]-vc[0][1], vc[2][2]-vc[0][2] };
+                double nx = e1[1]*e2[2] - e1[2]*e2[1];
+                double ny = e1[2]*e2[0] - e1[0]*e2[2];
+                double nz = e1[0]*e2[1] - e1[1]*e2[0];
+                double nlen = Math.sqrt(nx*nx + ny*ny + nz*nz);
+                nx/=nlen; ny/=nlen; nz/=nlen;
+                
+                double lam = Math.max(0, nx*lx + ny*ly + nz*lz);
+                int shade = (int)(lam * 255);
+                Arrays.fill(bv, shade);
+    
+                fillPolyGouraud(sx, sy, bv);
+                balls1 += 0.5;
+                balls2 += 0.2;
+                balls3 += 0.3;
+                    
+            }            
         }
 
         setImage(renderScreen);
