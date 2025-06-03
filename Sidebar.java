@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.lang.Math;
+import java.io.IOException;
 
 /**
  * Sidebar UI 
@@ -8,13 +10,21 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Sidebar extends UI
 {
-    
     public static Sidebar _instance = null;
     private Button button1;
+    private PolyRender buttonIcon1;
+    
     private Button button2;
+    private PolyRender buttonIcon2;
+    
     private Button button3;
+    private PolyRender buttonIcon3;
+    
     private Button button4;
+    private PolyRender buttonIcon4;
+    
     private Button button5;
+    private PolyRender buttonIcon5;
     
     private boolean dragging1 = false;
     private boolean dragging2 = false;
@@ -22,17 +32,27 @@ public class Sidebar extends UI
     private boolean dragging4 = false;
     private boolean dragging5 = false;
 
+    // Moved up/down images to private fields so the entire class can access them:
+    private GreenfootImage up1, down1;
+    private GreenfootImage up2, down2;
+    private GreenfootImage up3, down3;
+    private GreenfootImage up4, down4;
+    private GreenfootImage up5, down5;
+    
+    private GreenfootImage buttonBaseImage;
+    private GreenfootImage buttonBaseImagePressed; 
+
     public Sidebar()
     {
         GreenfootImage img = new GreenfootImage("ui/sidebar.png");
         setImage(img);
-        
-        
     }
     
     @Override
     protected void addedToWorld(World w) 
     {
+        buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
+        buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
         int sbX = getX();
         int sbY = getY();
         
@@ -49,8 +69,8 @@ public class Sidebar extends UI
         
         // --- Button 1: Basic ---
         {
-            GreenfootImage up1   = new GreenfootImage("ui/button-sidebar.png");
-            GreenfootImage down1 = new GreenfootImage("ui/button-sidebar-pressed.png");
+            up1   = new GreenfootImage(buttonBaseImage);
+            down1 = new GreenfootImage(buttonBaseImagePressed);
             GreenfootImage icon1 = new GreenfootImage("images/Basic_tower.png");
             icon1.scale(48, 48);
         
@@ -64,8 +84,8 @@ public class Sidebar extends UI
         
         // --- Button 2: Sniper ---
         {
-            GreenfootImage up2   = new GreenfootImage("ui/button-sidebar.png");
-            GreenfootImage down2 = new GreenfootImage("ui/button-sidebar-pressed.png");
+            up2   = new GreenfootImage(buttonBaseImage);
+            down2 = new GreenfootImage(buttonBaseImagePressed);
             GreenfootImage icon2 = new GreenfootImage("images/Sniper_tower.png");
             icon2.scale(48, 48);
         
@@ -79,8 +99,8 @@ public class Sidebar extends UI
         
         // --- Button 3: MachineGun ---
         {
-            GreenfootImage up3   = new GreenfootImage("ui/button-sidebar.png");
-            GreenfootImage down3 = new GreenfootImage("ui/button-sidebar-pressed.png");
+            up3   = new GreenfootImage(buttonBaseImage);
+            down3 = new GreenfootImage(buttonBaseImagePressed);
             GreenfootImage icon3 = new GreenfootImage("images/MachineGun_tower.png");
             icon3.scale(48, 48);
         
@@ -92,12 +112,26 @@ public class Sidebar extends UI
             w.addObject(button3, sbX, y3);
         }
         
+        
+        double[][][] cube = new double[0][][];
+        try {
+            cube = ObjParser.parseObj("3dModels/cube.obj", 100);
+        } catch(IOException balls) {
+            
+        }
+        
+        
         // --- Button 4: FlameThrower ---
         {
-            GreenfootImage up4   = new GreenfootImage("ui/button-sidebar.png");
-            GreenfootImage down4 = new GreenfootImage("ui/button-sidebar-pressed.png");
-            GreenfootImage icon4 = new GreenfootImage("images/FlameThrower_tower.png");
-            icon4.scale(48, 48);
+            buttonIcon4 = new PolyRender(cube, 600, 600, 150);
+            buttonIcon4.position(0,0,500);
+            buttonIcon4.setScale(1);
+            buttonIcon4.rotate(Math.toRadians(35.0), Math.toRadians(45.0),0);
+            buttonIcon4.act();
+            up4   = new GreenfootImage(buttonBaseImage);
+            down4 = new GreenfootImage(buttonBaseImagePressed);
+            
+            GreenfootImage icon4 = buttonIcon4.getGreenfootImage();
         
             up4.drawImage(icon4, (up4.getWidth() - icon4.getWidth()) / 2, (up4.getHeight() - icon4.getHeight()) / 2);
             down4.drawImage(icon4, (down4.getWidth() - icon4.getWidth()) / 2, (down4.getHeight() - icon4.getHeight()) / 2);
@@ -109,8 +143,9 @@ public class Sidebar extends UI
         
         // --- Button 5: Nuke ---
         {
-            GreenfootImage up5   = new GreenfootImage("ui/button-sidebar.png");
-            GreenfootImage down5 = new GreenfootImage("ui/button-sidebar-pressed.png");
+            up5   = new GreenfootImage(buttonBaseImage);
+            down5 = new GreenfootImage(buttonBaseImagePressed);
+            
             GreenfootImage icon5 = new GreenfootImage("images/Nuke_tower.png");
             icon5.scale(48, 48);
         
@@ -121,48 +156,8 @@ public class Sidebar extends UI
             int y5 = startY + 4 * (btnHeight + spacing);
             w.addObject(button5, sbX, y5);
         }
-
-        
-        double[] vertex_1 = { -125, -125, -125 };
-        double[] vertex_2 = { 125, -125, -125 };
-        double[] vertex_3 = { 125, 125, -125 };
-        double[] vertex_4 = { -125, 125, -125 };
-        
-        double[] vertex_5 = { -125, -125, 125 };
-        double[] vertex_6 = { 125, -125, 125 };
-        double[] vertex_7 = { 125, 125, 125 };
-        double[] vertex_8 = { -125, 125, 125 };
-        
-        double[][] poly_1 = {vertex_1,vertex_2,vertex_3,vertex_4}; // Front Facing
-        double[][] poly_2 = {vertex_5,vertex_1,vertex_4,vertex_8}; // Left Facing
-        double[][] poly_3 = {vertex_2,vertex_6,vertex_7,vertex_3}; // Right Facing
-        double[][] poly_4 = {vertex_5,vertex_6,vertex_2,vertex_1}; // Top Facng
-        double[][] poly_5 = {vertex_4,vertex_3,vertex_7,vertex_8}; // Bottom Facing
-        double[][] poly_6 = {vertex_6,vertex_5,vertex_8, vertex_7}; // Back Facing
-        
-        double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
-        
-        PolyRender poly2 = new PolyRender(cube, 1000, 1000);
-        int halfWidth = getX();
-        int halfHeight = getY();
-            
-        float rotation = 0;
-        float position = 0;
-        
-        rotation+= 0.5;
-        position+= 0.05;
-        
-        if (rotation > 360) rotation = 0;
-        
-        poly2.rotate(Math.toRadians(180), Math.toRadians(rotation), 0);
-
-        poly2.position(0,0,200);
-        poly2.setScale(0.01);
-        
     }
     
-    
-
     public static Sidebar getInstance()
     {
         if (_instance == null) {
@@ -170,12 +165,39 @@ public class Sidebar extends UI
         }
         return _instance;
     }
+    
+    
+    
 
     
+    double balls = 45;
+    double balls2 = 0;  
+
     public void act()
     {
         GameWorld gw = (GameWorld) getWorld();
-    
+        balls +=0.5;
+        balls2 +=0.005;
+        
+        
+        buttonIcon4.act();
+        buttonIcon4.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        
+        
+        
+        GreenfootImage icon4 = buttonIcon4.getGreenfootImage();
+        //icon4.scale(48,48);
+        up4 = new GreenfootImage(buttonBaseImage);
+        down4 = new GreenfootImage(buttonBaseImagePressed); 
+        
+        int xOff = (up4.getWidth()  - icon4.getWidth()) / 2;
+        int yOff = (up4.getHeight() - icon4.getHeight())/ 2;
+        up4.drawImage(icon4,   xOff, yOff);
+        down4.drawImage(icon4, xOff, yOff);
+        
+        button4.setButtons( new GreenfootImage[]{up4, down4} );
+        
+        
         // Button 1 - Basic Tower
         if (button1.isPressed()) {
             if (!dragging1) {
@@ -231,5 +253,4 @@ public class Sidebar extends UI
             button5.resetPressedState();
         }
     }
-
 }

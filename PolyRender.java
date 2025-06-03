@@ -38,10 +38,10 @@ public class PolyRender extends DDCRender
     
     public static int global_count = 0; 
     private int id;
-    
+    private boolean useScreen = false;
     
     public double X_Pos = 0;
-    public double Y_Pos = -250; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
+    public double Y_Pos = 0; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
     public double Z_Pos = 0;
     public double X_Rot = 0;
     public double Y_Rot = 0;
@@ -55,32 +55,76 @@ public class PolyRender extends DDCRender
         { 0,           0,                             -1,                              0 }
     };
     
-    @Override
-    protected void addedToWorld(World w) {
-        width  = w.getWidth();
-        height = w.getHeight();
-    }
     
     public PolyRender(double[][][] model3d) {
+        useScreen = true;
         global_count++;
         id = global_count;
         this.originalModel = deepCopy(model3d);
         this.renderScreen  = new GreenfootImage(width, height);
-        
     }
     
-    public PolyRender(double[][][] model3d, int width, int height) {
+    public PolyRender(double[][][] model3d, int widthCustom, int heightCustom) {
+        
         global_count++;
         id = global_count;
         this.originalModel = deepCopy(model3d);
-        this.renderScreen  = new GreenfootImage(width, height);
-        
-        this.width = width;
-        this.height = height;
-        
-        aspect = (double) width/height;
-        proj[0][0] = f/aspect;
+        this.renderScreen  = new GreenfootImage(widthCustom, heightCustom);
+        this.width = widthCustom;
+        this.height = heightCustom;
+        aspect = (double) widthCustom/heightCustom;
+        f = 1.0/Math.tan(fov/2.0);
+        proj = new double[][]{
+            { f/aspect,    0,                              0,                              0 },
+            { 0,           f,                              0,                              0 },
+            { 0,           0,    (far+near)/(near-far),   (2*far*near)/(near-far)       },
+            { 0,           0,                             -1,                              0 }
+        };
+
          
+    }
+    
+    public PolyRender(double[][][] model3d, int widthCustom, int heightCustom, int newFOV) {
+        global_count++;
+        id = global_count;
+        this.originalModel = deepCopy(model3d);
+        this.renderScreen  = new GreenfootImage(widthCustom, heightCustom);
+        
+        this.width = widthCustom;
+        this.height = heightCustom;
+        this.fov = Math.toRadians(newFOV);
+        aspect = (double) widthCustom/heightCustom;
+        f = 1.0/Math.tan(fov/2.0);
+        proj = new double[][]{
+            { f/aspect,    0,                              0,                              0 },
+            { 0,           f,                              0,                              0 },
+            { 0,           0,    (far+near)/(near-far),   (2*far*near)/(near-far)       },
+            { 0,           0,                             -1,                              0 }
+        };
+    }
+    
+    @Override
+    protected void addedToWorld(World w)
+    {
+        if (useScreen)
+        {
+            width = w.getWidth();
+            height = w.getHeight();
+            aspect = (double) width/height;
+            f = 1.0/Math.tan(fov/2.0);
+            proj = new double[][]{
+                { f/aspect,    0,                              0,                              0 },
+                { 0,           f,                              0,                              0 },
+                { 0,           0,    (far+near)/(near-far),   (2*far*near)/(near-far)       },
+                { 0,           0,                             -1,                              0 }
+            };
+        }
+    
+    }
+    
+    public GreenfootImage getGreenfootImage()
+    {
+        return renderScreen;
     }
     
     private double[][][] deepCopy(double[][][] src) {
@@ -179,6 +223,8 @@ public class PolyRender extends DDCRender
         double ndcY =  r[1]/r[3];
         
         // map to screen
+        System.out.println(width);
+        System.out.println(height);
         int sx = (int)(( ndcX + 1)*0.5*width);
         int sy = (int)(((1 - ndcY)*0.5)*height);
         return new int[]{sx, sy};

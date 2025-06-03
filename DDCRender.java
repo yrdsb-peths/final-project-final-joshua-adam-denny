@@ -15,7 +15,7 @@ public class DDCRender extends Actor
     
     // Camera position and rotation, but since we dont move, these are final n static.
     public double X_Pos = 0;
-    public double Y_Pos = -250; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
+    public double Y_Pos = 0; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
     public double Z_Pos = 0;
     public double X_Rot = 0;
     public double Y_Rot = 0;
@@ -56,7 +56,7 @@ public class DDCRender extends Actor
             poly2 = new PolyRender(cube);
             int halfWidth = getX();
             int halfHeight = getY();
-            world.addObject(poly2, halfWidth,halfHeight);
+            world.addObject(poly2, halfWidth + 100,halfHeight);
         }
     }
 
@@ -76,6 +76,6 @@ public class DDCRender extends Actor
 
         poly2.position(0,Math.sin(position)*30 + 250,200);
         poly2.position(0,0,200);
-        poly2.setScale(0.01);
+        poly2.setScale(0.5);
     }
 }
