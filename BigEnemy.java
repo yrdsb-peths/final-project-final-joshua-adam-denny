@@ -15,15 +15,6 @@ public class BigEnemy extends Enemy {
         setBaseImage(img);
     }
 
-
-    @Override
-    public void takeDamage(int amount) {
-        health -= amount;
-        if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(100); // higher reward
-            getWorld().removeObject(this);
-        }
-    }
     
     @Override
     public int getLifeDamage() {

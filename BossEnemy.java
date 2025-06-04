@@ -18,7 +18,7 @@ public class BossEnemy extends Enemy {
             // Spawn additional enemies on death
             spawnMinions(world);
 
-            world.removeObject(this);
+           super.isDead = true;
         }
     }
 
