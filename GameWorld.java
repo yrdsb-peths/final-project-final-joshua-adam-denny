@@ -3,9 +3,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.io.IOException;
-
+import java.util.HashMap;
 public class GameWorld extends World {
     
+
+    private HashMap<Integer, Integer> yVisits = new HashMap<>();
+    private boolean draggingTower = false;
+    private boolean wasOutsideArea = true;
+    private int insideCount = 0;
+
+
     private Label sniperCooldownLabel = null;
     private boolean sniperAbilityAvailable = false;
     private boolean sniperBoostActive = false;
@@ -252,6 +259,9 @@ public class GameWorld extends World {
     }
 
     private void handleTowerDragging() {
+        MouseInfo mi = Greenfoot.getMouseInfo();
+    
+        // When no tower is being previewed
         if (towerPreview == null) {
             if (!keyHeld) {
                 trySwitchPreview("1", "Basic");
@@ -259,32 +269,48 @@ public class GameWorld extends World {
                 trySwitchPreview("3", "MachineGun");
                 trySwitchPreview("4", "FlameThrower");
                 trySwitchPreview("5", "Nuke");
+                keyHeld = true; // Prevent repeat switching
             }
         } else {
-            MouseInfo mi = Greenfoot.getMouseInfo();
+            // Tower is being previewed
             if (mi != null) {
-                int xData = mi.getX();
-                if (xData > 1000)
-                {
-                    xData = 1000;
-                }
-                towerPreview.setLocation(xData, mi.getY());
-
+                int x = mi.getX();
+                int y = mi.getY();
+    
+                // Clamp x to stay within world bounds
+                if (x > 1000) x = 1000;
+                towerPreview.setLocation(x, y);
+                MouseInfo mouse = Greenfoot.getMouseInfo();
+                int mouseX = mouse.getX();
+                
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
-                    if (mi.getButton() == 1) {
-                        placeTower(towerPreview.getTowerType(), xData, mi.getY());
+                    if (mi.getButton() == 1 && mouseX < 1000) {
+                        placeTower(towerPreview.getTowerType(), x, y);
                         towerPlacedThisClick = true;
-                    } else if (mi.getButton() == 3) {
+                    } else if (mouseX >= 1000) {
                         cancelDragging();
                         towerPlacedThisClick = true;
                     }
                 }
-            }
 
+
+                
+
+            }
+    
+            // Escape key cancels dragging
             if (Greenfoot.isKeyDown("escape")) {
                 cancelDragging();
             }
+            /*MouseInfo mouse = Greenfoot.getMouseInfo();
+            int mouseX = mouse.getX();
+            if (mouseX <= 1000 && mouse != null) {
+                cancelDragging();
+            }*/
 
+        
+
+            
             // Allow switching tower preview while dragging
             trySwitchPreview("1", "Basic");
             trySwitchPreview("2", "Sniper");
@@ -292,12 +318,20 @@ public class GameWorld extends World {
             trySwitchPreview("4", "FlameThrower");
             trySwitchPreview("5", "Nuke");
         }
-
+    
+        // Reset keyHeld once no keys are pressed
         if (!Greenfoot.isKeyDown("1") && !Greenfoot.isKeyDown("2") &&
-        !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4") && !Greenfoot.isKeyDown("5")) {
+            !Greenfoot.isKeyDown("3") && !Greenfoot.isKeyDown("4") &&
+            !Greenfoot.isKeyDown("5")) {
             keyHeld = false;
         }
+    
+        // Reset towerPlacedThisClick after mouse released
+        if (!Greenfoot.mousePressed(null)) {
+            towerPlacedThisClick = false;
+        }
     }
+
 
     public void startDraggingTower(String towerType) {
         if (towerPreview != null) {
@@ -532,4 +566,6 @@ public class GameWorld extends World {
     public boolean isSniperBoostActive() {
         return sniperBoostActive;
     }
+    
+
 }
