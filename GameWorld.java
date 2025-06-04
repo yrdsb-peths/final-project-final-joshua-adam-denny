@@ -106,7 +106,7 @@ public class GameWorld extends World {
 
     private void spawnEnemy() {
         // Special boss wave logic
-        if (wave % 10 == 0 && enemiesSpawned == 0) {
+        if (wave % 10 == 0 && wave != 10 && enemiesSpawned == 0) {
             int hp = getEnemyHealth("Boss");
             int speed = getEnemySpeed("Boss");
             addObject(new BossEnemy(speed, hp), 0, getHeight() / 2);

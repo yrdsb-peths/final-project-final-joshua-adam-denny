@@ -26,11 +26,6 @@ public class Sidebar extends UI
     private final int price5 = 10000;
 
     // Moved up/down images to private fields so the entire class can access them:
-    private GreenfootImage up1, down1;
-    private GreenfootImage up2, down2;
-    private GreenfootImage up3, down3;
-    private GreenfootImage up4, down4;
-    private GreenfootImage up5, down5;
     
     private GreenfootImage buttonBaseImage;
     private GreenfootImage buttonBaseImagePressed; 
