@@ -44,8 +44,9 @@ public class GameWorld extends World {
         wavePrompt.setLineColor(Color.BLACK);
 
         //addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
-        addObject(UIManager.getInstance(),0,0);
-
+        addObject(UIManager.getInstance(),getWidth() / 2, getHeight() / 2);
+        addObject(ParticleManager.getInstance(),getWidth() / 2, getHeight() / 2);
+        
         Base base = new Base();
         addObject(base, 925, 300);
         

@@ -7,11 +7,14 @@ public abstract class Enemy extends Actor {
     private List<BurnEffect> burnEffects = new ArrayList<>();
     private GreenfootImage baseImage;
     private boolean isBurning = false;
+
     private boolean isDead = false;
+    private ParticleManager pm;
 
     public Enemy(int speed, int health) {
         this.speed = speed;
         this.health = health;
+        this.pm = ParticleManager.getInstance();
     }
 
     protected void setBaseImage(GreenfootImage img) {
@@ -52,7 +55,10 @@ public abstract class Enemy extends Actor {
     private int totalCount = 0;
     public void act() {
         updateBurns();
-        move(speed);
+        if (!isDead)
+        {
+            move(speed);
+        }
         updateImage();
         World world = getWorld();
         if (world != null && getX() >= world.getWidth() - 160) {
@@ -65,9 +71,13 @@ public abstract class Enemy extends Actor {
             if (totalCount < 5)
             {
                 totalCount++;
-                double[] balls = {getX(), getY()};
-                Particles particle = new Particles(balls, Greenfoot.getRandomNumber(360) - 135.0, Greenfoot.getRandomNumber(5) + 2.5, Color.RED);
-                world.addObject(particle, world.getWidth()/2, world.getHeight()/2);
+                pm.addParticle(
+                    getX(), 
+                    getY(), 
+                    Greenfoot.getRandomNumber(360) - 135.0,
+                    Greenfoot.getRandomNumber(5) + 2.5, 
+                    Color.RED 
+                );
                 
             } else 
             {

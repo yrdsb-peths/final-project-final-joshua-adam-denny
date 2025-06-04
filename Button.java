@@ -78,7 +78,15 @@ public class Button extends UI
     public void setButtons(GreenfootImage[] buttonImages)
     {
         buttonImage = buttonImages;
-    
+        if (pressed)
+        {
+            currentButton = buttonImage[1];
+        }
+        else
+        {
+            currentButton = buttonImage[0];
+        }
+        setImage(currentButton);
     }
     public void resetPressedState() {
         pressed = false;

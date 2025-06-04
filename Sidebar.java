@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.lang.Math;
+import java.io.IOException;
 
 /**
  * Sidebar UI with tower price labels
@@ -23,6 +25,16 @@ public class Sidebar extends UI
     private final int price4 = 4500;
     private final int price5 = 10000;
 
+    // Moved up/down images to private fields so the entire class can access them:
+    private GreenfootImage up1, down1;
+    private GreenfootImage up2, down2;
+    private GreenfootImage up3, down3;
+    private GreenfootImage up4, down4;
+    private GreenfootImage up5, down5;
+    
+    private GreenfootImage buttonBaseImage;
+    private GreenfootImage buttonBaseImagePressed; 
+
     public Sidebar()
     {
         setImage(new GreenfootImage("ui/sidebar.png"));
@@ -31,6 +43,8 @@ public class Sidebar extends UI
     @Override
     protected void addedToWorld(World w)
     {
+        buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
+        buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
         int sbX = getX();
         int sbY = getY();
         int btnWidth = 75;
@@ -97,6 +111,9 @@ public class Sidebar extends UI
         }
         return _instance;
     }
+    
+    
+    
 
     public void act()
     {

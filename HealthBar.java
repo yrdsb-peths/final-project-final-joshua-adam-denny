@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class HealthBar extends UI
 {
     public static HealthBar _instance;
-    private int  maxHealth;
+    private int  maxHealth = 100;
     private int barWidth = 110;
     private int barHeight = 25;
     private int offsetY = 75;
@@ -19,24 +19,17 @@ public class HealthBar extends UI
     
     private HealthBar()
     {
-        
         GreenfootImage img = new GreenfootImage(totalWidth, totalHeight);
         setImage(img);
-    
-    }
-    
-    public void act()
-    {
-        redrawBar();
     }
     
     @Override
     protected void addedToWorld(World world)
     {
-        GameWorld gameWorld = (GameWorld) world;
-        maxHealth = gameWorld.getLives();
+        GameWorld gw = (GameWorld) world;
+        maxHealth = gw.getLives();
         livesLabel = new Label(maxHealth, 30);
-        gameWorld.addObject(livesLabel, getX()-30, getY());
+        gw.addObject(livesLabel, getX()-30, getY());
     }
     
     public static HealthBar getInstance()
@@ -47,7 +40,8 @@ public class HealthBar extends UI
         return _instance;
     }
     
-    private void redrawBar() {
+    public void act()
+    {
         GameWorld gw = (GameWorld)getWorld();
         if (gw == null) return;
         
