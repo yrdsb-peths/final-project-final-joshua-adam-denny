@@ -580,10 +580,10 @@ public class GameWorld extends World {
                 sniperCooldownLabel = null;
             }
             if (sniperAbilitiesAvailableLabel == null) {
-                sniperAbilitiesAvailableLabel = new Label("Abilities available: " + sniperAbilitiesUnlocked, 30);
+                sniperAbilitiesAvailableLabel = new Label(sniperAbilitiesUnlocked, 30);
                 addObject(sniperAbilitiesAvailableLabel, 50, 570);
             } else {
-                sniperAbilitiesAvailableLabel.setValue("Abilities available: " + sniperAbilitiesUnlocked);
+                sniperAbilitiesAvailableLabel.setValue(sniperAbilitiesUnlocked);
             }
         } else if (sniperAbilitiesUnlocked == 1) {
             if (sniperAbilitiesAvailableLabel != null) {
@@ -633,7 +633,7 @@ public class GameWorld extends World {
     
         // Update cooldown label
         if (sniperAbilitiesUnlocked > 1 && sniperAbilitiesAvailableLabel != null) {
-            sniperAbilitiesAvailableLabel.setValue("Abilities available: " + sniperAbilitiesUnlocked);
+            sniperAbilitiesAvailableLabel.setValue(sniperAbilitiesUnlocked);
         } else if (sniperAbilitiesUnlocked == 1 && sniperCooldownLabel != null && !sniperBoostTimers.isEmpty()) {
             sniperCooldownLabel.setValue("" + (sniperBoostTimers.get(0) / 60));
         }
