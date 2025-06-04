@@ -2,10 +2,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.IOException;
 
 /**
- * Init world reakl
+ * Init world real
  * 
  * @author Denny Ung
- * @version Version 1.4.3 (June 4, 2025)
+ * @version Version 1.4.4 (June 4, 2025)
  */
 public class InitWorldReal extends World {
     private static final int WORLD_WIDTH = 1160;
@@ -43,6 +43,9 @@ public class InitWorldReal extends World {
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
 
+    private Button startButton;
+    private Label startLabel;
+
     public InitWorldReal() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
 
@@ -57,19 +60,14 @@ public class InitWorldReal extends World {
         bg1Engine = new ImageActor("ui/engineBG.png");
         bg1PoweredByGreenfoot = new ImageActor("ui/poweredbygreenfoot.png");
 
-        
-        
-        
-        
         double[][][] polyRenderText = new double[0][][];
         double[][][] polyRenderCube = new double[0][][];
         try {
             polyRenderCube = ObjParser.parseObj("3dModels/cube.obj", 100);
             polyRenderText = ObjParser.parseObj("3dModels/polyrender.obj", 100);
-        } catch(IOException balls) {
-            
+        } catch(IOException e) {
+            // handle exception or log
         }
-        
         
         bg2PolyRenderModel = new PolyRender(polyRenderText);
         bg2PRCubeModel = new PolyRender(polyRenderCube);
@@ -91,11 +89,8 @@ public class InitWorldReal extends World {
         bg2PolyRender = new ImageActor(bg2PolyRenderModel.getGreenfootImage());
         bg2PRCube = new ImageActor(bg2PRCubeModel.getGreenfootImage());
         
-        
         bg3Title = new GreenfootImage("ui/titlescreen.png");
         bg3TitleBlur = BlurHelper.fastBlur(bg3Title, 0.001);
-        
-        
         
         bg1Scuffed.setTransparency(0);
         bg1Engine.setTransparency(0);
@@ -103,7 +98,6 @@ public class InitWorldReal extends World {
         bg2PolyRender.setTransparency(0);
         bg2PRCube.setTransparency(0);
         
-
         addObject(bg1PoweredByGreenfoot, centerX, centerY);
         addObject(bg1Engine, centerX, centerY);
         addObject(bg1Scuffed, centerX, centerY);
@@ -119,6 +113,16 @@ public class InitWorldReal extends World {
         blackOverlay.setTransparency(0);
         addObject(blackOverlay, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
 
+        // Prepare start button and label but do NOT add to world yet
+        GreenfootImage[] buttonImages = new GreenfootImage[2];
+        buttonImages[0] = new GreenfootImage("ui/button-sidebar.png");
+        buttonImages[1] = new GreenfootImage("ui/button-sidebar-pressed.png");
+        startButton = new Button(false, buttonImages, 200, 50); // example size
+
+        startLabel = new Label("Start", 30);  // text "Start", font size 30
+        startLabel.setFillColor(Color.WHITE);
+        startLabel.setLineColor(Color.BLACK);
+
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
     }
@@ -127,8 +131,6 @@ public class InitWorldReal extends World {
     public void act() {
         long now = System.currentTimeMillis();
         long elapsed0 = now - phaseStartTime;
-        
-        
         
         switch (phase) {
             case 0:
@@ -226,7 +228,6 @@ public class InitWorldReal extends World {
                     enterPhase7();
                 }
                 
-                
                 break;
             case 7:
                 long elapsed5 = System.currentTimeMillis() - phaseStartTime; 
@@ -249,12 +250,10 @@ public class InitWorldReal extends World {
                         Utils.map(elapsed5, 0, 600, 500, 0)
                     );
 
-                    
                     bg2PRCubeModel.position(0,0,cubePosition);
                     bg2PRCubeModel.rotate(Math.toRadians(cubeRotation1),Math.toRadians(cubeRotation2),Math.toRadians(cubeRotation3));
                     bg2PRCubeModel.act();
                     bg2PRCube.setImage(bg2PRCubeModel.getGreenfootImage());
-                    
                     
                     bg2PRCube.setLocation(actorPosition,bg2PRCube.getY());
                 } else {
@@ -285,28 +284,34 @@ public class InitWorldReal extends World {
                 long elapsed9 = System.currentTimeMillis() - phaseStartTime; 
                 if (elapsed9 < 3000) {
                     blackOverlay.setTransparency(0);
-                    
                     double expo = Utils.map(elapsed9, 0, 3000, 0, 100);
                     double raw = Math.pow(1.05, expo);
-
                     double blurPower = Utils.map(raw, 0, 100, 0, 1);
-                    
-                    
                     blurPower = Utils.clamp(blurPower, 0.0, 1.0);
-                    System.out.println(blurPower);
                     bg3TitleBlur = BlurHelper.fastBlur(bg3Title, blurPower);
-                    
                     setBackground(bg3TitleBlur);
-
-                    
                 } else {
-                    phase = 11;
+                    enterPhase12(); // transition to show button and wait for click
                 }
-                
-                break;
-            case 12:
                 break;
 
+            case 12:
+                // Add start button and label only once
+                if (startButton.getWorld() == null) {
+                    addObject(startButton, centerX, centerY + 150);
+                    addObject(startLabel, centerX, centerY + 150);
+                    startButton.setActive(true);
+                }
+
+                startButton.act(); // update button visuals and input
+
+                // Check if button was pressed
+                if (startButton.isPressed()) {
+                    removeObject(startButton);
+                    removeObject(startLabel);
+                    Greenfoot.setWorld(new GameWorld());
+                }
+                break;
 
             default:
                 break;
@@ -349,23 +354,20 @@ public class InitWorldReal extends World {
     private void enterPhase5() {
         phase = 5;
         phaseStartTime = System.currentTimeMillis();
-        
     }
     
     private void enterPhase6() {
         phase = 6;
         phaseStartTime = System.currentTimeMillis();
-        
     }
     private void enterPhase7() {
         phase = 7;
         phaseStartTime = System.currentTimeMillis();
         blackOverlay.setColor(new Color(179,179,179));
         blackOverlay.fill();
-        
     }
     
-     private void enterPhase8() {
+    private void enterPhase8() {
         phase = 8;
         phaseStartTime = System.currentTimeMillis();
         bg2PolyRenderModel.setScale(0);
@@ -374,8 +376,10 @@ public class InitWorldReal extends World {
         bg2PRCubeModel.act();
         bg2PolyRender.setImage(bg2PolyRenderModel.getGreenfootImage());
         bg2PRCube.setImage(bg2PRCubeModel.getGreenfootImage());
-        
     }
     
-    
+    private void enterPhase12() {
+        phase = 12;
+        phaseStartTime = System.currentTimeMillis();
+    }
 }
