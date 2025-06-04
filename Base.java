@@ -14,7 +14,10 @@ public class Base extends Actor
      */
     public Base() 
     {
-        setImage("Tower.png");
+        
+        GreenfootImage img = new GreenfootImage("Tower.png");
+        img.scale(180, 315);
+        setImage(img);
     }
     public void act()
     {
