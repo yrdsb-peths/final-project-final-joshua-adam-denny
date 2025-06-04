@@ -43,7 +43,7 @@ public class initWorld extends World
         original = new GreenfootImage("ui/titlescreen.png");
 
         // Apply a box‑blur with radius=2 (i.e. a 5×5 neighborhood)
-        blurred = BlurHelper.blur(original, 25);
+        blurred = BlurHelper.fastBlur(original, 0.001);
 
         // Set the blurred image as the world’s background
         setBackground(blurred);
@@ -52,6 +52,7 @@ public class initWorld extends World
     double rotate1 = 0;
     double rotate2 = 0;
     double rotate3 = 0;
+    double blur = 0.001;
     public void act()
     {
         
@@ -59,7 +60,19 @@ public class initWorld extends World
         rotate1 += 0.5;
         rotate2 += 0.2;
         rotate3 += 0.8;
+        if (blur < 1)
+        {
+            blur += 0.005;
+            
+        }
         
+        double y = (1 - Math.cos(blur * Math.PI)) / 2.0;
+        
+        blur = Utils.clamp(blur, 0.0, 1.0);
+        blurred = BlurHelper.fastBlur(original, y);
+        
+        
+        setBackground(blurred);
         polyText.rotate(Math.toRadians(rotate1),Math.toRadians(rotate2),Math.toRadians(rotate3));
     
     

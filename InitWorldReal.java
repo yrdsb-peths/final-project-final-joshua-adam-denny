@@ -15,11 +15,18 @@ public class InitWorldReal extends World {
     private static final int PHASE3_DURATION_MS = 2000;
     private static final int PADDING = 10;
 
+    private GreenfootImage bg = new GreenfootImage(getWidth(), getHeight());
+    
     private ImageActor bg1Scuffed;
     private ImageActor bg1Engine;
     private ImageActor bg1PoweredByGreenfoot;
     private ImageActor blackOverlay;
-
+    
+    private PolyRender bg2PolyRenderModel;
+    private ImageActor bg2PolyRender;
+    private PolyRender bg2PRCubeModel;
+    private ImageActor bg2PRCube;
+    
     private int centerX, centerY;
     private int halfMoveScuffed, halfMoveEngine;
 
@@ -32,7 +39,6 @@ public class InitWorldReal extends World {
     public InitWorldReal() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
 
-        GreenfootImage bg = new GreenfootImage(getWidth(), getHeight());
         bg.setColor(new Color(66, 66, 66));
         bg.fill();
         setBackground(bg);
@@ -131,6 +137,14 @@ public class InitWorldReal extends World {
                     blackOverlay.setTransparency(alpha);
                 } else {
                     blackOverlay.setTransparency(255);
+                    bg.setColor(new Color(0,0,0));
+                    bg.fill();
+                    setBackground(bg);
+                    
+                    bg1Scuffed.setTransparency(0);
+                    bg1Engine.setTransparency(0);
+                    bg1PoweredByGreenfoot.setTransparency(0);
+                    blackOverlay.setTransparency(0);
                     phase = 4;
                 }
                 break;
