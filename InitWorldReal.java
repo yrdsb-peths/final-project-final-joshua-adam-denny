@@ -51,16 +51,22 @@ public class InitWorldReal extends World {
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     private Button startButton;
     private Label startLabel;
 
 =======
+=======
+>>>>>>> Stashed changes
     
     private Label statusLabel;
     private Boolean connectionResult = null; 
     private int scuffedAPIAttempts = 0;
     private boolean scuffedAPIConnectioninProgress = false;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     public InitWorldReal() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -108,6 +114,11 @@ public class InitWorldReal extends World {
         bg3Title = new GreenfootImage("ui/titlescreen.png");
         bg3TitleBlur = BlurHelper.fastBlur(bg3Title, 0.001);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        bg3fade = new ImageActor("ui/fade.png");
+        
+>>>>>>> Stashed changes
 =======
         bg3fade = new ImageActor("ui/fade.png");
         
@@ -119,8 +130,11 @@ public class InitWorldReal extends World {
         bg2PolyRender.setTransparency(0);
         bg2PRCube.setTransparency(0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
 =======
+=======
+>>>>>>> Stashed changes
         bg3fade.setTransparency(0);
 
 >>>>>>> Stashed changes
@@ -312,7 +326,12 @@ public class InitWorldReal extends World {
                 if (elapsed11 < 3000) {
                     blackOverlay.setTransparency(0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     double expo = Utils.map(elapsed9, 0, 3000, 0, 100);
+=======
+                    
+                    double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
+>>>>>>> Stashed changes
 =======
                     
                     double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
@@ -324,9 +343,12 @@ public class InitWorldReal extends World {
                     setBackground(bg3TitleBlur);
                 } else {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                     enterPhase12(); // transition to show button and wait for click
                 }
 =======
+=======
+>>>>>>> Stashed changes
                     enterPhase12();
                 }
                 break;
@@ -421,6 +443,9 @@ public class InitWorldReal extends World {
             case 16:
                 break;
             case 17:
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 break;
 
@@ -513,6 +538,26 @@ public class InitWorldReal extends World {
 <<<<<<< Updated upstream
     }
 =======
+        
+    }
+    private void enterPhase13() {
+        phase = 13;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    private void enterPhase14() {
+        phase = 14;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    private void enterPhase15() {
+        phase = 15;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    private void enterPhase12() {
+        phase = 12;
+        phaseStartTime = System.currentTimeMillis();
         
     }
     private void enterPhase13() {
