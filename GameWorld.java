@@ -574,30 +574,20 @@ public class GameWorld extends World {
     }
     
     private void updateSniperAbilityLabels() {
-        if (sniperAbilitiesUnlocked > 1) {
+        if (sniperAbilitiesUnlocked > 0) {
+            // Show the number of abilities available
             if (sniperCooldownLabel != null) {
                 removeObject(sniperCooldownLabel);
                 sniperCooldownLabel = null;
             }
             if (sniperAbilitiesAvailableLabel == null) {
-                sniperAbilitiesAvailableLabel = new Label(sniperAbilitiesUnlocked, 30);
+                sniperAbilitiesAvailableLabel = new Label(String.valueOf(sniperAbilitiesUnlocked), 30);
                 addObject(sniperAbilitiesAvailableLabel, 50, 570);
             } else {
-                sniperAbilitiesAvailableLabel.setValue(sniperAbilitiesUnlocked);
-            }
-        } else if (sniperAbilitiesUnlocked == 1) {
-            if (sniperAbilitiesAvailableLabel != null) {
-                removeObject(sniperAbilitiesAvailableLabel);
-                sniperAbilitiesAvailableLabel = null;
-            }
-            if (sniperCooldownLabel == null) {
-                sniperCooldownLabel = new Label("Ready", 30);
-                addObject(sniperCooldownLabel, 50, 570);
-            } else {
-                sniperCooldownLabel.setValue("Ready");
+                sniperAbilitiesAvailableLabel.setValue(String.valueOf(sniperAbilitiesUnlocked));
             }
         } else {
-            // No abilities left, show cooldown for next one
+            // No abilities available, show cooldown timer
             if (sniperAbilitiesAvailableLabel != null) {
                 removeObject(sniperAbilitiesAvailableLabel);
                 sniperAbilitiesAvailableLabel = null;
@@ -607,10 +597,13 @@ public class GameWorld extends World {
                 addObject(sniperCooldownLabel, 50, 570);
             }
             if (!sniperBoostTimers.isEmpty()) {
-                sniperCooldownLabel.setValue("" + (sniperBoostTimers.get(0) / 60) + "s");
+                sniperCooldownLabel.setValue((sniperBoostTimers.get(0) / 60) + "s");
+            } else {
+                sniperCooldownLabel.setValue("");
             }
         }
-}
+    }
+
 
 
     
@@ -665,6 +658,7 @@ public class GameWorld extends World {
                 }
             }
         }
+        updateSniperAbilityLabels();
     }
 
 
