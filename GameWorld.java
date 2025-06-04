@@ -681,9 +681,12 @@ public class GameWorld extends World {
         int minDist = Integer.MAX_VALUE;
     
         for (SniperTower sniper : snipers) {
+            if (sniper.isBoostActive()) continue;  // ❗ Skip boosted towers
+    
             int dx = sniper.getX() - mouse.getX();
             int dy = sniper.getY() - mouse.getY();
             int dist = dx * dx + dy * dy;
+    
             if (dist < minDist) {
                 minDist = dist;
                 closest = sniper;
@@ -692,6 +695,7 @@ public class GameWorld extends World {
     
         return closest;
     }
+
 
 
     
