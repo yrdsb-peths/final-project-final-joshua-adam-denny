@@ -13,15 +13,6 @@ public class FastEnemy extends Enemy {
     }
 
     @Override
-    public void takeDamage(int amount) {
-        health -= amount;
-        if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(20); // reward for fast enemy
-            getWorld().removeObject(this);
-        }
-    }
-
-    @Override
     public int getLifeDamage() {
         return 2;
     }

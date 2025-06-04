@@ -6,11 +6,14 @@ public abstract class Enemy extends Actor {
     protected int health;
     private List<BurnEffect> burnEffects = new ArrayList<>();
     private GreenfootImage baseImage;
+    private GreenfootImage burnedImage;
     private boolean isBurning = false;
 
-    private boolean isDead = false;
+    public boolean isDead = false;
     private ParticleManager pm;
-
+    private World world;
+    private int worldWidth;
+    private int worldHeight;
     private int moneyOnDeath = 10;
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
@@ -18,20 +21,32 @@ public abstract class Enemy extends Actor {
         this.pm = ParticleManager.getInstance();
         this.moneyOnDeath = money;
     }
+    
+    @Override
+    protected void addedToWorld(World w)
+    {
+        this.world = w;
+        this.worldWidth = world.getWidth();
+        this.worldHeight = world.getHeight();
+    }
 
     protected void setBaseImage(GreenfootImage img) {
-        baseImage = img;
-        setImage(new GreenfootImage(baseImage));
+        baseImage = new GreenfootImage(img);
+        burnedImage = new GreenfootImage(img);
+        burnedImage.setColor(new Color(255, 0, 0, 100));
+        burnedImage.fill();
+        
+        setImage(baseImage);
+        
     }
 
     private void updateImage() {
         if (baseImage == null) return;
-        GreenfootImage img = new GreenfootImage(baseImage);
         if (isBurning) {
-            img.setColor(new Color(255, 0, 0, 100));
-            img.fill();
+            setImage(new GreenfootImage(burnedImage));
+        } else {
+            setImage(new GreenfootImage(baseImage));
         }
-        setImage(img);
     }
 
     public void applyBurn(BurnEffect burn) {
@@ -62,8 +77,7 @@ public abstract class Enemy extends Actor {
             move(speed);
         }
         updateImage();
-        World world = getWorld();
-        if (world != null && getX() >= world.getWidth() - 160) {
+        if (world != null && getX() >= worldWidth - 160) {
             ((GameWorld) world).loseLife(getLifeDamage());
             world.removeObject(this);
         }
