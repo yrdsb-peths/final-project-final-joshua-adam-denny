@@ -6,17 +6,17 @@ import java.io.IOException;
 import java.util.HashMap;
 public class GameWorld extends World {
     
-
+    
     private HashMap<Integer, Integer> yVisits = new HashMap<>();
     private boolean draggingTower = false;
     private boolean wasOutsideArea = true;
     private int insideCount = 0;
-
-
-    private Label sniperCooldownLabel = null;
-    private boolean sniperAbilityAvailable = false;
-    private boolean sniperBoostActive = false;
+    private List<Integer> sniperBoostTimers = new ArrayList<>();
     private int sniperBoostTimer = 0;
+    private int sniperAbilitiesUnlocked = 0;
+    private Label sniperAbilitiesAvailableLabel = null;
+    private Label sniperCooldownLabel = null;
+    private boolean sniperBoostActive = false;
     private SniperAbility sniperIcon = null;
     
     private int wave = 0;
@@ -26,7 +26,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 1000000;
+    private int money = 10000;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -60,6 +60,8 @@ public class GameWorld extends World {
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
+
+        
         setPaintOrder(
             NukeMissile.class,
             DDCRender.class,
@@ -324,16 +326,7 @@ public class GameWorld extends World {
             // Escape key cancels dragging
             if (Greenfoot.isKeyDown("escape")) {
                 cancelDragging();
-            }
-            /*MouseInfo mouse = Greenfoot.getMouseInfo();
-            int mouseX = mouse.getX();
-            if (mouseX <= 1000 && mouse != null) {
-                cancelDragging();
-            }*/
-
-        
-
-            
+            }    
             // Allow switching tower preview while dragging
             trySwitchPreview("1", "Basic");
             trySwitchPreview("2", "Sniper");
@@ -376,9 +369,7 @@ public class GameWorld extends World {
                 towerPreview.removePreview();  // removes preview + range circle
                 towerPreview = null;
             }
-        } else {
-            System.out.println("Not enough money!");
-        }
+        } 
     }
 
     private void cancelDragging() {
@@ -550,29 +541,133 @@ public class GameWorld extends World {
     }
     
     public void unlockSniperAbility() {
-        if (sniperAbilityAvailable) return;
+        sniperAbilitiesUnlocked++;
     
-        sniperAbilityAvailable = true;
-        sniperIcon = new SniperAbility();
-        addObject(sniperIcon, 50, 540);
+        if (sniperIcon == null) {
+            sniperIcon = new SniperAbility();
+            addObject(sniperIcon, 50, 540);
+        }
+    
+        if (sniperCooldownLabel != null) {
+            removeObject(sniperCooldownLabel);
+            sniperCooldownLabel = null;
+        }
+        if (sniperAbilitiesAvailableLabel != null) {
+            removeObject(sniperAbilitiesAvailableLabel);
+            sniperAbilitiesAvailableLabel = null;
+        }
+    
+        updateSniperAbilityLabels();
+
     }
-    
+
+
+    public boolean isSniperAbilityUnlocked() {
+        return sniperAbilitiesUnlocked > 0;
+    }
+    public int getSniperAbilitiesUnlockedCount() {
+        return sniperAbilitiesUnlocked;
+    }    
     public void activateSniperBoost() {
         sniperBoostActive = true;
-        sniperBoostTimer = 20 * 60; // 20 seconds at 60 FPS
-        
+        sniperBoostTimer = 20*60; // 5 seconds of boost at 60 FPS
     }
     
+    private void updateSniperAbilityLabels() {
+        if (sniperAbilitiesUnlocked > 1) {
+            if (sniperCooldownLabel != null) {
+                removeObject(sniperCooldownLabel);
+                sniperCooldownLabel = null;
+            }
+            if (sniperAbilitiesAvailableLabel == null) {
+                sniperAbilitiesAvailableLabel = new Label("Abilities available: " + sniperAbilitiesUnlocked, 30);
+                addObject(sniperAbilitiesAvailableLabel, 50, 570);
+            } else {
+                sniperAbilitiesAvailableLabel.setValue("Abilities available: " + sniperAbilitiesUnlocked);
+            }
+        } else if (sniperAbilitiesUnlocked == 1) {
+            if (sniperAbilitiesAvailableLabel != null) {
+                removeObject(sniperAbilitiesAvailableLabel);
+                sniperAbilitiesAvailableLabel = null;
+            }
+            if (sniperCooldownLabel == null) {
+                sniperCooldownLabel = new Label("Ready", 30);
+                addObject(sniperCooldownLabel, 50, 570);
+            } else {
+                sniperCooldownLabel.setValue("Ready");
+            }
+        } else {
+            // No abilities left, show cooldown for next one
+            if (sniperAbilitiesAvailableLabel != null) {
+                removeObject(sniperAbilitiesAvailableLabel);
+                sniperAbilitiesAvailableLabel = null;
+            }
+            if (sniperCooldownLabel == null) {
+                sniperCooldownLabel = new Label("", 30);
+                addObject(sniperCooldownLabel, 50, 570);
+            }
+            if (!sniperBoostTimers.isEmpty()) {
+                sniperCooldownLabel.setValue("" + (sniperBoostTimers.get(0) / 60) + "s");
+            }
+        }
+}
+
+
+    
     private void handleSniperBoost() {
-        if (sniperBoostActive) {
-            sniperBoostTimer--;
-            System.out.println("Boost active, timer: " + sniperBoostTimer);
-            if (sniperBoostTimer <= 0) {
-                sniperBoostActive = false;
-                System.out.println("GameWorld: Sniper boost expired.");
+        // Update timers
+        for (int i = 0; i < sniperBoostTimers.size(); i++) {
+            int timeLeft = sniperBoostTimers.get(i) - 1;
+            sniperBoostTimers.set(i, timeLeft);
+        }
+    
+        // Remove expired boosts and return charges
+        sniperBoostTimers.removeIf(timer -> {
+            if (timer <= 0) {
+                sniperAbilitiesUnlocked++;
+                updateSniperAbilityLabels();
+                return true;
+            }
+            return false;
+        });
+    
+        // Update cooldown label
+        if (sniperAbilitiesUnlocked > 1 && sniperAbilitiesAvailableLabel != null) {
+            sniperAbilitiesAvailableLabel.setValue("Abilities available: " + sniperAbilitiesUnlocked);
+        } else if (sniperAbilitiesUnlocked == 1 && sniperCooldownLabel != null && !sniperBoostTimers.isEmpty()) {
+            sniperCooldownLabel.setValue("" + (sniperBoostTimers.get(0) / 60));
+        }
+    
+        // Handle activation
+        if (Greenfoot.mouseClicked(null)) {
+            MouseInfo mouse = Greenfoot.getMouseInfo();
+            if (mouse != null && sniperIcon != null) {
+                int mouseX = mouse.getX();
+                int mouseY = mouse.getY();
+    
+                int iconX = sniperIcon.getX();
+                int iconY = sniperIcon.getY();
+    
+                int clickableRadius = 30;
+    
+                int dx = Math.abs(mouseX - iconX);
+                int dy = Math.abs(mouseY - iconY);
+    
+                if (dx <= clickableRadius && dy <= clickableRadius) {
+                    if (sniperAbilitiesUnlocked > 0) {
+                        sniperAbilitiesUnlocked--;
+                        sniperBoostTimers.add(20 * 60); // 20 seconds
+    
+                        updateSniperAbilityLabels();
+    
+                        System.out.println("Sniper boost activated!");
+                    }
+                }
             }
         }
     }
+
+
     
     public boolean isSniperBoostActive() {
         return sniperBoostActive;

@@ -17,22 +17,20 @@ public class SniperTower extends Tower {
         
         upgradeCost = upgradeCostPerLevel;  
         totalInvested = baseCost;
-        
-        
+
         if (world != null && world.isSniperBoostActive()) {
             damage *= 2; // Double the damage if the boost is active
         }
         
-        if (level == maxLevel) {
+        if (level == maxLevel && world != null) {
             world.unlockSniperAbility();
         }
-
     }
 
     @Override
     public boolean upgrade() {
         GameWorld world = (GameWorld) getWorld();
-        if (level < maxLevel && world.spendMoney(upgradeCost)) {
+        if (level < maxLevel && world != null && world.spendMoney(upgradeCost)) {
             level++;
             damage += 10;                    // boost damage significantly
             cooldownTime = Math.max(60, cooldownTime - 30); // slightly faster
@@ -40,10 +38,9 @@ public class SniperTower extends Tower {
             upgradeCost += 100;            // higher cost per upgrade
             updateImage();
             
-            if (level == maxLevel) {
-            world.unlockSniperAbility();
-        }
-        
+            if (level == maxLevel && world != null) {
+                world.unlockSniperAbility();
+            }
             return true;
         }
         return false;
@@ -58,8 +55,6 @@ public class SniperTower extends Tower {
         super.updateImage();  // This will add the outline based on level
     }
 
-
-
     @Override
     protected Enemy getEnemyInRange() {
         List<Enemy> enemies = getObjectsInRange(range, Enemy.class);
@@ -73,5 +68,4 @@ public class SniperTower extends Tower {
         }
         return farthest;
     }
-    
 }

@@ -57,17 +57,17 @@ public class UpgradeMenu extends Actor {
     
         if (localY < 30) {
             if (tower.isMaxUpgraded()) {
-                System.out.println("Tower is already at max upgrade.");
+                
             } else if (tower.upgrade()) {
-                System.out.println("Tower upgraded!");
+                
                 updateImage();  // Update upgrade button
                 updateRangeCircle();  // <-- NEW: update the range circle radius
             } else {
-                System.out.println("Upgrade failed.");
+                
             }
         } else {
             tower.sell();
-            System.out.println("Tower sold!");
+            
             closeMenu();
             world.removeObject(this);
             world.clearUpgradeMenu();
