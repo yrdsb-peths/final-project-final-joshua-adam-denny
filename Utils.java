@@ -1,5 +1,7 @@
 /**
- * Write a description of class utils here.
+ * Utilities for Java, 
+ * 
+ * Adds extra functions that java.lang.Math doesnt have
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (May 29th 2025)

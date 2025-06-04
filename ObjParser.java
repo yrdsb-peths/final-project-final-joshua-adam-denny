@@ -1,7 +1,14 @@
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-
+/**
+ * OBJ Parser for Java, outputs to a 3D double array. 
+ * [Face][vert][x,y,z]
+ * 
+ * Built for ScuffedEngine
+ * @author Denny Ung
+ * @version Version 1.1.0 (May 17, 2025)
+ */
 public class ObjParser{
     public static double[][][] parseObj(String path, int scale) throws IOException {
         List<double[]> vertices = new ArrayList<>();

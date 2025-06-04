@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.lang.Math;
 /**
- * Particles for Greenfoot.
+ * Particles for Greenfoot. (retired DO NOT USE, extremely laggy)
  * 
  * @author Denny ung
  * @version Version 1.0.0 (May 18th 2025)
