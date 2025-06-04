@@ -10,12 +10,18 @@ import java.io.IOException;
 public class InitWorldReal extends World {
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
-    
+    /*
     private static final int FADE_DURATION_MS = 2000;
     private static final int PHASE1_DURATION_MS = 1500;
     private static final int PHASE2_DURATION_MS = 1500;
     private static final int PHASE2_DELAY_MS = 2000;
     private static final int PHASE3_DURATION_MS = 2000;
+    */
+    private static final int FADE_DURATION_MS = 1;
+    private static final int PHASE1_DURATION_MS = 1;
+    private static final int PHASE2_DURATION_MS = 1;
+    private static final int PHASE2_DELAY_MS = 1;
+    private static final int PHASE3_DURATION_MS = 1;
     
     private static final int PADDING = 10;
 
@@ -34,6 +40,8 @@ public class InitWorldReal extends World {
     private GreenfootImage bg3Title;
     private GreenfootImage bg3TitleBlur;
     
+    private ImageActor bg3fade;
+    
     private int centerX, centerY;
     private int halfMoveScuffed, halfMoveEngine;
 
@@ -42,10 +50,18 @@ public class InitWorldReal extends World {
 
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
+<<<<<<< Updated upstream
 
     private Button startButton;
     private Label startLabel;
 
+=======
+    
+    private Label statusLabel;
+    private Boolean connectionResult = null; 
+    private int scuffedAPIAttempts = 0;
+    private boolean scuffedAPIConnectioninProgress = false;
+>>>>>>> Stashed changes
     public InitWorldReal() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
 
@@ -91,18 +107,29 @@ public class InitWorldReal extends World {
         
         bg3Title = new GreenfootImage("ui/titlescreen.png");
         bg3TitleBlur = BlurHelper.fastBlur(bg3Title, 0.001);
+<<<<<<< Updated upstream
+=======
+        bg3fade = new ImageActor("ui/fade.png");
+        
+>>>>>>> Stashed changes
         
         bg1Scuffed.setTransparency(0);
         bg1Engine.setTransparency(0);
         bg1PoweredByGreenfoot.setTransparency(0);
         bg2PolyRender.setTransparency(0);
         bg2PRCube.setTransparency(0);
+<<<<<<< Updated upstream
         
+=======
+        bg3fade.setTransparency(0);
+
+>>>>>>> Stashed changes
         addObject(bg1PoweredByGreenfoot, centerX, centerY);
         addObject(bg1Engine, centerX, centerY);
         addObject(bg1Scuffed, centerX, centerY);
         addObject(bg2PolyRender, centerX+100, centerY);
         addObject(bg2PRCube, centerX-200, centerY);
+        addObject(bg3fade, centerX, WORLD_HEIGHT);
 
         halfMoveScuffed = bg1Scuffed.getImage().getWidth() / 2;
         halfMoveEngine = bg1Engine.getImage().getWidth() / 2;
@@ -281,18 +308,120 @@ public class InitWorldReal extends World {
                 phase = 11;
                 break;
             case 11:
-                long elapsed9 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed9 < 3000) {
+                long elapsed11 = System.currentTimeMillis() - phaseStartTime; 
+                if (elapsed11 < 3000) {
                     blackOverlay.setTransparency(0);
+<<<<<<< Updated upstream
                     double expo = Utils.map(elapsed9, 0, 3000, 0, 100);
+=======
+                    
+                    double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
+>>>>>>> Stashed changes
                     double raw = Math.pow(1.05, expo);
                     double blurPower = Utils.map(raw, 0, 100, 0, 1);
                     blurPower = Utils.clamp(blurPower, 0.0, 1.0);
                     bg3TitleBlur = BlurHelper.fastBlur(bg3Title, blurPower);
                     setBackground(bg3TitleBlur);
                 } else {
+<<<<<<< Updated upstream
                     enterPhase12(); // transition to show button and wait for click
                 }
+=======
+                    enterPhase12();
+                }
+                break;
+            case 12:
+                long delayElapsed3 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed3 >= 1500) {
+                    enterPhase13();
+                }
+                break;
+            case 13:
+                long elapsed13 = System.currentTimeMillis() - phaseStartTime; 
+                if (elapsed13 < 500) {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed13, 0, 500, 0, 255)
+                    );
+                    
+                    int progressPos = (int) Math.round(
+                        Utils.map(elapsed13, 0, 500, WORLD_HEIGHT, WORLD_HEIGHT - bg3fade.getHeight()/2)
+                    );
+                    
+                    progressAlpha = (int)Utils.clamp(progressAlpha,0,255);
+                    progressPos = (int)Utils.clamp(progressPos,WORLD_HEIGHT - bg3fade.getHeight()/2,WORLD_HEIGHT);
+                    
+                    
+                    bg3fade.setTransparency(progressAlpha);
+                    bg3fade.setLocation(bg3fade.getX(),progressPos);
+                    
+                    
+                } else {
+                    bg3fade.setTransparency(255);
+                    bg3fade.setLocation(bg3fade.getX(),WORLD_HEIGHT - bg3fade.getHeight()/2);
+                    enterPhase14();
+                }
+                break;
+            case 14:
+                
+                
+                
+                if (statusLabel == null) {
+                    statusLabel = new Label("Connecting...", 24);
+                    addObject(statusLabel, WORLD_WIDTH / 2, WORLD_HEIGHT - statusLabel.getImage().getHeight()/2);
+                }
+                
+                if (!scuffedAPIConnectioninProgress)
+                {
+                    new Thread(() -> {
+                        connectionResult = ScuffedAPI.getInstance().connect();
+                    }).start();
+                    scuffedAPIConnectioninProgress = true;
+                    phaseStartTime = System.currentTimeMillis();
+                }
+                
+                if (scuffedAPIConnectioninProgress)
+                {
+                    if (connectionResult != null)
+                    {
+                        long delayElapsed14 = System.currentTimeMillis() - phaseStartTime;
+                        if (delayElapsed14 >= 500) {
+                            statusLabel.setValue("ScuffedAPI: Connecting...");
+                        }
+                        else
+                        {
+                            if (connectionResult == true)
+                            {
+                                if (delayElapsed14 >= 1500) {
+                                    statusLabel.setValue("ScuffedAPI: Leaderboard Connected!");
+                                     if (delayElapsed14 >= 2500) {
+                                        enterPhase15();
+                                    }
+                                }
+                                
+                            }
+                            else
+                            {
+                                if (delayElapsed14 >= 1500) {
+                                    statusLabel.setValue("ScuffedAPI: Failed to connect!");
+                                    scuffedAPIConnectioninProgress = false;
+                                }
+
+                            }
+                        }
+                        
+                        
+                        
+                    }
+                }
+    
+                
+                break;
+            case 15:
+                break;
+            case 16:
+                break;
+            case 17:
+>>>>>>> Stashed changes
                 break;
 
             case 12:
@@ -381,5 +510,26 @@ public class InitWorldReal extends World {
     private void enterPhase12() {
         phase = 12;
         phaseStartTime = System.currentTimeMillis();
+<<<<<<< Updated upstream
     }
+=======
+        
+    }
+    private void enterPhase13() {
+        phase = 13;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    private void enterPhase14() {
+        phase = 14;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    private void enterPhase15() {
+        phase = 15;
+        phaseStartTime = System.currentTimeMillis();  
+    }
+    
+    
+>>>>>>> Stashed changes
 }

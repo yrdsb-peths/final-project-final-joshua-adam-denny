@@ -7,7 +7,7 @@ import java.lang.Math;
  * @author Denny Ung
  * @version Version 1.0.0 (June 3, 2025)
  */
-public class initWorld extends World
+public class MainMenu extends World
 {
     
     private SimpleTimer dt = new SimpleTimer();
@@ -19,7 +19,7 @@ public class initWorld extends World
     
 
     
-    public initWorld()
+    public MainMenu()
     {    
         super(1160, 600, 1);
         dt.mark();
