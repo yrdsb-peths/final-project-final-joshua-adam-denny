@@ -28,7 +28,7 @@ public class Utils
      * @param max the maximum value
      * @return the clamped value
      */
-    public static double clamp(int value, int min, int max)
+    public static double clamp(double value, double min, double max)
     {
         return Math.max(min, Math.min(value, max));
     }
