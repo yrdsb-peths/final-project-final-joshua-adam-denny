@@ -19,7 +19,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100;
+    private int money = 1000000;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -61,6 +61,9 @@ public class GameWorld extends World {
             Transition.class, 
             Sidebar.class,
             UI.class, 
+            ExplosionEffect.class,
+            NukeMissile.class,
+            Bullet.class,
             Tower.class, 
             Enemy.class
         );
