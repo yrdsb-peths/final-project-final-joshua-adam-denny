@@ -5,7 +5,7 @@ import java.io.IOException;
  * Init world reakl
  * 
  * @author Denny Ung
- * @version Version 1.0.0 (June 4, 2025)
+ * @version Version 1.4.3 (June 4, 2025)
  */
 public class InitWorldReal extends World {
     private static final int WORLD_WIDTH = 1160;
@@ -78,7 +78,7 @@ public class InitWorldReal extends World {
         bg2PolyRenderModel.position(0,0,250);
         bg2PolyRenderModel.rotate(Math.toRadians(90.0),Math.toRadians(180.0),Math.toRadians(0.0));
         bg2PolyRenderModel.setRenderVersion(1);
-        bg2PolyRenderModel.setVersionOneRender_MinMaxLighting(150.0,255.0);
+        bg2PolyRenderModel.setVersionOneRender_MinMaxLighting(100.0,255.0);
         
         bg2PRCubeModel.position(0,0,500);
         bg2PRCubeModel.rotate(Math.toRadians(35.0),Math.toRadians(45.0),Math.toRadians(0.0));
@@ -227,21 +227,21 @@ public class InitWorldReal extends World {
                 long elapsed5 = System.currentTimeMillis() - phaseStartTime; 
                 if (elapsed5 < 750) {
                     int actorPosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, bg2PRCube.getX(), centerX)
+                        Utils.map(elapsed5, 0, 750, bg2PRCube.getX(), centerX)
                     );
                     
                     int cubeRotation1 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, 0, 90)
+                        Utils.map(elapsed5, 0, 750, 0, 90)
                     );
                     int cubeRotation2 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, 0, 180)
+                        Utils.map(elapsed5, 0, 750, 0, 180)
                     );
                     int cubeRotation3 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, 0, 360)
+                        Utils.map(elapsed5, 0, 750, 0, 360)
                     );
                     
                     int cubePosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, 500, 0)
+                        Utils.map(elapsed5, 0, 750, 500, 0)
                     );
 
                     
@@ -364,8 +364,11 @@ public class InitWorldReal extends World {
         phase = 8;
         phaseStartTime = System.currentTimeMillis();
         bg2PolyRenderModel.setScale(0);
+        bg2PRCubeModel.setScale(0);
         bg2PolyRenderModel.act();
+        bg2PRCubeModel.act();
         bg2PolyRender.setImage(bg2PolyRenderModel.getGreenfootImage());
+        bg2PRCube.setImage(bg2PRCubeModel.getGreenfootImage());
         
     }
     
