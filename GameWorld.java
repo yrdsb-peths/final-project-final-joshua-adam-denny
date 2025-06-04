@@ -119,7 +119,7 @@ public class GameWorld extends World {
         if (wave % 10 == 0 && wave != 10 && enemiesSpawned == 0) {
             int hp = getEnemyHealth("Boss");
             int speed = getEnemySpeed("Boss");
-            addObject(new BossEnemy(speed, hp), 0, getHeight() / 2);
+            addObject(new BossEnemy(speed, hp,1000), 0, getHeight() / 2);
             return;
         }
 
@@ -127,52 +127,63 @@ public class GameWorld extends World {
         int type = Greenfoot.getRandomNumber(100);
         int hp;
         int speed;
+        int moneyDeath;
 
         if (wave <= 2) {
             hp = getEnemyHealth("Basic");
             speed = getEnemySpeed("Basic");
-            addObject(new BasicEnemy(speed, hp), 0, y);
+            moneyDeath = getEnemyMoneyDeath("Basic");
+            addObject(new BasicEnemy(speed, hp, moneyDeath), 0, y);
         } else if (wave < 7) {
             if (type < 70) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
-                addObject(new BasicEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Basic");
+                addObject(new BasicEnemy(speed, hp, moneyDeath), 0, y);
             } else {
                 hp = getEnemyHealth("Fast");
                 speed = getEnemySpeed("Fast");
-                addObject(new FastEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Fast");
+                addObject(new FastEnemy(speed, hp, moneyDeath), 0, y);
             }
         } else if (wave < 18) {
             if (type < 50) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
-                addObject(new BasicEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Basic");
+                addObject(new BasicEnemy(speed, hp, moneyDeath), 0, y);
             } else if (type < 85) {
                 hp = getEnemyHealth("Fast");
                 speed = getEnemySpeed("Fast");
-                addObject(new FastEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Fast");
+                addObject(new FastEnemy(speed, hp, moneyDeath), 0, y);
             } else {
                 hp = getEnemyHealth("Tank");
                 speed = getEnemySpeed("Tank");
-                addObject(new TankEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Tank");
+                addObject(new TankEnemy(speed, hp, moneyDeath), 0, y);
             }
         } else {
             if (type < 40) {
                 hp = getEnemyHealth("Basic");
                 speed = getEnemySpeed("Basic");
-                addObject(new BasicEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Basic");
+                addObject(new BasicEnemy(speed, hp, moneyDeath), 0, y);
             } else if (type < 70) {
                 hp = getEnemyHealth("Fast");
                 speed = getEnemySpeed("Fast");
-                addObject(new FastEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Fast");
+                addObject(new FastEnemy(speed, hp, moneyDeath), 0, y);
             } else if (type < 90) {
                 hp = getEnemyHealth("Tank");
                 speed = getEnemySpeed("Tank");
-                addObject(new TankEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Tank");
+                addObject(new TankEnemy(speed, hp, moneyDeath), 0, y);
             } else {
                 hp = getEnemyHealth("Big");
                 speed = getEnemySpeed("Big");
-                addObject(new BigEnemy(speed, hp), 0, y);
+                moneyDeath = getEnemyMoneyDeath("Big");
+                addObject(new BigEnemy(speed, hp, moneyDeath), 0, y);
             }
         }
     }
@@ -196,6 +207,17 @@ public class GameWorld extends World {
             case "Big": return 60;
             case "Boss": return 500;  // VERY TOUGH
             default: return 1;
+        }
+    }
+    
+    public int getEnemyMoneyDeath(String type) {
+        switch (type) {
+            case "Basic": return 10;
+            case "Fast": return 20;
+            case "Tank": return 50;
+            case "Big": return 100;
+            case "Boss": return 1000;  // VERY TOUGH
+            default: return 10;
         }
     }
 

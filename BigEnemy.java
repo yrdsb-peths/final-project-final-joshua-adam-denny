@@ -8,8 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class BigEnemy extends Enemy {
 
-    public BigEnemy(int speed, int health) {
-        super(speed, health);
+    public BigEnemy(int speed, int health, int moneyDeath) {
+        super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("teddybear.png");
         img.scale(80, 80); // or scale appropriately to your design
         setBaseImage(img);

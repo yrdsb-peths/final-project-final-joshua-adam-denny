@@ -1,8 +1,8 @@
 import greenfoot.*;
 
 public class BossEnemy extends Enemy {
-    public BossEnemy(int speed, int health) {
-        super(speed, health);
+    public BossEnemy(int speed, int health, int moneyDeath) {
+        super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("Boss.png");
         img.scale(360, 160);
         setImage(img);
@@ -15,7 +15,7 @@ public class BossEnemy extends Enemy {
             GameWorld world = (GameWorld) getWorld();
             world.addMoney(1000); 
 
-            // 🆕 Spawn additional enemies on death
+            // Spawn additional enemies on death
             spawnMinions(world);
 
             world.removeObject(this);
@@ -39,27 +39,59 @@ public class BossEnemy extends Enemy {
             if (wave < 7) {
                 // Early waves: Mostly Basic and some Fast
                 if (typeRoll < 70) {
-                    minion = new BasicEnemy(world.getEnemySpeed("Basic"), world.getEnemyHealth("Basic"));
+                    minion = new BasicEnemy(    
+                        world.getEnemySpeed("Basic"), 
+                        world.getEnemyHealth("Basic"),
+                        world.getEnemyMoneyDeath("Basic")
+                        );
                 } else {
-                    minion = new FastEnemy(world.getEnemySpeed("Fast"), world.getEnemyHealth("Fast"));
+                    minion = new FastEnemy(
+                        world.getEnemySpeed("Fast"), 
+                        world.getEnemyHealth("Fast"),
+                        world.getEnemyMoneyDeath("Fast")
+                        );
                 }
             } else if (wave < 15) {
                 // Mid game: Mix in Tank
                 if (typeRoll < 50) {
-                    minion = new FastEnemy(world.getEnemySpeed("Fast"), world.getEnemyHealth("Fast"));
+                    minion = new FastEnemy(
+                        world.getEnemySpeed("Fast"), 
+                        world.getEnemyHealth("Fast"),
+                        world.getEnemyMoneyDeath("Fast")
+                        );
                 } else if (typeRoll < 85) {
-                    minion = new TankEnemy(world.getEnemySpeed("Tank"), world.getEnemyHealth("Tank"));
+                    minion = new TankEnemy(
+                        world.getEnemySpeed("Tank"), 
+                        world.getEnemyHealth("Tank"),
+                        world.getEnemyMoneyDeath("Tank")
+                        );
                 } else {
-                    minion = new BasicEnemy(world.getEnemySpeed("Basic"), world.getEnemyHealth("Basic"));
+                    minion = new BasicEnemy(
+                        world.getEnemySpeed("Basic"), 
+                        world.getEnemyHealth("Basic"),
+                        world.getEnemyMoneyDeath("Basic")
+                        );
                 }
             } else {
                 // Late game: Mix in Big enemies
                 if (typeRoll < 40) {
-                    minion = new TankEnemy(world.getEnemySpeed("Tank"), world.getEnemyHealth("Tank"));
+                    minion = new TankEnemy(
+                        world.getEnemySpeed("Tank"),
+                        world.getEnemyHealth("Tank"),
+                        world.getEnemyMoneyDeath("Tank")
+                    );
                 } else if (typeRoll < 80) {
-                    minion = new FastEnemy(world.getEnemySpeed("Fast"), world.getEnemyHealth("Fast"));
+                    minion = new FastEnemy(
+                        world.getEnemySpeed("Fast"), 
+                        world.getEnemyHealth("Fast"),
+                        world.getEnemyMoneyDeath("Fast")
+                    );
                 } else {
-                    minion = new BigEnemy(world.getEnemySpeed("Big"), world.getEnemyHealth("Big"));
+                    minion = new BigEnemy(
+                        world.getEnemySpeed("Big"), 
+                        world.getEnemyHealth("Big"),
+                        world.getEnemyMoneyDeath("Big")
+                    );
                 }
             }
     

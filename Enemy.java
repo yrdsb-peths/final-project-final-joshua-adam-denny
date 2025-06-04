@@ -11,10 +11,12 @@ public abstract class Enemy extends Actor {
     private boolean isDead = false;
     private ParticleManager pm;
 
-    public Enemy(int speed, int health) {
+    private int moneyOnDeath = 10;
+    public Enemy(int speed, int health, int money) {
         this.speed = speed;
         this.health = health;
         this.pm = ParticleManager.getInstance();
+        this.moneyOnDeath = money;
     }
 
     protected void setBaseImage(GreenfootImage img) {
@@ -92,7 +94,7 @@ public abstract class Enemy extends Actor {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0 && getWorld() != null) {
-            ((GameWorld) getWorld()).addMoney(10);
+            ((GameWorld) getWorld()).addMoney(moneyOnDeath);
             isDead = true;
             
         }

@@ -8,22 +8,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TankEnemy extends Enemy {
 
-    public TankEnemy(int speed, int health) {
-        super(speed, health);
+    public TankEnemy(int speed, int health, int moneyDeath) {
+        super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("hippo.png");
         img.scale(80, 80);
         setBaseImage(img);
     }
 
-
-    @Override
-    public void takeDamage(int amount) {
-        health -= amount;
-        if (health <= 0 && getWorld() != null) {
-            ((GameWorld)getWorld()).addMoney(50); // reward for tank enemy
-            getWorld().removeObject(this);
-        }
-    }
     @Override
     public int getLifeDamage() {
         return 5;

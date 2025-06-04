@@ -5,8 +5,8 @@ import java.io.IOException;
 /**
  * Sidebar UI with tower price labels
  * 
- * @author Denny
- * @version Updated June 3, 2025
+ * @author Denny Ung
+ * @version Updated June 4, 2025
  */
 public class Sidebar extends UI
 {
@@ -14,7 +14,7 @@ public class Sidebar extends UI
 
     private Button button1, button2, button3, button4, button5;
     private GreenfootImage up1, down1, up2, down2, up3, down3, up4, down4, up5, down5;
-    private GreenfootImage icon1, icon2, icon3, icon4, icon5;
+    private GreenfootImage icon2, icon3, icon4, icon5;
 
     private boolean dragging1 = false, dragging2 = false, dragging3 = false, dragging4 = false, dragging5 = false;
 
@@ -24,22 +24,33 @@ public class Sidebar extends UI
     private final int price3 = 750;
     private final int price4 = 4500;
     private final int price5 = 10000;
-
-    // Moved up/down images to private fields so the entire class can access them:
     
-    private GreenfootImage buttonBaseImage;
-    private GreenfootImage buttonBaseImagePressed; 
+    private GreenfootImage buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
+    private GreenfootImage buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
+    
+    private PolyRender button1Icon;
+    private PolyRender button2Icon;
+    private PolyRender button3Icon;
+    private PolyRender button4Icon;
+    private PolyRender button5Icon;
+
 
     public Sidebar()
     {
         setImage(new GreenfootImage("ui/sidebar.png"));
     }
+    
+    private void initalPoly(PolyRender poly)
+    {
+        poly.position(0,0,500);
+        poly.setScale(1);
+        poly.rotate(Math.toRadians(35.0), Math.toRadians(45.0),0);
+        poly.act();
+    }
 
     @Override
     protected void addedToWorld(World w)
     {
-        buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
-        buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
         int sbX = getX();
         int sbY = getY();
         int btnWidth = 75;
@@ -48,45 +59,79 @@ public class Sidebar extends UI
         int totalHeight = 5 * btnHeight + 4 * spacing;
         int startY = sbY - totalHeight / 2 + btnHeight / 2;
         int currentMoney = ((GameWorld) w).getMoney();
+        double[][][] button1IconModel = new double[0][][];
+        double[][][] button2IconModel = new double[0][][];
+        double[][][] button3IconModel = new double[0][][];
+        double[][][] button4IconModel = new double[0][][];
+        double[][][] button5IconModel = new double[0][][];
 
-        icon1 = new GreenfootImage("images/Basic_tower.png");      icon1.scale(48, 48);
         icon2 = new GreenfootImage("images/Sniper_tower.png");     icon2.scale(48, 48);
         icon3 = new GreenfootImage("images/MachineGun_tower.png"); icon3.scale(48, 48);
         icon4 = new GreenfootImage("images/FlameThrower_tower.png"); icon4.scale(48, 48);
         icon5 = new GreenfootImage("images/Nuke_tower.png");       icon5.scale(48, 48);
 
-        up1 = createTowerButtonImage("ui/button-sidebar.png", icon1, price1, currentMoney);
-        down1 = createTowerButtonImage("ui/button-sidebar-pressed.png", icon1, price1, currentMoney);
+        
+        
+        try {
+            button1IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button2IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button3IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button4IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button5IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+        } catch(IOException balls) {
+            
+        }
+        
+        button1Icon = new PolyRender(button1IconModel, 600, 600, 150);
+        initalPoly(button1Icon);
+        
+        button2Icon = new PolyRender(button2IconModel, 600, 600, 150);
+        initalPoly(button2Icon);
+        
+        button3Icon = new PolyRender(button3IconModel, 600, 600, 150);
+        initalPoly(button3Icon);
+        
+        button4Icon = new PolyRender(button4IconModel, 600, 600, 150);
+        initalPoly(button4Icon);
+        
+        button5Icon = new PolyRender(button5IconModel, 600, 600, 150);
+        initalPoly(button5Icon);
+        
+        
+        
+        
+        up1 = createTowerButtonImage(buttonBaseImage, button1Icon.getGreenfootImage(), price1, currentMoney);
+        down1 = createTowerButtonImage(buttonBaseImagePressed, button1Icon.getGreenfootImage(), price1, currentMoney);
         button1 = new Button(true, new GreenfootImage[]{ up1, down1 }, btnWidth, btnHeight);
         w.addObject(button1, sbX, startY + 0 * (btnHeight + spacing));
 
-        up2 = createTowerButtonImage("ui/button-sidebar.png", icon2, price2, currentMoney);
-        down2 = createTowerButtonImage("ui/button-sidebar-pressed.png", icon2, price2, currentMoney);
+        up2 = createTowerButtonImage(buttonBaseImage, icon2, price2, currentMoney);
+        down2 = createTowerButtonImage(buttonBaseImagePressed, icon2, price2, currentMoney);
         button2 = new Button(true, new GreenfootImage[]{ up2, down2 }, btnWidth, btnHeight);
         w.addObject(button2, sbX, startY + 1 * (btnHeight + spacing));
 
-        up3 = createTowerButtonImage("ui/button-sidebar.png", icon3, price3, currentMoney);
-        down3 = createTowerButtonImage("ui/button-sidebar-pressed.png", icon3, price3, currentMoney);
+        up3 = createTowerButtonImage(buttonBaseImage, icon3, price3, currentMoney);
+        down3 = createTowerButtonImage(buttonBaseImagePressed, icon3, price3, currentMoney);
         button3 = new Button(true, new GreenfootImage[]{ up3, down3 }, btnWidth, btnHeight);
         w.addObject(button3, sbX, startY + 2 * (btnHeight + spacing));
-
-        up4 = createTowerButtonImage("ui/button-sidebar.png", icon4, price4, currentMoney);
-        down4 = createTowerButtonImage("ui/button-sidebar-pressed.png", icon4, price4, currentMoney);
+        
+        
+        up4 = createTowerButtonImage(buttonBaseImage, icon4, price4, currentMoney);
+        down4 = createTowerButtonImage(buttonBaseImagePressed, icon4, price4, currentMoney);
         button4 = new Button(true, new GreenfootImage[]{ up4, down4 }, btnWidth, btnHeight);
         w.addObject(button4, sbX, startY + 3 * (btnHeight + spacing));
 
-        up5 = createTowerButtonImage("ui/button-sidebar.png", icon5, price5, currentMoney);
-        down5 = createTowerButtonImage("ui/button-sidebar-pressed.png", icon5, price5, currentMoney);
+        up5 = createTowerButtonImage(buttonBaseImage, icon5, price5, currentMoney);
+        down5 = createTowerButtonImage(buttonBaseImagePressed, icon5, price5, currentMoney);
         button5 = new Button(true, new GreenfootImage[]{ up5, down5 }, btnWidth, btnHeight);
         w.addObject(button5, sbX, startY + 4 * (btnHeight + spacing));
     }
 
-    private GreenfootImage createTowerButtonImage(String baseImagePath, GreenfootImage towerIcon, int price, int currentMoney) {
-        GreenfootImage base = new GreenfootImage(baseImagePath);
-        GreenfootImage iconCopy = new GreenfootImage(towerIcon); // Ensure each use is a copy
-        int iconX = (base.getWidth() - iconCopy.getWidth()) / 2;
-        int iconY = 10;
-        base.drawImage(iconCopy, iconX, iconY);
+    private GreenfootImage createTowerButtonImage(GreenfootImage buttonImage, GreenfootImage towerIcon, int price, int currentMoney) {
+        GreenfootImage base = new GreenfootImage(buttonImage);
+        int iconX = (base.getWidth() - towerIcon.getWidth()) / 2;
+        int iconY = (base.getHeight() - towerIcon.getHeight())/ 2 - 10;
+        base.drawImage(towerIcon, iconX, iconY);
 
         String priceText = "$" + price;
         greenfoot.Color color = (currentMoney >= price) ? greenfoot.Color.WHITE : greenfoot.Color.RED;
@@ -106,10 +151,7 @@ public class Sidebar extends UI
         }
         return _instance;
     }
-    
-    
-    
-
+    private double balls = 45.0;
     public void act()
     {
         GameWorld gw = (GameWorld) getWorld();
@@ -117,17 +159,21 @@ public class Sidebar extends UI
 
         int money = gw.getMoney();
 
+        balls +=0.5;
+        button1Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        button1Icon.act();
+        
         // Redraw button images with icon + updated price
-        redrawButtonImage(up1, "ui/button-sidebar.png", icon1, price1, money);
-        redrawButtonImage(down1, "ui/button-sidebar-pressed.png", icon1, price1, money);
-        redrawButtonImage(up2, "ui/button-sidebar.png", icon2, price2, money);
-        redrawButtonImage(down2, "ui/button-sidebar-pressed.png", icon2, price2, money);
-        redrawButtonImage(up3, "ui/button-sidebar.png", icon3, price3, money);
-        redrawButtonImage(down3, "ui/button-sidebar-pressed.png", icon3, price3, money);
-        redrawButtonImage(up4, "ui/button-sidebar.png", icon4, price4, money);
-        redrawButtonImage(down4, "ui/button-sidebar-pressed.png", icon4, price4, money);
-        redrawButtonImage(up5, "ui/button-sidebar.png", icon5, price5, money);
-        redrawButtonImage(down5, "ui/button-sidebar-pressed.png", icon5, price5, money);
+        redrawButtonImage(up1, buttonBaseImage, button1Icon.getGreenfootImage(), price1, money);
+        redrawButtonImage(down1, buttonBaseImagePressed, button1Icon.getGreenfootImage(), price1, money);
+        redrawButtonImage(up2, buttonBaseImage, icon2, price2, money);
+        redrawButtonImage(down2, buttonBaseImagePressed, icon2, price2, money);
+        redrawButtonImage(up3, buttonBaseImage, icon3, price3, money);
+        redrawButtonImage(down3, buttonBaseImagePressed, icon3, price3, money);
+        redrawButtonImage(up4, buttonBaseImage, icon4, price4, money);
+        redrawButtonImage(down4, buttonBaseImagePressed, icon4, price4, money);
+        redrawButtonImage(up5, buttonBaseImage, icon5, price5, money);
+        redrawButtonImage(down5, buttonBaseImagePressed, icon5, price5, money);
 
         handleDrag(button1, "Basic", price1, gw, 1);
         handleDrag(button2, "Sniper", price2, gw, 2);
@@ -136,12 +182,12 @@ public class Sidebar extends UI
         handleDrag(button5, "Nuke", price5, gw, 5);
     }
 
-    private void redrawButtonImage(GreenfootImage target, String bgPath, GreenfootImage towerIcon, int price, int money)
+    private void redrawButtonImage(GreenfootImage target, GreenfootImage buttonImage, GreenfootImage towerIcon, int price, int money)
     {
-        GreenfootImage base = new GreenfootImage(bgPath);
+        GreenfootImage base = new GreenfootImage(buttonImage);
         GreenfootImage iconCopy = new GreenfootImage(towerIcon);
         int iconX = (base.getWidth() - iconCopy.getWidth()) / 2;
-        int iconY = 10;
+        int iconY = (base.getHeight() - towerIcon.getHeight())/ 2 - 10;
         base.drawImage(iconCopy, iconX, iconY);
 
         greenfoot.Color color = (money >= price) ? greenfoot.Color.WHITE : greenfoot.Color.RED;
