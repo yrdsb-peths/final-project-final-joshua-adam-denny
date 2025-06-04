@@ -11,6 +11,10 @@ public class ImageActor extends Actor {
         setImage(new GreenfootImage(filename));
     }
     
+    public ImageActor(GreenfootImage img ) {
+        setImage(new GreenfootImage(img));
+    }
+    
     public ImageActor(int w, int h) {
         GreenfootImage img = new GreenfootImage(w, h);
         setImage(img);
@@ -18,7 +22,7 @@ public class ImageActor extends Actor {
     
     /////////
     
-     public int getWidth() {
+    public int getWidth() {
         return getImage().getWidth();
     }
 
