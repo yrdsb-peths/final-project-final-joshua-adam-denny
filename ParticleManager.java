@@ -2,7 +2,7 @@ import greenfoot.*;
 import java.util.*;
 
 /**
- * Particle Manager, replacement to the Particle Class. 
+ * Particle Manager, replacement to the Particles Class. 
  * Manages Particles.
  * 
  * @author Denny Ung

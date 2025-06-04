@@ -10,11 +10,13 @@ import java.io.IOException;
 public class InitWorldReal extends World {
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
+    
     private static final int FADE_DURATION_MS = 2000;
     private static final int PHASE1_DURATION_MS = 1500;
     private static final int PHASE2_DURATION_MS = 1500;
     private static final int PHASE2_DELAY_MS = 2000;
     private static final int PHASE3_DURATION_MS = 2000;
+    
     private static final int PADDING = 10;
 
     private GreenfootImage bg = new GreenfootImage(getWidth(), getHeight());
@@ -55,9 +57,6 @@ public class InitWorldReal extends World {
         bg1Engine = new ImageActor("ui/engineBG.png");
         bg1PoweredByGreenfoot = new ImageActor("ui/poweredbygreenfoot.png");
 
-        bg1Scuffed.setTransparency(0);
-        bg1Engine.setTransparency(0);
-        bg1PoweredByGreenfoot.setTransparency(0);
         
         
         
@@ -76,7 +75,8 @@ public class InitWorldReal extends World {
         bg2PRCubeModel = new PolyRender(polyRenderCube);
         
         bg2PolyRenderModel.position(0,0,250);
-        bg2PolyRenderModel.rotate(Math.toRadians(90.0),Math.toRadians(180.0),Math.toRadians(0.0));
+        bg2PolyRenderModel.rotate(Math.toRadians(75.0),Math.toRadians(0.0),Math.toRadians(0.0));
+        bg2PolyRenderModel.setScale(-1);
         bg2PolyRenderModel.setRenderVersion(1);
         bg2PolyRenderModel.setVersionOneRender_MinMaxLighting(100.0,255.0);
         
@@ -91,14 +91,17 @@ public class InitWorldReal extends World {
         bg2PolyRender = new ImageActor(bg2PolyRenderModel.getGreenfootImage());
         bg2PRCube = new ImageActor(bg2PRCubeModel.getGreenfootImage());
         
-        bg2PolyRender.setTransparency(0);
-        bg2PRCube.setTransparency(0);
         
         bg3Title = new GreenfootImage("ui/titlescreen.png");
-
         bg3TitleBlur = BlurHelper.fastBlur(bg3Title, 0.001);
         
         
+        
+        bg1Scuffed.setTransparency(0);
+        bg1Engine.setTransparency(0);
+        bg1PoweredByGreenfoot.setTransparency(0);
+        bg2PolyRender.setTransparency(0);
+        bg2PRCube.setTransparency(0);
         
 
         addObject(bg1PoweredByGreenfoot, centerX, centerY);
@@ -124,7 +127,9 @@ public class InitWorldReal extends World {
     public void act() {
         long now = System.currentTimeMillis();
         long elapsed0 = now - phaseStartTime;
-
+        
+        
+        
         switch (phase) {
             case 0:
                 if (elapsed0 < FADE_DURATION_MS) {
@@ -225,23 +230,23 @@ public class InitWorldReal extends World {
                 break;
             case 7:
                 long elapsed5 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed5 < 750) {
+                if (elapsed5 < 600) {
                     int actorPosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 750, bg2PRCube.getX(), centerX)
+                        Utils.map(elapsed5, 0, 600, bg2PRCube.getX(), centerX)
                     );
                     
                     int cubeRotation1 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 750, 0, 90)
+                        Utils.map(elapsed5, 0, 600, 0, 90)
                     );
                     int cubeRotation2 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 750, 0, 180)
+                        Utils.map(elapsed5, 0, 600, 0, 180)
                     );
                     int cubeRotation3 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 750, 0, 360)
+                        Utils.map(elapsed5, 0, 600, 0, 360)
                     );
                     
                     int cubePosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 750, 500, 0)
+                        Utils.map(elapsed5, 0, 600, 500, 0)
                     );
 
                     

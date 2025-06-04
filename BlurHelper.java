@@ -1,9 +1,12 @@
 import greenfoot.*;
 
 /**
- * A simple “fast blur” for GreenfootImage that only uses scale(...).
- * You shrink the image, then stretch it back out to full size.
+ * Fast blur, uses block blur instead of gaussian blur cuz it takes forever to use :(
+ * Built for ScuffedEngine
+ * @author Denny Ung
+ * @version Version 2.0.0 (June 4, 2025)
  */
+
 public class BlurHelper
 {
     /**

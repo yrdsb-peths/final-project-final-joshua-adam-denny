@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- *
+ *  A Wrapper for the GreenfootImage Class, adds Actor class capabilities
  * 
  * @author Denny Ung
- * @version (a version number or a date)
+ * @version Version 1.0.1 (June 4, 2025)
  */
 public class ImageActor extends Actor {
     public ImageActor(String filename) {

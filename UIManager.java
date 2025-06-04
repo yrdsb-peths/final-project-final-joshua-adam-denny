@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Head class for managign UI elements and storing class instances
+ * Head class for UI, Oversees all UI elements on screen/world
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0.5 (May 29, 2025)
  */
 public class UIManager extends Actor
 {

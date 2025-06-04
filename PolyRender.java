@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Comparator;
 
 /**
- * 3D Renderer for Greenfoot
+ * 3D Renderer for Greenfoot, Built for ScuffedEngine
  * 
  * @author Denny Ung
- * @version Version 1.0.4 (June 3, 2025)
+ * @version Version 1.2.1 (June 4, 2025)
  */
 
 
