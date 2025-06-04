@@ -2,26 +2,37 @@ import greenfoot.*;
 import java.util.List;
 
 public class SniperTower extends Tower {
+    private int baseCooldownTime;  // store original cooldown time
+    private boolean speedBoostActive = false;
+    private int speedBoostTimer = 0;  // counts down the boost duration in frames
+
     public SniperTower() {
         GameWorld world = (GameWorld) getWorld();
+
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
         img.scale(60, 60);
         setImage(img);
 
-        cooldownTime = 120;  // slower fire rate
+        baseCooldownTime = 120;  // original cooldown
+        cooldownTime = baseCooldownTime;
+
         range = 1000;        // long range
         damage = 20;         // high damage
         bulletSpeed = 30;
         baseCost = 300;
         upgradeCostPerLevel = 150;
-        
-        upgradeCost = upgradeCostPerLevel;  
+
+        upgradeCost = upgradeCostPerLevel;
         totalInvested = baseCost;
 
+        // Remove this block since we're handling boost per tower:
+        /*
         if (world != null && world.isSniperBoostActive()) {
-            damage *= 2; // Double the damage if the boost is active
+            cooldownTime = baseCooldownTime / 4; // apply boost at start
+            System.out.println("SniperTower boost active at init, cooldownTime: " + cooldownTime);
         }
-        
+        */
+
         if (level == maxLevel && world != null) {
             world.unlockSniperAbility();
         }
@@ -32,12 +43,12 @@ public class SniperTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world != null && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 10;                    // boost damage significantly
-            cooldownTime = Math.max(60, cooldownTime - 30); // slightly faster
+            damage += 10;  // boost damage significantly
+            cooldownTime = Math.max(60, cooldownTime - 30);  // slightly faster
             totalInvested += upgradeCost;
-            upgradeCost += 100;            // higher cost per upgrade
+            upgradeCost += 100;  // higher cost per upgrade
             updateImage();
-            
+
             if (level == maxLevel && world != null) {
                 world.unlockSniperAbility();
             }
@@ -51,8 +62,8 @@ public class SniperTower extends Tower {
         GreenfootImage img = new GreenfootImage("Sniper_tower.png");
         img.scale(60, 60);
         setImage(img);
-    
-        super.updateImage();  // This will add the outline based on level
+
+        super.updateImage();  // add outline based on level
     }
 
     @Override
@@ -68,4 +79,37 @@ public class SniperTower extends Tower {
         }
         return farthest;
     }
+
+    @Override
+    public void act() {
+        if (speedBoostActive) {
+            speedBoostTimer--;
+            if (speedBoostTimer <= 0) {
+                cooldownTime = baseCooldownTime;
+                speedBoostActive = false;
+                System.out.println("Speed boost expired on tower at (" + getX() + "," + getY() + ")");
+            }
+        }
+    
+        super.act();
+    }
+
+
+
+    public boolean isBoostActive() {
+        return speedBoostActive;
+    }
+
+    
+    public void activateSpeedBoost() {
+        if (!speedBoostActive) {
+            cooldownTime = baseCooldownTime / 4;
+            cooldown = 0;
+            speedBoostTimer = 20 * 60;
+            speedBoostActive = true;
+        
+        }
+    }
+
+
 }

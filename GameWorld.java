@@ -558,24 +558,22 @@ public class GameWorld extends World {
         }
     
         updateSniperAbilityLabels();
-
     }
-
-
+    
     public boolean isSniperAbilityUnlocked() {
         return sniperAbilitiesUnlocked > 0;
     }
+    
     public int getSniperAbilitiesUnlockedCount() {
         return sniperAbilitiesUnlocked;
-    }    
-    public void activateSniperBoost() {
-        sniperBoostActive = true;
-        sniperBoostTimer = 20*60; // 5 seconds of boost at 60 FPS
+    }
+    
+    public boolean isSniperBoostActive() {
+        return false; // No longer needed globally
     }
     
     private void updateSniperAbilityLabels() {
         if (sniperAbilitiesUnlocked > 0) {
-            // Show the number of abilities available
             if (sniperCooldownLabel != null) {
                 removeObject(sniperCooldownLabel);
                 sniperCooldownLabel = null;
@@ -587,7 +585,6 @@ public class GameWorld extends World {
                 sniperAbilitiesAvailableLabel.setValue(String.valueOf(sniperAbilitiesUnlocked));
             }
         } else {
-            // No abilities available, show cooldown timer
             if (sniperAbilitiesAvailableLabel != null) {
                 removeObject(sniperAbilitiesAvailableLabel);
                 sniperAbilitiesAvailableLabel = null;
@@ -603,18 +600,15 @@ public class GameWorld extends World {
             }
         }
     }
-
-
-
     
     private void handleSniperBoost() {
-        // Update timers
+        // Update cooldown timers
         for (int i = 0; i < sniperBoostTimers.size(); i++) {
             int timeLeft = sniperBoostTimers.get(i) - 1;
             sniperBoostTimers.set(i, timeLeft);
         }
     
-        // Remove expired boosts and return charges
+        // Remove expired timers and refund ability
         sniperBoostTimers.removeIf(timer -> {
             if (timer <= 0) {
                 sniperAbilitiesUnlocked++;
@@ -624,14 +618,7 @@ public class GameWorld extends World {
             return false;
         });
     
-        // Update cooldown label
-        if (sniperAbilitiesUnlocked > 1 && sniperAbilitiesAvailableLabel != null) {
-            sniperAbilitiesAvailableLabel.setValue(sniperAbilitiesUnlocked);
-        } else if (sniperAbilitiesUnlocked == 1 && sniperCooldownLabel != null && !sniperBoostTimers.isEmpty()) {
-            sniperCooldownLabel.setValue("" + (sniperBoostTimers.get(0) / 60));
-        }
-    
-        // Handle activation
+        // Handle mouse click on icon to trigger boost
         if (Greenfoot.mouseClicked(null)) {
             MouseInfo mouse = Greenfoot.getMouseInfo();
             if (mouse != null && sniperIcon != null) {
@@ -643,28 +630,69 @@ public class GameWorld extends World {
     
                 int clickableRadius = 30;
     
-                int dx = Math.abs(mouseX - iconX);
-                int dy = Math.abs(mouseY - iconY);
-    
-                if (dx <= clickableRadius && dy <= clickableRadius) {
+                if (Math.abs(mouseX - iconX) <= clickableRadius && Math.abs(mouseY - iconY) <= clickableRadius) {
                     if (sniperAbilitiesUnlocked > 0) {
-                        sniperAbilitiesUnlocked--;
-                        sniperBoostTimers.add(20 * 60); // 20 seconds
-    
+                        SniperTower tower = chooseSniperTowerToBoost();
+                        if (tower != null) {
+                            tower.activateSpeedBoost();
+                            sniperAbilitiesUnlocked--;
+                            sniperBoostTimers.add(20 * 60); // 20 seconds
+                            System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
+                        } else {
+                            System.out.println("No valid sniper tower near cursor to boost.");
+                        }
                         updateSniperAbilityLabels();
-    
-                        System.out.println("Sniper boost activated!");
                     }
                 }
             }
         }
+    
         updateSniperAbilityLabels();
+    }
+    
+    public void activateSniperBoost() {
+        if (sniperAbilitiesUnlocked > 0) {
+            List<SniperTower> snipers = getObjects(SniperTower.class);
+            for (SniperTower sniper : snipers) {
+                if (!sniper.isBoostActive()) {
+                    sniper.activateSpeedBoost(); // safely ignores if already boosted
+                    sniperAbilitiesUnlocked--;
+                    sniperBoostTimers.add(20 * 60); // optional: track usage
+                    updateSniperAbilityLabels();
+                    return;
+                }
+            }
+    
+            // If no unboosted snipers found
+            System.out.println("No unboosted sniper tower found to activate ability.");
+        }
     }
 
 
     
-    public boolean isSniperBoostActive() {
-        return sniperBoostActive;
+    private SniperTower chooseSniperTowerToBoost() {
+        List<SniperTower> snipers = getObjects(SniperTower.class);
+        if (snipers.isEmpty()) return null;
+    
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        if (mouse == null) return null;
+    
+        SniperTower closest = null;
+        int minDist = Integer.MAX_VALUE;
+    
+        for (SniperTower sniper : snipers) {
+            int dx = sniper.getX() - mouse.getX();
+            int dy = sniper.getY() - mouse.getY();
+            int dist = dx * dx + dy * dy;
+            if (dist < minDist) {
+                minDist = dist;
+                closest = sniper;
+            }
+        }
+    
+        return closest;
     }
+
+
     
 }
