@@ -10,18 +10,13 @@ import java.io.IOException;
 public class InitWorldReal extends World {
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
-    /*
+    
     private static final int FADE_DURATION_MS = 2000;
     private static final int PHASE1_DURATION_MS = 1500;
     private static final int PHASE2_DURATION_MS = 1500;
     private static final int PHASE2_DELAY_MS = 2000;
     private static final int PHASE3_DURATION_MS = 2000;
-    */
-    private static final int FADE_DURATION_MS = 1;
-    private static final int PHASE1_DURATION_MS = 1;
-    private static final int PHASE2_DURATION_MS = 1;
-    private static final int PHASE2_DELAY_MS = 1;
-    private static final int PHASE3_DURATION_MS = 1;
+    
     
     private static final int PADDING = 10;
 
@@ -50,24 +45,16 @@ public class InitWorldReal extends World {
 
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     private Button startButton;
     private Label startLabel;
 
-=======
-=======
->>>>>>> Stashed changes
     
     private Label statusLabel;
     private Boolean connectionResult = null; 
     private int scuffedAPIAttempts = 0;
     private boolean scuffedAPIConnectioninProgress = false;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+    
     public InitWorldReal() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
 
@@ -113,31 +100,15 @@ public class InitWorldReal extends World {
         
         bg3Title = new GreenfootImage("ui/titlescreen.png");
         bg3TitleBlur = BlurHelper.fastBlur(bg3Title, 0.001);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
         bg3fade = new ImageActor("ui/fade.png");
-        
->>>>>>> Stashed changes
-=======
-        bg3fade = new ImageActor("ui/fade.png");
-        
->>>>>>> Stashed changes
         
         bg1Scuffed.setTransparency(0);
         bg1Engine.setTransparency(0);
         bg1PoweredByGreenfoot.setTransparency(0);
         bg2PolyRender.setTransparency(0);
         bg2PRCube.setTransparency(0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        
-=======
-=======
->>>>>>> Stashed changes
         bg3fade.setTransparency(0);
 
->>>>>>> Stashed changes
         addObject(bg1PoweredByGreenfoot, centerX, centerY);
         addObject(bg1Engine, centerX, centerY);
         addObject(bg1Scuffed, centerX, centerY);
@@ -325,31 +296,14 @@ public class InitWorldReal extends World {
                 long elapsed11 = System.currentTimeMillis() - phaseStartTime; 
                 if (elapsed11 < 3000) {
                     blackOverlay.setTransparency(0);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    double expo = Utils.map(elapsed9, 0, 3000, 0, 100);
-=======
-                    
                     double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
->>>>>>> Stashed changes
-=======
-                    
-                    double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
->>>>>>> Stashed changes
                     double raw = Math.pow(1.05, expo);
                     double blurPower = Utils.map(raw, 0, 100, 0, 1);
                     blurPower = Utils.clamp(blurPower, 0.0, 1.0);
                     bg3TitleBlur = BlurHelper.fastBlur(bg3Title, blurPower);
                     setBackground(bg3TitleBlur);
                 } else {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
                     enterPhase12(); // transition to show button and wait for click
-                }
-=======
-=======
->>>>>>> Stashed changes
-                    enterPhase12();
                 }
                 break;
             case 12:
@@ -443,13 +397,9 @@ public class InitWorldReal extends World {
             case 16:
                 break;
             case 17:
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                 break;
 
-            case 12:
+            case 18:
                 // Add start button and label only once
                 if (startButton.getWorld() == null) {
                     addObject(startButton, centerX, centerY + 150);
@@ -535,31 +485,8 @@ public class InitWorldReal extends World {
     private void enterPhase12() {
         phase = 12;
         phaseStartTime = System.currentTimeMillis();
-<<<<<<< Updated upstream
     }
-=======
         
-    }
-    private void enterPhase13() {
-        phase = 13;
-        phaseStartTime = System.currentTimeMillis();  
-    }
-    
-    private void enterPhase14() {
-        phase = 14;
-        phaseStartTime = System.currentTimeMillis();  
-    }
-    
-    private void enterPhase15() {
-        phase = 15;
-        phaseStartTime = System.currentTimeMillis();  
-    }
-    
-    private void enterPhase12() {
-        phase = 12;
-        phaseStartTime = System.currentTimeMillis();
-        
-    }
     private void enterPhase13() {
         phase = 13;
         phaseStartTime = System.currentTimeMillis();  
@@ -576,5 +503,4 @@ public class InitWorldReal extends World {
     }
     
     
->>>>>>> Stashed changes
 }
