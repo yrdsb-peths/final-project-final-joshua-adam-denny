@@ -36,7 +36,7 @@ public class GameWorld extends World {
     private boolean waitingForNextWave = true;
     private boolean keyHeld = false;
     private boolean towerPlacedThisClick = false;
-    private int lives = 100;;
+    private int lives = 100;
     private UpgradeMenu currentMenu = null;
 
     private String status = "running"; // "running", "paused", "gameover"
@@ -61,6 +61,7 @@ public class GameWorld extends World {
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
         setPaintOrder(
+            NukeMissile.class,
             DDCRender.class,
             Label.class,
             Button.class,
@@ -69,7 +70,7 @@ public class GameWorld extends World {
             Sidebar.class,
             UI.class, 
             ExplosionEffect.class,
-            NukeMissile.class,
+            
             Bullet.class,
             Tower.class, 
             Enemy.class
@@ -530,6 +531,7 @@ public class GameWorld extends World {
     private void gameOver() {
         int time = 500; // 500ms for fade in
         setPaintOrder(
+            NukeMissile.class,    
             EndGameLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
@@ -557,31 +559,18 @@ public class GameWorld extends World {
     
     public void activateSniperBoost() {
         sniperBoostActive = true;
-        sniperBoostTimer = 300; // 5 seconds of boost at 60 FPS
+        sniperBoostTimer = 20 * 60; // 20 seconds at 60 FPS
+        
     }
     
     private void handleSniperBoost() {
         if (sniperBoostActive) {
             sniperBoostTimer--;
-        
-            if (sniperCooldownLabel != null) {
-                sniperCooldownLabel.setValue("" + (sniperBoostTimer / 60));
-            }
-        
+            System.out.println("Boost active, timer: " + sniperBoostTimer);
             if (sniperBoostTimer <= 0) {
                 sniperBoostActive = false;
-                if (sniperCooldownLabel != null) {
-                    sniperCooldownLabel.setValue("");
-                }
+                System.out.println("GameWorld: Sniper boost expired.");
             }
-        }
-    
-        if (sniperAbilityAvailable && Greenfoot.mouseClicked(sniperIcon) && !sniperBoostActive) {
-            sniperBoostActive = true;
-            sniperBoostTimer = 20 * 60; // 20 seconds at 60 FPS
-            sniperAbilityAvailable = false;
-            
-            System.out.println("Sniper boost activated!");
         }
     }
     
@@ -589,5 +578,4 @@ public class GameWorld extends World {
         return sniperBoostActive;
     }
     
-
 }

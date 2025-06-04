@@ -34,6 +34,7 @@ public class UpgradeMenu extends Actor {
         GameWorld world = (GameWorld) getWorld();
         world.addObject(rangeCircle, tower.getX(), tower.getY());
         world.setPaintOrder(
+            NukeMissile.class,
             UpgradeMenu.class,
             DDCRender.class,
             Label.class,
