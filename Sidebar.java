@@ -75,10 +75,10 @@ public class Sidebar extends UI
         
         try {
             button1IconModel = ObjParser.parseObj("3dModels/basicTower.obj", 100);
-            button2IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
-            button3IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
-            button4IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
-            button5IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button2IconModel = ObjParser.parseObj("3dModels/sniperTower.obj", 100);
+            button3IconModel = ObjParser.parseObj("3dModels/machineGunTower.obj", 100);
+            button4IconModel = ObjParser.parseObj("3dModels/flameThrowerTower.obj", 100);
+            button5IconModel = ObjParser.parseObj("3dModels/nukeTower.obj", 100);
         } catch(IOException balls) {
             
         }
@@ -107,23 +107,23 @@ public class Sidebar extends UI
         button1 = new Button(true, new GreenfootImage[]{ up1, down1 }, btnWidth, btnHeight);
         w.addObject(button1, sbX, startY + 0 * (btnHeight + spacing));
 
-        up2 = createTowerButtonImage(buttonBaseImage, icon2, price2, currentMoney);
-        down2 = createTowerButtonImage(buttonBaseImagePressed, icon2, price2, currentMoney);
+        up2 = createTowerButtonImage(buttonBaseImage, button2Icon.getGreenfootImage(), price2, currentMoney);
+        down2 = createTowerButtonImage(buttonBaseImagePressed, button2Icon.getGreenfootImage(), price2, currentMoney);
         button2 = new Button(true, new GreenfootImage[]{ up2, down2 }, btnWidth, btnHeight);
         w.addObject(button2, sbX, startY + 1 * (btnHeight + spacing));
 
-        up3 = createTowerButtonImage(buttonBaseImage, icon3, price3, currentMoney);
-        down3 = createTowerButtonImage(buttonBaseImagePressed, icon3, price3, currentMoney);
+        up3 = createTowerButtonImage(buttonBaseImage, button3Icon.getGreenfootImage(), price3, currentMoney);
+        down3 = createTowerButtonImage(buttonBaseImagePressed, button3Icon.getGreenfootImage(), price3, currentMoney);
         button3 = new Button(true, new GreenfootImage[]{ up3, down3 }, btnWidth, btnHeight);
         w.addObject(button3, sbX, startY + 2 * (btnHeight + spacing));
         
         
-        up4 = createTowerButtonImage(buttonBaseImage, icon4, price4, currentMoney);
-        down4 = createTowerButtonImage(buttonBaseImagePressed, icon4, price4, currentMoney);
+        up4 = createTowerButtonImage(buttonBaseImage, button4Icon.getGreenfootImage(), price4, currentMoney);
+        down4 = createTowerButtonImage(buttonBaseImagePressed, button4Icon.getGreenfootImage(), price4, currentMoney);
         button4 = new Button(true, new GreenfootImage[]{ up4, down4 }, btnWidth, btnHeight);
         w.addObject(button4, sbX, startY + 3 * (btnHeight + spacing));
 
-        up5 = createTowerButtonImage(buttonBaseImage, icon5, price5, currentMoney);
+        up5 = createTowerButtonImage(buttonBaseImage, button5Icon.getGreenfootImage(), price5, currentMoney);
         down5 = createTowerButtonImage(buttonBaseImagePressed, icon5, price5, currentMoney);
         button5 = new Button(true, new GreenfootImage[]{ up5, down5 }, btnWidth, btnHeight);
         w.addObject(button5, sbX, startY + 4 * (btnHeight + spacing));
@@ -162,20 +162,28 @@ public class Sidebar extends UI
         int money = gw.getMoney();
 
         balls +=0.5;
+        button5Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        button5Icon.act();
+        button4Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        button4Icon.act();
+        button3Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        button3Icon.act();
+        button2Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
+        button2Icon.act();
         button1Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls),0);
         button1Icon.act();
         
         // Redraw button images with icon + updated price
         redrawButtonImage(up1, buttonBaseImage, button1Icon.getGreenfootImage(), price1, money);
         redrawButtonImage(down1, buttonBaseImagePressed, button1Icon.getGreenfootImage(), price1, money);
-        redrawButtonImage(up2, buttonBaseImage, icon2, price2, money);
-        redrawButtonImage(down2, buttonBaseImagePressed, icon2, price2, money);
-        redrawButtonImage(up3, buttonBaseImage, icon3, price3, money);
-        redrawButtonImage(down3, buttonBaseImagePressed, icon3, price3, money);
-        redrawButtonImage(up4, buttonBaseImage, icon4, price4, money);
-        redrawButtonImage(down4, buttonBaseImagePressed, icon4, price4, money);
-        redrawButtonImage(up5, buttonBaseImage, icon5, price5, money);
-        redrawButtonImage(down5, buttonBaseImagePressed, icon5, price5, money);
+        redrawButtonImage(up2, buttonBaseImage, button2Icon.getGreenfootImage(), price2, money);
+        redrawButtonImage(down2, buttonBaseImagePressed, button2Icon.getGreenfootImage(), price2, money);
+        redrawButtonImage(up3, buttonBaseImage, button3Icon.getGreenfootImage(), price3, money);
+        redrawButtonImage(down3, buttonBaseImagePressed, button3Icon.getGreenfootImage(), price3, money);
+        redrawButtonImage(up4, buttonBaseImage, button4Icon.getGreenfootImage(), price4, money);
+        redrawButtonImage(down4, buttonBaseImagePressed, button4Icon.getGreenfootImage(), price4, money);
+        redrawButtonImage(up5, buttonBaseImage, button5Icon.getGreenfootImage(), price5, money);
+        redrawButtonImage(down5, buttonBaseImagePressed, button5Icon.getGreenfootImage(), price5, money);
 
         handleDrag(button1, "Basic", price1, gw, 1);
         handleDrag(button2, "Sniper", price2, gw, 2);
