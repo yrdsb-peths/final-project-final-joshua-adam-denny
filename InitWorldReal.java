@@ -17,7 +17,6 @@ public class InitWorldReal extends World {
     private static final int PHASE2_DELAY_MS = 2000;
     private static final int PHASE3_DURATION_MS = 2000;
     
-    
     private static final int PADDING = 10;
 
     private GreenfootImage bg = new GreenfootImage(getWidth(), getHeight());
@@ -153,7 +152,8 @@ public class InitWorldReal extends World {
                     bg1Scuffed.setTransparency(alpha);
                 } else {
                     bg1Scuffed.setTransparency(255);
-                    enterPhase1();
+                    bg1Engine.setTransparency(255);
+                    enterPhase(1);
                 }
                 break;
 
@@ -170,7 +170,17 @@ public class InitWorldReal extends World {
                 } else {
                     bg1Scuffed.setLocation(centerX - halfMoveScuffed, centerY);
                     bg1Engine.setLocation(centerX + halfMoveEngine, centerY);
-                    enterPhase2();
+                    int engineX = bg1Engine.getX();
+                    int engineY = bg1Engine.getY();
+                    newImageStartX = engineX;
+                    newImageStartY = engineY;
+                    bg1PoweredByGreenfoot.setLocation(engineX, engineY);
+                    bg1PoweredByGreenfoot.setTransparency(255);
+            
+                    int engineHalfH = bg1Engine.getImage().getHeight() / 2;
+                    int newHalfH = bg1PoweredByGreenfoot.getImage().getHeight() / 2;
+                    newImageTargetY = (engineY + engineHalfH + PADDING) + newHalfH;
+                    enterPhase(2);
                 }
                 break;
 
@@ -184,14 +194,15 @@ public class InitWorldReal extends World {
                     bg1PoweredByGreenfoot.setLocation(newImageStartX, (int) Math.round(newY));
                 } else {
                     bg1PoweredByGreenfoot.setLocation(newImageStartX, newImageTargetY);
-                    enterPhase3();
+                    enterPhase(3);
                 }
                 break;
                 
             case 3:
                 long delayElapsed = System.currentTimeMillis() - phaseStartTime;
                 if (delayElapsed >= PHASE2_DELAY_MS) {
-                    enterPhase4();
+                    blackOverlay.setTransparency(0);
+                    enterPhase(4);
                 }
                 break;
 
@@ -213,7 +224,7 @@ public class InitWorldReal extends World {
                     bg1Engine.setTransparency(0);
                     bg1PoweredByGreenfoot.setTransparency(0);
                     blackOverlay.setTransparency(0);
-                    enterPhase5();
+                    enterPhase(5);
                 }
                 break;
             case 5:
@@ -230,14 +241,16 @@ public class InitWorldReal extends World {
                 } else {
                     bg2PolyRender.setTransparency(255);
                     bg2PRCube.setTransparency(255);
-                    enterPhase6();
+                    enterPhase(6);
                 }
                 break;
                 
             case 6:
-                long delayElapsed2 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed2 >= 1500) {
-                    enterPhase7();
+                long delayElapsed6 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed6 >= 1500) {
+                    blackOverlay.setColor(new Color(179,179,179));
+                    blackOverlay.fill();
+                    enterPhase(7);
                 }
                 
                 break;
@@ -249,10 +262,10 @@ public class InitWorldReal extends World {
                     );
                     
                     int cubeRotation1 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 0, 90)
+                        Utils.map(elapsed5, 0, 600, 35, 90)
                     );
                     int cubeRotation2 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 0, 180)
+                        Utils.map(elapsed5, 0, 600, 45, 180)
                     );
                     int cubeRotation3 = (int) Math.round(
                         Utils.map(elapsed5, 0, 600, 0, 360)
@@ -269,28 +282,42 @@ public class InitWorldReal extends World {
                     
                     bg2PRCube.setLocation(actorPosition,bg2PRCube.getY());
                 } else {
-                    enterPhase8();
+                    bg2PolyRenderModel.setScale(0);
+                    bg2PRCubeModel.setScale(0);
+                    bg2PolyRenderModel.act();
+                    bg2PRCubeModel.act();
+                    bg2PolyRender.setImage(bg2PolyRenderModel.getGreenfootImage());
+                    bg2PRCube.setImage(bg2PRCubeModel.getGreenfootImage());
+                    enterPhase(8);
                 }
                 
                 if (elapsed5 < 650 && elapsed5 > 150) {
                     int overlayAlpha = (int) Math.round(
                         Utils.map(elapsed5, 0, 500, 0, 255)
                     );
-                    
+            
                     overlayAlpha = (int)Utils.clamp(overlayAlpha,0,255);
-                    
                     blackOverlay.setTransparency(overlayAlpha);
                 }
                 break;
                 
             case 8:
-                phase = 9;
+                long delayElapsed8 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed8 >= 0) {
+                    enterPhase(9);
+                }
                 break;
             case 9:
-                phase = 10;
+                long delayElapsed9 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed9 >= 0) {
+                    enterPhase(10);
+                }
                 break;
             case 10:
-                phase = 11;
+                long delayElapsed10 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed10 >= 0) {
+                    enterPhase(11);
+                }
                 break;
             case 11:
                 long elapsed11 = System.currentTimeMillis() - phaseStartTime; 
@@ -303,13 +330,13 @@ public class InitWorldReal extends World {
                     bg3TitleBlur = BlurHelper.fastBlur(bg3Title, blurPower);
                     setBackground(bg3TitleBlur);
                 } else {
-                    enterPhase12(); // transition to show button and wait for click
+                    enterPhase(12);
                 }
                 break;
             case 12:
                 long delayElapsed3 = System.currentTimeMillis() - phaseStartTime;
                 if (delayElapsed3 >= 1500) {
-                    enterPhase13();
+                    enterPhase(13);
                 }
                 break;
             case 13:
@@ -334,16 +361,13 @@ public class InitWorldReal extends World {
                 } else {
                     bg3fade.setTransparency(255);
                     bg3fade.setLocation(bg3fade.getX(),WORLD_HEIGHT - bg3fade.getHeight()/2);
-                    enterPhase14();
+                    enterPhase(14);
                 }
                 break;
             case 14:
-                
-                
-                
                 if (statusLabel == null) {
-                    statusLabel = new Label("Connecting...", 24);
-                    addObject(statusLabel, WORLD_WIDTH / 2, WORLD_HEIGHT - statusLabel.getImage().getHeight()/2);
+                    statusLabel = new Label("ScuffedAPI: Connecting...", 24);
+                    addObject(statusLabel, WORLD_WIDTH / 2, WORLD_HEIGHT - statusLabel.getImage().getHeight()/2 - 20);
                 }
                 
                 if (!scuffedAPIConnectioninProgress)
@@ -360,43 +384,75 @@ public class InitWorldReal extends World {
                     if (connectionResult != null)
                     {
                         long delayElapsed14 = System.currentTimeMillis() - phaseStartTime;
-                        if (delayElapsed14 >= 500) {
+                        if (delayElapsed14 <= 500) {
                             statusLabel.setValue("ScuffedAPI: Connecting...");
                         }
                         else
                         {
                             if (connectionResult == true)
                             {
+                                statusLabel.setValue("ScuffedAPI: Leaderboard Connected!");
                                 if (delayElapsed14 >= 1500) {
-                                    statusLabel.setValue("ScuffedAPI: Leaderboard Connected!");
-                                     if (delayElapsed14 >= 2500) {
-                                        enterPhase15();
-                                    }
+                                    enterPhase(15);
                                 }
                                 
                             }
                             else
                             {
+                                statusLabel.setValue("ScuffedAPI: Failed to connect! Attempt: " + Integer.toString(scuffedAPIAttempts + 1));
+                    
                                 if (delayElapsed14 >= 1500) {
-                                    statusLabel.setValue("ScuffedAPI: Failed to connect!");
                                     scuffedAPIConnectioninProgress = false;
+                                    scuffedAPIAttempts++;
                                 }
 
                             }
                         }
-                        
-                        
-                        
                     }
                 }
-    
                 
+                if (scuffedAPIAttempts >= 3)
+                {
+                    statusLabel.setValue("ScuffedAPI: Failed to connect! Continuing...");
+                    connectionResult = false;
+                    enterPhase(15);
+                }
                 break;
             case 15:
+                long delayElapsed15 = System.currentTimeMillis() - phaseStartTime;
+                if (delayElapsed15 >= 1500) {
+                    blackOverlay.setColor(new Color(0,0,0));
+                    blackOverlay.fill();
+                    enterPhase(16);
+                }
                 break;
             case 16:
+                long elapsed16 = System.currentTimeMillis() - phaseStartTime; 
+                if (elapsed16 < 500) {
+                    int alpha = (int) Math.round(
+                        Utils.map(elapsed16, 0, 500, 0, 255)
+                    );
+                    alpha = (int) Utils.clamp(alpha, 0, 255);
+                    blackOverlay.setTransparency(alpha);
+                } else {
+                    Greenfoot.setWorld(new MainMenu());
+                }
                 break;
             case 17:
+                if (startButton.getWorld() == null) {
+                    addObject(startButton, centerX, centerY + 150);
+                    addObject(startLabel, centerX, centerY + 150);
+                    startButton.setActive(true);
+                }
+
+                startButton.act(); // update button visuals and input
+
+                // Check if button was pressed
+                if (startButton.isPressed()) {
+                    removeObject(startButton);
+                    removeObject(startLabel);
+                    Greenfoot.setWorld(new MainMenu());
+                }
                 break;
 
             case 18:
@@ -421,85 +477,11 @@ public class InitWorldReal extends World {
                 break;
         }
     }
-
-    private void enterPhase1() {
-        phase = 1;
-        phaseStartTime = System.currentTimeMillis();
-        bg1Engine.setTransparency(255);
-    }
-
-    private void enterPhase2() {
-        phase = 2;
-        phaseStartTime = System.currentTimeMillis();
-
-        int engineX = bg1Engine.getX();
-        int engineY = bg1Engine.getY();
-        newImageStartX = engineX;
-        newImageStartY = engineY;
-        bg1PoweredByGreenfoot.setLocation(engineX, engineY);
-        bg1PoweredByGreenfoot.setTransparency(255);
-
-        int engineHalfH = bg1Engine.getImage().getHeight() / 2;
-        int newHalfH = bg1PoweredByGreenfoot.getImage().getHeight() / 2;
-        newImageTargetY = (engineY + engineHalfH + PADDING) + newHalfH;
-    }
     
-    private void enterPhase3() {
-        phase = 3;
-        phaseStartTime = System.currentTimeMillis();
-    }
-
-    private void enterPhase4() {
-        phase = 4;
-        phaseStartTime = System.currentTimeMillis();
-        blackOverlay.setTransparency(0);
-    }
-    
-    private void enterPhase5() {
-        phase = 5;
-        phaseStartTime = System.currentTimeMillis();
-    }
-    
-    private void enterPhase6() {
-        phase = 6;
-        phaseStartTime = System.currentTimeMillis();
-    }
-    private void enterPhase7() {
-        phase = 7;
-        phaseStartTime = System.currentTimeMillis();
-        blackOverlay.setColor(new Color(179,179,179));
-        blackOverlay.fill();
-    }
-    
-    private void enterPhase8() {
-        phase = 8;
-        phaseStartTime = System.currentTimeMillis();
-        bg2PolyRenderModel.setScale(0);
-        bg2PRCubeModel.setScale(0);
-        bg2PolyRenderModel.act();
-        bg2PRCubeModel.act();
-        bg2PolyRender.setImage(bg2PolyRenderModel.getGreenfootImage());
-        bg2PRCube.setImage(bg2PRCubeModel.getGreenfootImage());
-    }
-    
-    private void enterPhase12() {
-        phase = 12;
-        phaseStartTime = System.currentTimeMillis();
-    }
-        
-    private void enterPhase13() {
-        phase = 13;
-        phaseStartTime = System.currentTimeMillis();  
-    }
-    
-    private void enterPhase14() {
-        phase = 14;
-        phaseStartTime = System.currentTimeMillis();  
-    }
-    
-    private void enterPhase15() {
-        phase = 15;
-        phaseStartTime = System.currentTimeMillis();  
+    private void enterPhase(int phaseInt)
+    {
+        this.phase = phaseInt;
+        phaseStartTime = System.currentTimeMillis(); 
     }
     
     
