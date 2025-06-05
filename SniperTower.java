@@ -103,9 +103,9 @@ public class SniperTower extends Tower {
     
     public void activateSpeedBoost() {
         if (!speedBoostActive) {
-            cooldownTime = baseCooldownTime / 4;
+            cooldownTime = baseCooldownTime / 10;
             cooldown = 0;
-            speedBoostTimer = 20 * 60;
+            speedBoostTimer = 5 * 60;
             speedBoostActive = true;
         
         }
