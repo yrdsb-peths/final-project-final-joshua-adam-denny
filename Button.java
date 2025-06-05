@@ -19,7 +19,7 @@ public class Button extends UI
     private int topSide = 0;
     private int bottomSide = 0;
     private boolean hasHighlighted = false;
-    
+    private boolean hoverMode = false;
     
     
     public Button(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
@@ -27,7 +27,6 @@ public class Button extends UI
         active = isActive;
         buttonWidth = width;
         buttonHeight = height;
-        
         buttonImage = buttonImages;
         
         buttonImage[0].scale(width,height);
@@ -43,6 +42,15 @@ public class Button extends UI
         rightSide = getX() + (buttonWidth/2);
         topSide = getY() - (buttonHeight/2);
         bottomSide = getY() + (buttonHeight/2);
+        
+        if (buttonImage.length > 2)
+        {
+            hoverMode = true;
+            leftSide   = getX() - (buttonWidth/2);
+            rightSide  = getX() + (buttonWidth/2);
+            topSide    = getY() - (buttonHeight/2);
+            bottomSide = getY() + (buttonHeight/2);
+        }
     }
     
     
@@ -111,6 +119,12 @@ public class Button extends UI
     {
         if (active)
         {
+            if (isHovering() && hoverMode)
+            {
+                currentButton = buttonImage[2];
+            }
+            
+            
             if (Greenfoot.mousePressed(this)) {
                 pressed = true;
                 currentButton = buttonImage[1];
@@ -123,6 +137,11 @@ public class Button extends UI
             }
     
             if (Greenfoot.mouseClicked(this)) {
+                pressed = false;
+                currentButton = buttonImage[0];
+            }
+            
+            if (pressed && Greenfoot.mouseClicked(null) && !Greenfoot.mouseClicked(this)) {
                 pressed = false;
                 currentButton = buttonImage[0];
             }

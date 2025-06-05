@@ -1,5 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Init world real
@@ -41,6 +43,7 @@ public class _InitWorld extends World {
 
     private int phase = 0;
     private long phaseStartTime;
+    private List<Long> elapsed = new ArrayList<>();
 
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
@@ -124,16 +127,6 @@ public class _InitWorld extends World {
         blackOverlay.setTransparency(0);
         addObject(blackOverlay, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
 
-        // Prepare start button and label but do NOT add to world yet
-        GreenfootImage[] buttonImages = new GreenfootImage[2];
-        buttonImages[0] = new GreenfootImage("ui/button-sidebar.png");
-        buttonImages[1] = new GreenfootImage("ui/button-sidebar-pressed.png");
-        startButton = new Button(false, buttonImages, 200, 50); // example size
-
-        startLabel = new Label("Start", 30);  // text "Start", font size 30
-        startLabel.setFillColor(Color.WHITE);
-        startLabel.setLineColor(Color.BLACK);
-
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
     }
@@ -141,13 +134,13 @@ public class _InitWorld extends World {
     @Override
     public void act() {
         long now = System.currentTimeMillis();
-        long elapsed0 = now - phaseStartTime;
+        elapsed.add(0, now - phaseStartTime);
         
         switch (phase) {
             case 0:
-                if (elapsed0 < FADE_DURATION_MS) {
+                if (elapsed.get(phase) < FADE_DURATION_MS) {
                     int alpha = (int) Math.round(
-                        Utils.map(elapsed0, 0, FADE_DURATION_MS, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, FADE_DURATION_MS, 0, 255)
                     );
                     bg1Scuffed.setTransparency(alpha);
                 } else {
@@ -158,8 +151,8 @@ public class _InitWorld extends World {
                 break;
 
             case 1:
-                if (elapsed0 < PHASE1_DURATION_MS) {
-                    double t = (double) elapsed0 / PHASE1_DURATION_MS;
+                if (elapsed.get(0) < PHASE1_DURATION_MS) {
+                    double t = (double) elapsed.get(0) / PHASE1_DURATION_MS;
                     double ease = (1 - Math.cos(Math.PI * t)) * 0.5;
 
                     double newXScuffed = centerX - halfMoveScuffed * ease;
@@ -185,9 +178,9 @@ public class _InitWorld extends World {
                 break;
 
             case 2:
-                long elapsed2 = System.currentTimeMillis() - phaseStartTime;
-                if (elapsed2 < PHASE2_DURATION_MS) {
-                    double t = (double) elapsed2 / PHASE2_DURATION_MS;
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < PHASE2_DURATION_MS) {
+                    double t = (double) elapsed.get(phase) / PHASE2_DURATION_MS;
                     double ease = (1 - Math.cos(Math.PI * t)) * 0.5;
 
                     double newY = newImageStartY + (newImageTargetY - newImageStartY) * ease;
@@ -199,18 +192,18 @@ public class _InitWorld extends World {
                 break;
                 
             case 3:
-                long delayElapsed = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed >= PHASE2_DELAY_MS) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= PHASE2_DELAY_MS) {
                     blackOverlay.setTransparency(0);
                     enterPhase(4);
                 }
                 break;
 
             case 4:
-                long elapsed3 = System.currentTimeMillis() - phaseStartTime;
-                if (elapsed3 < PHASE3_DURATION_MS) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < PHASE3_DURATION_MS) {
                     int alpha = (int) Math.round(
-                        Utils.map(elapsed3, 0, PHASE3_DURATION_MS, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, PHASE3_DURATION_MS, 0, 255)
                     );
                     alpha = (int) Utils.clamp(alpha, 0, 255);
                     blackOverlay.setTransparency(alpha);
@@ -228,10 +221,10 @@ public class _InitWorld extends World {
                 }
                 break;
             case 5:
-                long elapsed4 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed4 < 750) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 750) {
                     int alpha = (int) Math.round(
-                        Utils.map(elapsed4, 0, 750, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, 750, 0, 255)
                     );
                     
                     alpha = (int) Utils.clamp(alpha, 0, 255);
@@ -246,8 +239,8 @@ public class _InitWorld extends World {
                 break;
                 
             case 6:
-                long delayElapsed6 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed6 >= 1500) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 1500) {
                     blackOverlay.setColor(new Color(179,179,179));
                     blackOverlay.fill();
                     enterPhase(7);
@@ -255,24 +248,24 @@ public class _InitWorld extends World {
                 
                 break;
             case 7:
-                long elapsed5 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed5 < 600) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 600) {
                     int actorPosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, bg2PRCube.getX(), centerX)
+                        Utils.map(elapsed.get(phase), 0, 600, bg2PRCube.getX(), centerX)
                     );
                     
                     int cubeRotation1 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 35, 90)
+                        Utils.map(elapsed.get(phase), 0, 600, 35, 90)
                     );
                     int cubeRotation2 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 45, 180)
+                        Utils.map(elapsed.get(phase), 0, 600, 45, 180)
                     );
                     int cubeRotation3 = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 0, 360)
+                        Utils.map(elapsed.get(phase), 0, 600, 0, 360)
                     );
                     
                     int cubePosition = (int) Math.round(
-                        Utils.map(elapsed5, 0, 600, 500, 0)
+                        Utils.map(elapsed.get(phase), 0, 600, 500, 0)
                     );
 
                     bg2PRCubeModel.position(0,0,cubePosition);
@@ -291,9 +284,9 @@ public class _InitWorld extends World {
                     enterPhase(8);
                 }
                 
-                if (elapsed5 < 650 && elapsed5 > 150) {
+                if (elapsed.get(phase) < 650 && elapsed.get(phase) > 150) {
                     int overlayAlpha = (int) Math.round(
-                        Utils.map(elapsed5, 0, 500, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, 500, 0, 255)
                     );
             
                     overlayAlpha = (int)Utils.clamp(overlayAlpha,0,255);
@@ -302,28 +295,28 @@ public class _InitWorld extends World {
                 break;
                 
             case 8:
-                long delayElapsed8 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed8 >= 0) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 0) {
                     enterPhase(9);
                 }
                 break;
             case 9:
-                long delayElapsed9 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed9 >= 0) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 0) {
                     enterPhase(10);
                 }
                 break;
             case 10:
-                long delayElapsed10 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed10 >= 0) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 0) {
                     enterPhase(11);
                 }
                 break;
             case 11:
-                long elapsed11 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed11 < 3000) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 3000) {
                     blackOverlay.setTransparency(0);
-                    double expo = Utils.map(elapsed11, 0, 3000, 0, 100);
+                    double expo = Utils.map(elapsed.get(phase), 0, 3000, 0, 100);
                     double raw = Math.pow(1.05, expo);
                     double blurPower = Utils.map(raw, 0, 100, 0, 1);
                     blurPower = Utils.clamp(blurPower, 0.0, 1.0);
@@ -334,20 +327,20 @@ public class _InitWorld extends World {
                 }
                 break;
             case 12:
-                long delayElapsed3 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed3 >= 1500) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 1500) {
                     enterPhase(13);
                 }
                 break;
             case 13:
-                long elapsed13 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed13 < 500) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500) {
                     int progressAlpha = (int) Math.round(
-                        Utils.map(elapsed13, 0, 500, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, 500, 0, 255)
                     );
                     
                     int progressPos = (int) Math.round(
-                        Utils.map(elapsed13, 0, 500, WORLD_HEIGHT, WORLD_HEIGHT - bg3fade.getHeight()/2)
+                        Utils.map(elapsed.get(phase), 0, 500, WORLD_HEIGHT, WORLD_HEIGHT - bg3fade.getHeight()/2)
                     );
                     
                     progressAlpha = (int)Utils.clamp(progressAlpha,0,255);
@@ -383,8 +376,8 @@ public class _InitWorld extends World {
                 {
                     if (connectionResult != null)
                     {
-                        long delayElapsed14 = System.currentTimeMillis() - phaseStartTime;
-                        if (delayElapsed14 <= 500) {
+                        elapsed.add(phase, now - phaseStartTime);
+                        if (elapsed.get(phase) <= 500) {
                             statusLabel.setValue("ScuffedAPI: Connecting...");
                         }
                         else
@@ -392,7 +385,7 @@ public class _InitWorld extends World {
                             if (connectionResult == true)
                             {
                                 statusLabel.setValue("ScuffedAPI: Leaderboard Connected!");
-                                if (delayElapsed14 >= 1500) {
+                                if (elapsed.get(phase) >= 1500) {
                                     enterPhase(15);
                                 }
                                 
@@ -401,7 +394,7 @@ public class _InitWorld extends World {
                             {
                                 statusLabel.setValue("ScuffedAPI: Failed to connect! Attempt: " + Integer.toString(scuffedAPIAttempts + 1));
                     
-                                if (delayElapsed14 >= 1500) {
+                                if (elapsed.get(phase) >= 1500) {
                                     scuffedAPIConnectioninProgress = false;
                                     scuffedAPIAttempts++;
                                 }
@@ -419,18 +412,18 @@ public class _InitWorld extends World {
                 }
                 break;
             case 15:
-                long delayElapsed15 = System.currentTimeMillis() - phaseStartTime;
-                if (delayElapsed15 >= 1500) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) >= 1500) {
                     blackOverlay.setColor(new Color(0,0,0));
                     blackOverlay.fill();
                     enterPhase(16);
                 }
                 break;
             case 16:
-                long elapsed16 = System.currentTimeMillis() - phaseStartTime; 
-                if (elapsed16 < 500) {
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500) {
                     int alpha = (int) Math.round(
-                        Utils.map(elapsed16, 0, 500, 0, 255)
+                        Utils.map(elapsed.get(phase), 0, 500, 0, 255)
                     );
                     alpha = (int) Utils.clamp(alpha, 0, 255);
                     blackOverlay.setTransparency(alpha);
@@ -438,41 +431,6 @@ public class _InitWorld extends World {
                     Greenfoot.setWorld(new MainMenu());
                 }
                 break;
-            case 17:
-                if (startButton.getWorld() == null) {
-                    addObject(startButton, centerX, centerY + 150);
-                    addObject(startLabel, centerX, centerY + 150);
-                    startButton.setActive(true);
-                }
-
-                startButton.act(); // update button visuals and input
-
-                // Check if button was pressed
-                if (startButton.isPressed()) {
-                    removeObject(startButton);
-                    removeObject(startLabel);
-                    Greenfoot.setWorld(new MainMenu());
-                }
-                break;
-
-            case 18:
-                // Add start button and label only once
-                if (startButton.getWorld() == null) {
-                    addObject(startButton, centerX, centerY + 150);
-                    addObject(startLabel, centerX, centerY + 150);
-                    startButton.setActive(true);
-                }
-
-                startButton.act(); // update button visuals and input
-
-                // Check if button was pressed
-                if (startButton.isPressed()) {
-                    removeObject(startButton);
-                    removeObject(startLabel);
-                    Greenfoot.setWorld(new GameWorld());
-                }
-                break;
-
             default:
                 break;
         }

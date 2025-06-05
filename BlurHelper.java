@@ -26,18 +26,14 @@ public class BlurHelper
             return new GreenfootImage(src);
         }
 
-        // 1) Compute the “down‑scaled” dimensions
         int smallW = Math.max(1, (int)Math.round(w * factor));
         int smallH = Math.max(1, (int)Math.round(h * factor));
 
-        // 2) Copy the source and scale that copy down to (smallW, smallH):
         GreenfootImage temp = new GreenfootImage(src);
         temp.scale(smallW, smallH);
 
-        // 3) Now scale temp back up to full size (w, h). This produces the blur:
         temp.scale(w, h);
 
-        // 4) Return that resulting image
         return temp;
     }
 }
