@@ -14,7 +14,7 @@ public class NukeTower extends Tower {
     private boolean isAnimating = false;
     private boolean hasFired = false;
     private int frameDelay = 5;
-
+    int fuseTime = 1800;
     private Enemy lockedTarget = null; // Stores the enemy to fire at during animation
 
     public NukeTower() {
@@ -86,7 +86,7 @@ public class NukeTower extends Tower {
 
     private void launchNuke(Enemy target) {
         if (getWorld() != null) {
-            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 100);
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 100, fuseTime);
             getWorld().addObject(missile, getX(), getY());
         }
     }

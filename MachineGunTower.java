@@ -3,6 +3,7 @@ import greenfoot.*;
 public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");
     private int shotNum = 0;
+    int fuseTime = 60;
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(75, 53);
@@ -12,7 +13,7 @@ public class MachineGunTower extends Tower {
         range = 300;                   
         damage = 3;                   
         bulletSpeed = 10;
-
+         
         baseCost = 750;
         upgradeCostPerLevel = 150;
         upgradeCost = upgradeCostPerLevel;
@@ -71,7 +72,7 @@ public class MachineGunTower extends Tower {
             int missileSpeed = 5;
             int explosionRadius = 30;
 
-            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50);
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime);
             getWorld().addObject(missile, getX(), getY());
         }
     }

@@ -8,11 +8,13 @@ public class NukeMissile extends Projectile {
     private Tower sourceTower;
     private boolean lostTarget = false;
 
-    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale) {
+    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime) {
         super(target, damage, speed, sourceTower, "NukeMissile.png", scale);
         this.explosionRadius = radius;
         this.sourceTower = sourceTower;
+        this.lifetime = fuseTime;
     }
+
 
     @Override
     public void act() {
