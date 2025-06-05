@@ -23,29 +23,20 @@ public class MainMenu extends World
     {    
         super(1160, 600, 1);
         dt.mark();
-        
-        
-        
         double[][][] text = new double[0][][];
         try {
             text = ObjParser.parseObj("3dModels/text.obj", 100);
         } catch(IOException balls) {
             
         }
-        
         polyText = new PolyRender(text);
         polyText.position(0,0,250);
         polyText.rotate(Math.toRadians(35.0),Math.toRadians(35.0),Math.toRadians(35.0));
         polyText.setRenderVersion(1);
         polyText.setVersionOneRender_MinMaxLighting(50.0,150.0);
         addObject(polyText, getWidth()/2,getHeight()/2);
-        
         original = new GreenfootImage("ui/titlescreen.png");
-
-        // Apply a box‑blur with radius=2 (i.e. a 5×5 neighborhood)
         blurred = BlurHelper.fastBlur(original, 0.001);
-
-        // Set the blurred image as the world’s background
         setBackground(blurred);
     }
     

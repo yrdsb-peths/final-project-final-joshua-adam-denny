@@ -7,7 +7,7 @@ import java.io.IOException;
  * @author Denny Ung
  * @version Version 1.4.4 (June 4, 2025)
  */
-public class InitWorldReal extends World {
+public class _InitWorld extends World {
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
     
@@ -54,7 +54,7 @@ public class InitWorldReal extends World {
     private int scuffedAPIAttempts = 0;
     private boolean scuffedAPIConnectioninProgress = false;
     
-    public InitWorldReal() {
+    public _InitWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
 
         bg.setColor(new Color(66, 66, 66));
