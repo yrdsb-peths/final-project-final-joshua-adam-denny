@@ -38,6 +38,8 @@ public class GameWorld extends World {
     private boolean towerPlacedThisClick = false;
     private int lives = 100;
     private UpgradeMenu currentMenu = null;
+    
+    ScuffedAPI client = ScuffedAPI.getInstance();
 
     private String status = "running"; // "running", "paused", "gameover"
 
@@ -77,19 +79,6 @@ public class GameWorld extends World {
             Tower.class, 
             Enemy.class
         );
-        ScuffedAPI client = ScuffedAPI.getInstance();
-        if (!client.connect()) {
-            System.err.println("Server not reachable!");
-        }
-        
-        try {
-            int place = client.sendScore(1234, 5);
-            System.out.println("You placed: " + place);
-            client.getLeaderboard().forEach(System.out::println);
-        } catch (IOException e) {
-            // some handling here idfk im too tired
-        }
-
     }
 
     double rotation = 0;
@@ -534,6 +523,18 @@ public class GameWorld extends World {
             Tower.class, 
             Enemy.class
         );
+        
+        
+        
+        if (client.isConnected()) {
+            try {
+                int place = client.sendScore(money, wave);
+                System.out.println("You placed: " + place);
+                client.getLeaderboard().forEach(System.out::println);
+            } catch (IOException e) {
+                // some handling here idfk im too tired
+            }
+        }
         UIManager.getInstance().fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
         addObject(endPopup, getWidth() / 2, 0);
