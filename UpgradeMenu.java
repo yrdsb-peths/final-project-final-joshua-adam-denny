@@ -10,23 +10,32 @@ public class UpgradeMenu extends Actor {
         showRangeCircle();
     }
 
+    public void act() {
+        updateImage(); // Will re-render every frame with latest damage
+    }
+
+    
     private void updateImage() {
-        GreenfootImage img = new GreenfootImage(120, 60);
+        GreenfootImage img = new GreenfootImage(120, 80); // increase height
         img.setColor(Color.WHITE);
         img.fillRect(0, 0, img.getWidth(), img.getHeight());
         img.setColor(Color.BLACK);
         img.drawRect(0, 0, img.getWidth() - 1, img.getHeight() - 1);
-
-        // If tower is max upgraded, disable the upgrade button display
+    
         if (tower.isMaxUpgraded()) {
             img.drawString("Max Upgrade", 5, 20);
         } else {
             img.drawString("Upgrade ($" + tower.getUpgradeCost() + ")", 5, 20);
         }
-
-        img.drawString("Sell ($" + tower.getSellValue() + ")", 5, 50);
+    
+        img.drawString("Sell ($" + tower.getSellValue() + ")", 5, 40);
+    
+        // NEW: Show damage dealt
+        img.drawString("Dmg: " + tower.getTotalDamageDone(), 5, 60);
+    
         setImage(img);
     }
+
 
     public void showRangeCircle() {
         if (getWorld() == null) return; // Safety check

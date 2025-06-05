@@ -7,7 +7,7 @@ public class Tower extends Actor {
     protected int range = 100;
     protected int damage = 1;
     protected int bulletSpeed = 5;
-
+    protected int totalDamageDone = 0;
     protected int level = 0;         // current upgrade level (start at 0)
     protected int maxLevel = 3;      // max upgrades allowed
     protected int upgradeCost = 50;  // cost to upgrade
@@ -42,9 +42,10 @@ public class Tower extends Actor {
         double angle = Math.toDegrees(Math.atan2(dy, dx));
         setRotation((int) angle);
     
-        // Shoot a bullet
-        getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
+        // Shoot a bullet and include this tower as the source
+        getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
     }
+
 
 
 
@@ -134,6 +135,16 @@ public class Tower extends Actor {
         return level >= maxLevel;  // assuming you track level and max level
     }
 
+    public void addDamage(int dmg) {
+        totalDamageDone += dmg;
+    }
+    
+    public int getTotalDamageDone() {
+        return totalDamageDone;
+    }
+
+    
+    
     // Replace all visible pixels with outlineColor (keeping alpha)
     private void replaceColor(GreenfootImage img, Color outlineColor) {
         int width = img.getWidth();
