@@ -2,6 +2,7 @@ import greenfoot.*;
 
 public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");
+    private int shotNum = 0;
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(75, 53);
@@ -43,16 +44,44 @@ public class MachineGunTower extends Tower {
     
         super.updateImage();  // This will add the outline based on level
     }
+    
+    @Override
+    protected void shoot(Enemy target) {
+        // Rotate the tower to face the enemy
+        int dx = target.getX() - getX();
+        int dy = target.getY() - getY();
+        double angle = Math.toDegrees(Math.atan2(dy, dx));
+        setRotation((int) angle);
+        // Shoot a bullet
+        if (shotNum > 40 && level == 3)
+        {
+            launchMissle(target);
+            shotNum = 0;
+        }
+        else
+        {
+            getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
+            shotNum++;
+        }
+    }
+    
+    private void launchMissle(Enemy target) {
+        if (getWorld() != null) {
+            int nukeDamage = 20;
+            int missileSpeed = 1;
+            int explosionRadius = 75;
+
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius);
+            getWorld().addObject(missile, getX(), getY());
+        }
+    }
 
     /*@Override
     protected Enemy getEnemyInRange() {
         return super.getEnemyInRange();
     }
 
-    @Override
-    protected void shoot(Enemy target) {
-        getWorld().addObject(new Bullet(target, damage, bulletSpeed), getX(), getY());
-    }
+    
 
   
     public void sell() {
