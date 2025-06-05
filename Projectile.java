@@ -4,11 +4,13 @@ public abstract class Projectile extends Actor {
     protected Enemy target;
     protected int damage;
     protected int speed;
+    protected Tower sourceTower; // make it protected if subclasses might need it
 
-    public Projectile(Enemy target, int damage, int speed, String imageFile, int scale) {
+    public Projectile(Enemy target, int damage, int speed, Tower tower, String imageFile, int scale) {
         this.target = target;
         this.damage = damage;
         this.speed = speed;
+        this.sourceTower = tower; // FIXED: tower is now a constructor parameter
 
         GreenfootImage img = new GreenfootImage(imageFile);
         img.scale(scale, scale);
@@ -26,6 +28,16 @@ public abstract class Projectile extends Actor {
         } else {
             if (getWorld() != null) {
                 getWorld().removeObject(this);
+            }
+        }
+    }
+
+    protected void dealDamage() {
+        if (target != null) {
+            target.takeDamage(damage);
+
+            if (sourceTower != null) {
+                sourceTower.addDamage(damage); // Track damage dealt by the tower
             }
         }
     }
