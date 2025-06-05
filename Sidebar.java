@@ -43,8 +43,9 @@ public class Sidebar extends UI
     private void initalPoly(PolyRender poly)
     {
         poly.position(0,0,500);
-        poly.setScale(1);
+        poly.setScale(-1);
         poly.rotate(Math.toRadians(35.0), Math.toRadians(45.0),0);
+        poly.setRenderVersion(1);
         poly.act();
     }
 
@@ -73,7 +74,7 @@ public class Sidebar extends UI
         
         
         try {
-            button1IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
+            button1IconModel = ObjParser.parseObj("3dModels/basicEnemy.obj", 100);
             button2IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
             button3IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
             button4IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
@@ -83,6 +84,7 @@ public class Sidebar extends UI
         }
         
         button1Icon = new PolyRender(button1IconModel, 600, 600, 150);
+        button1Icon.setVersionOneRender_MinMaxLighting(10.0,255.0);
         initalPoly(button1Icon);
         
         button2Icon = new PolyRender(button2IconModel, 600, 600, 150);
