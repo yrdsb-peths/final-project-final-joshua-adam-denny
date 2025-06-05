@@ -33,8 +33,12 @@ public abstract class Enemy extends Actor {
     protected void setBaseImage(GreenfootImage img) {
         baseImage = new GreenfootImage(img);
         burnedImage = new GreenfootImage(img);
-        burnedImage.setColor(new Color(255, 0, 0, 100));
-        burnedImage.fill();
+        GreenfootImage fireImg = new GreenfootImage("fire.png");
+        burnedImage.drawImage(
+            fireImg,
+            (baseImage.getWidth()  - fireImg.getWidth())  / 2,
+            (baseImage.getHeight() - fireImg.getHeight()) / 2 + 15
+        );
         
         setImage(baseImage);
         
