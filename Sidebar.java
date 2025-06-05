@@ -66,7 +66,7 @@ public class Sidebar extends UI
         double[][][] button5IconModel = new double[0][][];
 
         icon2 = new GreenfootImage("images/Sniper_tower.png");     icon2.scale(48, 48);
-        icon3 = new GreenfootImage("images/MachineGun_tower.png"); icon3.scale(48, 48);
+        icon3 = new GreenfootImage("images/MachineGun_tower.png"); icon3.scale(50, 35);
         icon4 = new GreenfootImage("images/FlameThrower_tower.png"); icon4.scale(48, 48);
         icon5 = new GreenfootImage("images/Nuke_tower.png");       icon5.scale(48, 48);
 
