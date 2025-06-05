@@ -49,7 +49,10 @@ public class ParticleManager extends Actor
     
     public void addParticle(double x, double y, double angleDeg, double speed, Color color)
     {
-        particles.add(new Particle(x, y, angleDeg, speed, color));
+        if (particles.size() < 1000)
+        {
+            particles.add(new Particle(x, y, angleDeg, speed, color));
+        }
     }
     
     @Override
