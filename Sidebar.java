@@ -74,7 +74,7 @@ public class Sidebar extends UI
         
         
         try {
-            button1IconModel = ObjParser.parseObj("3dModels/basicEnemy.obj", 100);
+            button1IconModel = ObjParser.parseObj("3dModels/basicTower.obj", 100);
             button2IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
             button3IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
             button4IconModel = ObjParser.parseObj("3dModels/cube.obj", 100);
