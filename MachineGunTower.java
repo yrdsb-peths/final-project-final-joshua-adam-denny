@@ -68,23 +68,12 @@ public class MachineGunTower extends Tower {
     private void launchMissle(Enemy target) {
         if (getWorld() != null) {
             int nukeDamage = 20;
-            int missileSpeed = 1;
-            int explosionRadius = 75;
+            int missileSpeed = 5;
+            int explosionRadius = 30;
 
-            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this);
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50);
             getWorld().addObject(missile, getX(), getY());
         }
     }
 
-    /*@Override
-    protected Enemy getEnemyInRange() {
-        return super.getEnemyInRange();
-    }
-
-    
-
-  
-    public void sell() {
-
-    }*/
 }

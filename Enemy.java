@@ -71,6 +71,7 @@ public abstract class Enemy extends Actor {
     }
     private int totalCount = 0;
     public void act() {
+        if (getWorld() == null) return;        
         updateBurns();
         if (!isDead)
         {
@@ -81,11 +82,9 @@ public abstract class Enemy extends Actor {
             ((GameWorld) world).loseLife(getLifeDamage());
             world.removeObject(this);
         }
-        
-        if (isDead)
-        {
-            if (totalCount < 5)
-            {
+                
+        if (isDead) {
+            if (totalCount < 5) {
                 totalCount++;
                 pm.addParticle(
                     getX(), 
@@ -94,10 +93,11 @@ public abstract class Enemy extends Actor {
                     Greenfoot.getRandomNumber(5) + 2.5, 
                     Color.RED 
                 );
-                
-            } else 
-            {
-                getWorld().removeObject(this);
+            } else {
+                if (getWorld() != null) {
+                    getWorld().removeObject(this);
+                }
+                return; // stop doing anything else
             }
         }
     }
