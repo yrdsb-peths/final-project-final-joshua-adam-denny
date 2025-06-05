@@ -16,11 +16,9 @@ public class UpgradeMenu extends Actor {
 
     
     private void updateImage() {
-        GreenfootImage img = new GreenfootImage(120, 80); // increase height
-        img.setColor(Color.WHITE);
-        img.fillRect(0, 0, img.getWidth(), img.getHeight());
-        img.setColor(Color.BLACK);
-        img.drawRect(0, 0, img.getWidth() - 1, img.getHeight() - 1);
+        GreenfootImage img = new GreenfootImage("ui/upgrademenu.png ");
+        setImage(img);
+
     
         if (tower.isMaxUpgraded()) {
             img.drawString("Max Upgrade", 5, 20);
