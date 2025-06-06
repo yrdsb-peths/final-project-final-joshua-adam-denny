@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.io.IOException;
 public class GameWorld extends World {
-    
+    private static final int WORLD_WIDTH = 1160;
+    private static final int WORLD_HEIGHT = 600;
     
     private boolean draggingTower = false;
     private boolean wasOutsideArea = true;
@@ -30,6 +31,11 @@ public class GameWorld extends World {
     private Label waveLabel;
     private Label wavePrompt;
     private TowerPreview towerPreview = null;
+    
+    private int phase = 0;
+    private long phaseStartTime;
+    private List<Long> elapsed = new ArrayList<>();
+    private ImageActor overlay = new ImageActor(WORLD_WIDTH,WORLD_HEIGHT);
 
     private boolean waitingForNextWave = true;
     private boolean keyHeld = false;
@@ -42,7 +48,7 @@ public class GameWorld extends World {
     private String status = "running"; // "running", "paused", "gameover"
 
     public GameWorld() {
-        super(1160, 600, 1);
+        super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         setBackground("grass.png");
 
         moneyLabel = new Label("Money: $" + money, 30);
@@ -50,19 +56,24 @@ public class GameWorld extends World {
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
 
-        //addObject(new DDCRender(), getWidth() / 2, getHeight() / 2);
-        addObject(UIManager.getInstance(),getWidth() / 2, getHeight() / 2);
-        addObject(ParticleManager.getInstance(),getWidth() / 2, getHeight() / 2);
+        //addObject(new DDCRender(), WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        addObject(UIManager.getInstance(),WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        addObject(ParticleManager.getInstance(),WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
         
         Base base = new Base();
         addObject(base, 925, 300);
         
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
-        addObject(wavePrompt, getWidth() / 2, getHeight() - 30);
-
+        addObject(wavePrompt, WORLD_WIDTH / 2, WORLD_HEIGHT - 30);
+        
+        
+        
+        phase = 0;
+        phaseStartTime = System.currentTimeMillis();
         
         setPaintOrder(
+            ImageActor.class,
             NukeMissile.class,
             DDCRender.class,
             Label.class,
@@ -77,12 +88,41 @@ public class GameWorld extends World {
             Tower.class, 
             Enemy.class
         );
+        
+        
+        
+        overlay.setColor(new Color(0,0,0));
+        overlay.fill();
+        overlay.setTransparency(255);
+        addObject(overlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
     }
 
     double rotation = 0;
     double position  = 0;
 
     public void act() {
+        long now = System.currentTimeMillis();
+        
+        elapsed.add(0, now - phaseStartTime);
+        switch (phase) {
+            
+            case 0:
+                if (elapsed.get(phase) < 250) {
+                    
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 250, 255, 0)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,255);
+                    overlay.setTransparency(progressAlpha);
+                }
+                else
+                {
+                    
+                    overlay.setTransparency(0);
+                    removeObject(overlay);
+                }
+                break;
+            }
         handleEnemySpawning();
         handleWaveProgression();
         handleTowerDragging();
@@ -109,7 +149,7 @@ public class GameWorld extends World {
         if (wave % 10 == 0 && wave != 10 && enemiesSpawned == 0) {
             int hp = getEnemyHealth("Boss");
             int speed = getEnemySpeed("Boss");
-            addObject(new BossEnemy(speed, hp,1000), 0, getHeight() / 2);
+            addObject(new BossEnemy(speed, hp,1000), 0, WORLD_HEIGHT / 2);
             return;
         }
 
@@ -343,7 +383,7 @@ public class GameWorld extends World {
         // pass the tower range to TowerPreview constructor:
         Tower tower = createTower(towerType);
         towerPreview = new TowerPreview(towerType, tower.getRange());
-        addObject(towerPreview, getWidth() / 2, getHeight() / 2);
+        addObject(towerPreview, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
     }
 
     private void placeTower(String towerType, int x, int y) {
@@ -535,7 +575,7 @@ public class GameWorld extends World {
         }
         UIManager.getInstance().fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
-        addObject(endPopup, getWidth() / 2, 0);
+        addObject(endPopup, WORLD_WIDTH / 2, 0);
         
     }
     

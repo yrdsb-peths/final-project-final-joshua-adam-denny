@@ -180,6 +180,21 @@ public class MainMenu extends World
                     );
                 }
                 break;
+            case 69:
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500)
+                {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 0,255)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,255);
+                    overlay.setTransparency(progressAlpha);
+                } else {
+                    overlay.setTransparency(255);
+                    enterPhase(phase+1);
+                    WorldManager.setWorld(new GameWorld());
+                }
+                break;
                 
         }
         
@@ -195,7 +210,10 @@ public class MainMenu extends World
     {
         if (startButton.isPressed())
         {
-            WorldManager.setWorld(new GameWorld());
+            overlay.setColor(Color.BLACK);
+            overlay.fill();
+            setPaintOrder(ImageActor.class);
+            enterPhase(69);
         }
     }
     
