@@ -71,6 +71,13 @@ public class NukeMissile extends Projectile {
         }
 
         getWorld().addObject(new ExplosionEffect(explosionRadius), getX(), getY());
+        
+        if (level >= 3) {
+            int fieldDuration = 300; // 5 seconds
+            int dotDamage = 25;
+            getWorld().addObject(new RadioactiveField(fieldDuration, dotDamage, explosionRadius), getX(), getY());
+        }
+        
         getWorld().removeObject(this);
     }
 
