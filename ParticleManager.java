@@ -33,12 +33,6 @@ public class ParticleManager extends Actor
     private GreenfootImage buffer;
     private int width;
     private int height;
-    
-    public ParticleManager()
-    {
-        System.out.println("Particle Manager running.");
-    }
-    
     public static ParticleManager getInstance()
     {
         if (_instance == null) {

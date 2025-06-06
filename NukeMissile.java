@@ -7,12 +7,14 @@ public class NukeMissile extends Projectile {
     private int lifetime = 60; // frames before explosion
     private Tower sourceTower;
     private boolean lostTarget = false;
-
-    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime) {
-        super(target, damage, speed, sourceTower, "NukeMissile.png", scale);
+    private int level;
+    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime, int level)  {
+        
+        super(target, damage, speed, sourceTower, level >= 2 ? "NukeMissile2.png" : "NukeMissile.png", scale);
         this.explosionRadius = radius;
         this.sourceTower = sourceTower;
         this.lifetime = fuseTime;
+        this.level = level;
     }
 
 
