@@ -2,7 +2,7 @@ import greenfoot.*;
 
 public class SlowFieldBullet extends Projectile {
     private int fieldRadius = 100;
-    private int fieldSlow = 2;
+    private int fieldSlow = 4;
     private int fieldDuration = 180;
 
     public SlowFieldBullet(Enemy target, int damage, int speed, Tower tower) {
