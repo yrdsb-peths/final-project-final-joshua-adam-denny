@@ -3,7 +3,7 @@ import greenfoot.*;
 public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");
     private int shotNum = 0;
-    int fuseTime = 60;
+    int fuseTime = 15;
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(75, 53);
@@ -69,8 +69,8 @@ public class MachineGunTower extends Tower {
     private void launchMissle(Enemy target) {
         if (getWorld() != null) {
             int nukeDamage = 20;
-            int missileSpeed = 5;
-            int explosionRadius = 30;
+            int missileSpeed = 15;
+            int explosionRadius = 50;
 
             NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime);
             getWorld().addObject(missile, getX(), getY());

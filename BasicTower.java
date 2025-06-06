@@ -2,14 +2,17 @@ import greenfoot.*;
 
 public class BasicTower extends Tower {
     public String imageName = "Basic_tower.png";
+    private int slowShotCounter = 0;
+    private final int slowShotInterval = 5; // Fire slow bullet every 5 shots
+
     public BasicTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(50, 50);
         setImage(img);
 
-        cooldownTime = 60;             
-        range = 200;                  
-        damage = 2;                  
+        cooldownTime = 60;
+        range = 200;
+        damage = 2;
         bulletSpeed = 10;
 
         baseCost = 50;
@@ -20,31 +23,44 @@ public class BasicTower extends Tower {
 
     @Override
     public boolean upgrade() {
-        GameWorld world = (GameWorld) getWorld(); // ✅ correct cast
+        GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
             damage += 2;
             range += 15;
             cooldownTime = Math.max(30, cooldownTime - 10);
-            totalInvested += upgradeCost; // track what's actually spent
+            totalInvested += upgradeCost;
             upgradeCost += 10;
-            //if(level == 1) {
-            //    imageName = "Basic_tower_1.png";
-            //}
-
             updateImage();
             return true;
         }
         return false;
     }
 
-
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage(imageName);
         setImage(img);
-        super.updateImage();  // This will add the outline based on level
+        super.updateImage();
     }
 
+    @Override
+    protected void shoot(Enemy target) {
+        int dx = target.getX() - getX();
+        int dy = target.getY() - getY();
+        double angle = Math.toDegrees(Math.atan2(dy, dx));
+        setRotation((int) angle);
 
+        // Always fire a normal bullet
+        getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
+
+        // Fire a slow field bullet every N shots, only at max level
+        if (level == maxLevel) {
+            slowShotCounter++;
+            if (slowShotCounter >= slowShotInterval) {
+                getWorld().addObject(new SlowFieldBullet(target, damage, bulletSpeed, this), getX(), getY());
+                slowShotCounter = 0;
+            }
+        }
+    }
 }
