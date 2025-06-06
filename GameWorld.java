@@ -3,11 +3,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.io.IOException;
-import java.util.HashMap;
 public class GameWorld extends World {
     
     
-    private HashMap<Integer, Integer> yVisits = new HashMap<>();
     private boolean draggingTower = false;
     private boolean wasOutsideArea = true;
     private int insideCount = 0;

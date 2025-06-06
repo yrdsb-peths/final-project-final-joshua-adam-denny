@@ -195,7 +195,7 @@ public class MainMenu extends World
     {
         if (startButton.isPressed())
         {
-            Greenfoot.setWorld(new GameWorld());
+            WorldManager.setWorld(new GameWorld());
         }
     }
     

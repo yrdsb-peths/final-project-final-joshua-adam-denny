@@ -40,12 +40,12 @@ public class PolyRender extends DDCRender
     private int id;
     private boolean useScreen = false;
     
-    public double X_Pos = 0;
-    public double Y_Pos = 0; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
-    public double Z_Pos = 0;
-    public double X_Rot = 0;
-    public double Y_Rot = 0;
-    public double Z_Rot = 0;
+    public static double X_Pos = 0;
+    public static double Y_Pos = 0; 
+    public static double Z_Pos = 0;
+    public static double X_Rot = 0;
+    public static double Y_Rot = 0;
+    public static double Z_Rot = 0;
     
     private int versionRender = 1;
     private double versionOneRender_min = 10.0;

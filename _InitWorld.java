@@ -428,7 +428,7 @@ public class _InitWorld extends World {
                     alpha = (int) Utils.clamp(alpha, 0, 255);
                     blackOverlay.setTransparency(alpha);
                 } else {
-                    Greenfoot.setWorld(new MainMenu());
+                    WorldManager.setWorld(new MainMenu());
                 }
                 break;
             default:

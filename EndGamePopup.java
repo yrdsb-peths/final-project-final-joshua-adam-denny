@@ -165,20 +165,20 @@ public class EndGamePopup extends UI
 
         if (restartButton.isPressed())
         {
-            Greenfoot.setWorld(new GameWorld());
+            WorldManager.setWorld(new GameWorld());
         }
         if (creditsButton.isPressed())
         {
-            Greenfoot.setWorld(new CreditWorld());
+            WorldManager.setWorld(new CreditWorld());
         }
         if (continueButton.isPressed())
         {
-            Greenfoot.setWorld(new GameWorld());
+            WorldManager.setWorld(new GameWorld());
         }
         
         if (mainMenuButton.isPressed())
         {
-            Greenfoot.setWorld(new MainMenu());
+            WorldManager.setWorld(new MainMenu());
         }
     }
 }
