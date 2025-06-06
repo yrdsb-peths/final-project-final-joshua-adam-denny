@@ -14,7 +14,7 @@ public class NukeTower extends Tower {
     private boolean isAnimating = false;
     private boolean hasFired = false;
     private int frameDelay = 5;
-    int fuseTime = 1800;
+    int fuseTime = 300;
     private Enemy lockedTarget = null; // Stores the enemy to fire at during animation
 
     public NukeTower() {
