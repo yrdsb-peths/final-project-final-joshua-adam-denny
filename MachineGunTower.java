@@ -72,7 +72,7 @@ public class MachineGunTower extends Tower {
             int missileSpeed = 15;
             int explosionRadius = 50;
 
-            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime, 0);
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime, 0, 1);
             getWorld().addObject(missile, getX(), getY());
         }
     }
