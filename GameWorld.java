@@ -701,12 +701,14 @@ public class GameWorld extends World {
             sniperBoostTimers.set(i, timeLeft);
         }
     
-        // Remove expired timers and refund ability
+        // Remove expired timers and refund ability (clamped to max level sniper count)
         sniperBoostTimers.removeIf(timer -> {
             if (timer <= 0) {
-                sniperAbilitiesUnlocked++;
-                updateSniperAbilityLabels();
-                return true;
+                if (sniperAbilitiesUnlocked < maxLevelSnipersCount) {
+                    sniperAbilitiesUnlocked++;
+                    updateSniperAbilityLabels();
+                }
+                return true; // Always remove expired timer
             }
             return false;
         });
@@ -731,10 +733,10 @@ public class GameWorld extends World {
                             sniperAbilitiesUnlocked--;
                             sniperBoostTimers.add(20 * 60); // 20 seconds
                             System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
+                            updateSniperAbilityLabels();
                         } else {
                             System.out.println("No valid sniper tower near cursor to boost.");
                         }
-                        updateSniperAbilityLabels();
                     }
                 }
             }
@@ -742,6 +744,7 @@ public class GameWorld extends World {
     
         updateSniperAbilityLabels();
     }
+
     
     public void activateSniperBoost() {
         if (sniperAbilitiesUnlocked > 0) {
