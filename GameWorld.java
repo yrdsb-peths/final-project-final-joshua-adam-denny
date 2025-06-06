@@ -635,33 +635,64 @@ public class GameWorld extends World {
     }
     
     private void updateSniperAbilityLabels() {
-        if (sniperAbilitiesUnlocked > 0) {
-            if (sniperCooldownLabel != null) {
-                removeObject(sniperCooldownLabel);
-                sniperCooldownLabel = null;
+        if (maxLevelSnipersCount > 0 && sniperAbilitiesUnlocked > 0) {
+            // Ensure icon is present
+            if (sniperIcon == null) {
+                sniperIcon = new SniperAbility();
+                addObject(sniperIcon, 50, 540);
             }
+    
+            // Update available label
             if (sniperAbilitiesAvailableLabel == null) {
                 sniperAbilitiesAvailableLabel = new Label(String.valueOf(sniperAbilitiesUnlocked), 30);
                 addObject(sniperAbilitiesAvailableLabel, 50, 570);
             } else {
                 sniperAbilitiesAvailableLabel.setValue(String.valueOf(sniperAbilitiesUnlocked));
             }
-        } else {
+    
+            // Remove cooldown label while unused
+            if (sniperCooldownLabel != null) {
+                removeObject(sniperCooldownLabel);
+                sniperCooldownLabel = null;
+            }
+    
+        } else if (maxLevelSnipersCount > 0 && sniperAbilitiesUnlocked == 0 && !sniperBoostTimers.isEmpty()) {
+            // Show cooldown when no abilities are currently available, but timer is still running
             if (sniperAbilitiesAvailableLabel != null) {
                 removeObject(sniperAbilitiesAvailableLabel);
                 sniperAbilitiesAvailableLabel = null;
             }
+    
             if (sniperCooldownLabel == null) {
                 sniperCooldownLabel = new Label("", 30);
                 addObject(sniperCooldownLabel, 50, 570);
             }
+    
             if (!sniperBoostTimers.isEmpty()) {
                 sniperCooldownLabel.setValue((sniperBoostTimers.get(0) / 60) + "s");
             } else {
                 sniperCooldownLabel.setValue("");
             }
+    
+        } else {
+            // No snipers or abilities — clean up everything
+            if (sniperIcon != null) {
+                removeObject(sniperIcon);
+                sniperIcon = null;
+            }
+    
+            if (sniperCooldownLabel != null) {
+                removeObject(sniperCooldownLabel);
+                sniperCooldownLabel = null;
+            }
+    
+            if (sniperAbilitiesAvailableLabel != null) {
+                removeObject(sniperAbilitiesAvailableLabel);
+                sniperAbilitiesAvailableLabel = null;
+            }
         }
     }
+
     
     private void handleSniperBoost() {
         // Update cooldown timers
@@ -775,9 +806,25 @@ public class GameWorld extends World {
                     removeObject(sniperIcon);
                     sniperIcon = null;
                 }
+    
+                // Remove cooldown label
+                if (sniperCooldownLabel != null) {
+                    removeObject(sniperCooldownLabel);
+                    sniperCooldownLabel = null;
+                }
+    
+                // Remove available abilities label
+                if (sniperAbilitiesAvailableLabel != null) {
+                    removeObject(sniperAbilitiesAvailableLabel);
+                    sniperAbilitiesAvailableLabel = null;
+                }
+    
+                // Clear boost timers so they don't keep refreshing UI
+                sniperBoostTimers.clear();
             }
         }
     }
+
     
     public int getMaxLevelSnipersCount() {
         return maxLevelSnipersCount;
