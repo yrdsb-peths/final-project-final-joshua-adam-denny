@@ -35,11 +35,15 @@ public class NukeMissile extends Projectile {
 
         move(speed);
         lifetime--;
-
-        // If target is still alive and within range, detonate on impact
-        if (!lostTarget && target != null && distanceTo(target) < 10) {
-            explode();
+        if (!lostTarget && target != null && getWorld().getObjects(Enemy.class).contains(target)) {
+            if (distanceTo(target) < 10) {
+                explode();
+                return;
+            }
+        } else {
+            lostTarget = true; // Mark target as lost if no longer valid
         }
+    
     }
 
     private void explode() {
