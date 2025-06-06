@@ -91,7 +91,9 @@ public class CreditWorld extends World
     {
         
         
-        
+        if (Greenfoot.isKeyDown("escape")) {
+            WorldManager.setWorld(new MainMenu());
+        }
         
         rotation+= 0.5;
         position+= 0.05;

@@ -129,6 +129,8 @@ public class _InitWorld extends World {
 
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
+        
+        
     }
 
     @Override

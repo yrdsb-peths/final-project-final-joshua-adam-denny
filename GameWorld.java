@@ -101,8 +101,18 @@ public class GameWorld extends World {
     double position  = 0;
 
     public void act() {
+        handleAnimations();
+        handleEnemySpawning();
+        handleWaveProgression();
+        handleTowerDragging();
+        handleTowerClickUpgrade();
+        handleSniperBoost();
+        resetInputFlags();
+    }
+    
+    private void handleAnimations()
+    {
         long now = System.currentTimeMillis();
-        
         elapsed.add(0, now - phaseStartTime);
         switch (phase) {
             
@@ -120,15 +130,26 @@ public class GameWorld extends World {
                     
                     overlay.setTransparency(0);
                     removeObject(overlay);
+                    phase = 1;
+                    setPaintOrder(
+                        NukeMissile.class,
+                        DDCRender.class,
+                        Label.class,
+                        Button.class,
+                        EndGamePopup.class,
+                        Transition.class, 
+                        Sidebar.class,
+                        UI.class, 
+                        ExplosionEffect.class,
+                        Bullet.class,
+                        Tower.class, 
+                        Enemy.class,
+                        ImageActor.class
+                    );
                 }
                 break;
-            }
-        handleEnemySpawning();
-        handleWaveProgression();
-        handleTowerDragging();
-        handleTowerClickUpgrade();
-        handleSniperBoost();
-        resetInputFlags();
+        }
+    
     }
 
     private void handleEnemySpawning() {
