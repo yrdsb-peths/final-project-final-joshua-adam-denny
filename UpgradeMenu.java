@@ -16,7 +16,7 @@ public class UpgradeMenu extends Actor {
 
     
     private void updateImage() {
-        GreenfootImage img = new GreenfootImage("ui/upgrademenu.png ");
+        GreenfootImage img = new GreenfootImage("ui/upgrademenu.png");
         setImage(img);
 
     

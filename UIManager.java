@@ -13,11 +13,6 @@ public class UIManager extends Actor
     private Sidebar sideBar = Sidebar.getInstance();
     private HealthBar healthBar = HealthBar.getInstance();
 
-    public UIManager()
-    {
-        System.out.println("UI Manager running.");
-    }
-
     public static UIManager getInstance()
     {
         if (_instance == null) {

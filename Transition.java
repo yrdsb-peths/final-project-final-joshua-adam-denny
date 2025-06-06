@@ -88,7 +88,6 @@ public class Transition extends UI {
             screen.fill();
             setImage(screen);
 
-            System.out.println("Current Opacity: " + opacity + " Target Opacity: " + targetOpacity);
             if (opacity >= targetOpacity && state.equals("fadeIn")) {
                 currentOpacity = targetOpacity;
                 state = "none"; 
