@@ -17,6 +17,8 @@ public class GameWorld extends World {
     private Label sniperCooldownLabel = null;
     private boolean sniperBoostActive = false;
     private SniperAbility sniperIcon = null;
+    private int maxLevelSnipersCount = 0;
+
     
     private int wave = 0;
     private int enemiesSpawned = 0;
@@ -755,6 +757,32 @@ public class GameWorld extends World {
     
         return closest;
     }
+    
+    public void incrementMaxLevelSnipers() {
+        maxLevelSnipersCount++;
+        unlockSniperAbility();
+    }
+    
+    public void decrementMaxLevelSnipers() {
+        if (maxLevelSnipersCount > 0) {
+            maxLevelSnipersCount--;
+            sniperAbilitiesUnlocked = Math.max(0, sniperAbilitiesUnlocked - 1);
+            updateSniperAbilityLabels();
+    
+            if (maxLevelSnipersCount == 0) {
+                // Remove sniper ability icon
+                if (sniperIcon != null) {
+                    removeObject(sniperIcon);
+                    sniperIcon = null;
+                }
+            }
+        }
+    }
+    
+    public int getMaxLevelSnipersCount() {
+        return maxLevelSnipersCount;
+    }
+
 
 
 

@@ -25,14 +25,7 @@ public class SniperTower extends Tower {
         upgradeCost = upgradeCostPerLevel;
         totalInvested = baseCost;
 
-        // Remove this block since we're handling boost per tower:
-        /*
-        if (world != null && world.isSniperBoostActive()) {
-            cooldownTime = baseCooldownTime / 4; // apply boost at start
-            System.out.println("SniperTower boost active at init, cooldownTime: " + cooldownTime);
-        }
-        */
-
+        
         if (level == maxLevel && world != null) {
             world.unlockSniperAbility();
         }
@@ -49,9 +42,11 @@ public class SniperTower extends Tower {
             upgradeCost += 100;  // higher cost per upgrade
             updateImage();
 
+ 
             if (level == maxLevel && world != null) {
-                world.unlockSniperAbility();
+                world.incrementMaxLevelSnipers();
             }
+
             return true;
         }
         return false;
@@ -110,6 +105,20 @@ public class SniperTower extends Tower {
         
         }
     }
+    
+    @Override
+    public void sell() {
+        GameWorld world = (GameWorld) getWorld();
+        int refund = (int)(totalInvested * 0.8);
+        if (world != null) {
+            world.addMoney(refund);
+            if (level == maxLevel) {
+                world.decrementMaxLevelSnipers();
+            }
+        }
+        getWorld().removeObject(this);
+    }
+
 
 
 }
