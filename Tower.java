@@ -120,6 +120,10 @@ public class Tower extends Actor {
     {
         return level;
     }
+    public int getMaxLevel() 
+    {
+        return maxLevel;
+    }
     
     public int getUpgradeCost() 
     {
