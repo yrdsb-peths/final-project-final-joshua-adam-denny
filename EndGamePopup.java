@@ -26,6 +26,8 @@ public class EndGamePopup extends UI
     
     private Button restartButton;
     private Button creditsButton;
+    private Button continueButton;
+    private Button mainMenuButton;
 
     /**
      * Constructor for objects of class EndGamePopup.
@@ -44,7 +46,7 @@ public class EndGamePopup extends UI
 
         // Initialize the image for the popup
         image = new GreenfootImage("ui/EndGamePopUp.png");
-        image.scale(300, 300);
+        image.scale(500, 350);
         image.setTransparency(0);
         setImage(image);
 
@@ -56,20 +58,38 @@ public class EndGamePopup extends UI
     protected void addedToWorld(World w) {
         startY = getY();
         targetY = w.getHeight()/2; // always center to it to the middle of the world.
-        GreenfootImage[] buttonImages = new GreenfootImage[2];
+        GreenfootImage[] restartButtonImages = new GreenfootImage[2];
+        GreenfootImage[] creditsButtonImages = new GreenfootImage[2];
+        GreenfootImage[] continueButtonImages = new GreenfootImage[2];
+        GreenfootImage[] mainMenuButtonImages = new GreenfootImage[2];
         
-        buttonImages[0] = new GreenfootImage("ui/button-restart.png");
-        buttonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
+        restartButtonImages[0] = new GreenfootImage("ui/button-restart.png");
+        restartButtonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
+        
+        creditsButtonImages[0] = new GreenfootImage("ui/button-restart.png");
+        creditsButtonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
+        
+        continueButtonImages[0] = new GreenfootImage("ui/button-restart.png");
+        continueButtonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
+        
+        mainMenuButtonImages[0] = new GreenfootImage("ui/button-mainMenu.png");
+        mainMenuButtonImages[1] = new GreenfootImage("ui/button-mainMenu-pressed.png");
         
         
-        restartButton = new EndGameButton(false, buttonImages, buttonSize, buttonSize);
-        creditsButton = new EndGameButton(false, buttonImages, buttonSize, buttonSize);
+        restartButton = new EndGameButton(false, restartButtonImages, buttonSize, buttonSize);
+        creditsButton = new EndGameButton(false, creditsButtonImages, buttonSize, buttonSize);
+        continueButton = new EndGameButton(false, continueButtonImages, buttonSize, buttonSize);
+        mainMenuButton = new EndGameButton(false, mainMenuButtonImages, buttonSize, buttonSize);
         
         restartButton.setTransparency(0);
         creditsButton.setTransparency(0);
+        continueButton.setTransparency(0);
+        mainMenuButton.setTransparency(0);
         
         w.addObject(restartButton, getX()+100, getY());
         w.addObject(creditsButton, getX()-100, getY());
+        w.addObject(continueButton, getX()+150, getY());
+        w.addObject(mainMenuButton, getX()-150, getY());
     }
     
     
@@ -99,26 +119,39 @@ public class EndGamePopup extends UI
         // update transparency of the image
         int alpha = (int)(ease * 255);
         alpha = (int)Utils.clamp(alpha, 0, 255);
+        
         image.setTransparency(alpha);
         restartButton.setTransparency(alpha);
         creditsButton.setTransparency(alpha);
+        continueButton.setTransparency(alpha);
+        mainMenuButton.setTransparency(alpha);
         setImage(image);
 
         // update the position of the popup/actor
         int newY = startY + (int)(ease * (targetY - startY));
         setLocation(getX(), newY);
         
-        restartButton.setLocation(getX()+70,newY+80);
-        creditsButton.setLocation(getX()-70,newY+80);
+        restartButton.setLocation(getX()+150,newY+100);
+        creditsButton.setLocation(getX()-150,newY+100);
+        continueButton.setLocation(getX(),newY+100);
+        mainMenuButton.setLocation(getX(),newY-100);
         
         //lock tf IN.)
         if (dtActive >= timeToFade) {
-            image.setTransparency(255);
             setLocation(getX(), targetY);
             lockedIn = true;
             
+            image.setTransparency(255);
+            restartButton.setTransparency(255);
+            creditsButton.setTransparency(255);
+            continueButton.setTransparency(255);
+            mainMenuButton.setTransparency(255);
+            
+            
             restartButton.setActive(true);
             creditsButton.setActive(true);
+            continueButton.setActive(true);
+            mainMenuButton.setActive(true);
         }
     }
 
@@ -130,8 +163,22 @@ public class EndGamePopup extends UI
             start();
         }
 
-        // todo: uhhhhhhhhhhhhhhhhh buttons needs to be interactable n stuf
-        // comment: type sh
+        if (restartButton.isPressed())
+        {
+            Greenfoot.setWorld(new GameWorld());
+        }
+        if (creditsButton.isPressed())
+        {
+            Greenfoot.setWorld(new CreditWorld());
+        }
+        if (continueButton.isPressed())
+        {
+            Greenfoot.setWorld(new GameWorld());
+        }
         
+        if (mainMenuButton.isPressed())
+        {
+            Greenfoot.setWorld(new MainMenu());
+        }
     }
 }

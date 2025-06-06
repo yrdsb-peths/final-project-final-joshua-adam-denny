@@ -84,7 +84,8 @@ public class Transition extends UI {
         int elapsed = deltaTime.millisElapsed();
         if (!state.equals("none")) {
             int opacity = (int) Utils.map(elapsed,0,timeToFade, currentOpacity, targetOpacity);
-            screen.setTransparency(opacity);
+            
+            screen.setTransparency((int)Utils.clamp(opacity,0,255));
             screen.fill();
             setImage(screen);
 

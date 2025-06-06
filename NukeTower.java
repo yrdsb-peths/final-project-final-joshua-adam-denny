@@ -86,7 +86,7 @@ public class NukeTower extends Tower {
 
     private void launchNuke(Enemy target) {
         if (getWorld() != null) {
-            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 130, fuseTime, level);
+            NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 130, fuseTime, level, 2);
             getWorld().addObject(missile, getX(), getY());
         }
     }

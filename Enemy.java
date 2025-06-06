@@ -120,4 +120,23 @@ public abstract class Enemy extends Actor {
             
         }
     }
+    private int originalSpeed;
+    private int slowTimer = 0;
+    
+    public void applySlow(int amount, int duration) {
+        if (originalSpeed == 0) originalSpeed = speed;
+        speed = Math.max(1, originalSpeed - amount);
+        slowTimer = duration;
+    }
+    
+    private void updateSlowTimer() {
+        if (slowTimer > 0) {
+            slowTimer--;
+            if (slowTimer == 0) {
+                speed = originalSpeed;
+            }
+        }
+    }
+
+    
 }

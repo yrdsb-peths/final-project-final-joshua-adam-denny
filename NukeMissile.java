@@ -8,45 +8,55 @@ public class NukeMissile extends Projectile {
     private Tower sourceTower;
     private boolean lostTarget = false;
     private int level;
-    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime, int level)  {
+    private int projectileType; 
+
+    public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime, int level, int projectileType)  {
         
         super(target, damage, speed, sourceTower, level >= 2 ? "NukeMissile2.png" : "NukeMissile.png", scale);
         this.explosionRadius = radius;
         this.sourceTower = sourceTower;
         this.lifetime = fuseTime;
         this.level = level;
+        this.projectileType = projectileType;
+
     }
 
 
     @Override
     public void act() {
         if (exploded || getWorld() == null) return;
-
-        // Explode after lifetime
+    
         if (lifetime <= 0) {
             explode();
             return;
         }
-
-        // If target still exists and is in world
+    
+        // Target still exists and is in world
         if (!lostTarget && target != null && getWorld().getObjects(Enemy.class).contains(target)) {
             turnTowards(target.getX(), target.getY());
         } else {
-            lostTarget = true; // stop tracking target
+            if (!lostTarget) {
+                lostTarget = true;
+                // If it's projectile type 2, explode immediately upon losing target
+                if (projectileType == 2) {
+                    explode();
+                    return;
+                }
+            }
         }
-
+    
         move(speed);
         lifetime--;
+    
+        // If target exists and is close, explode
         if (!lostTarget && target != null && getWorld().getObjects(Enemy.class).contains(target)) {
             if (distanceTo(target) < 10) {
                 explode();
                 return;
             }
-        } else {
-            lostTarget = true; // Mark target as lost if no longer valid
         }
-    
     }
+
 
     private void explode() {
         if (exploded || getWorld() == null) return;
