@@ -717,43 +717,59 @@ public class GameWorld extends World {
             return false;
         });
     
-        // Handle mouse click on icon to trigger boost (unchanged)
-        if (Greenfoot.mouseClicked(sniperIcon)) {
-            activateSingleSniperBoost();
-        }
+        // Handle mouse click on icon to trigger boost
+        if (Greenfoot.mouseClicked(null)) {
+            MouseInfo mouse = Greenfoot.getMouseInfo();
+            if (mouse != null && sniperIcon != null) {
+                int mouseX = mouse.getX();
+                int mouseY = mouse.getY();
     
-        // Handle single boost key (e.g. "S")
-        boolean keySDown = Greenfoot.isKeyDown("s");
-        if (keySDown && !sniperKeyPreviouslyDown) {
-            activateSingleSniperBoost();
-        }
-        sniperKeyPreviouslyDown = keySDown;
+                int iconX = sniperIcon.getX();
+                int iconY = sniperIcon.getY();
     
-        // Handle toggle auto-activate with "A" key
-        boolean keyADown = Greenfoot.isKeyDown("a");
-        if (keyADown && !activateToggleKeyPreviouslyDown) {
-            autoActivateSniper = !autoActivateSniper; // toggle on/off
-            System.out.println("Auto Sniper Activate: " + (autoActivateSniper ? "ON" : "OFF"));
-        }
-        activateToggleKeyPreviouslyDown = keyADown;
+                int clickableRadius = 30;
     
-        // If auto-activate is ON, activate abilities automatically when available
-        if (autoActivateSniper && sniperAbilitiesUnlocked > 0) {
-            List<SniperTower> snipers = getObjects(SniperTower.class);
-            for (SniperTower sniper : snipers) {
-                if (sniperAbilitiesUnlocked <= 0) break;
-                if (!sniper.isBoostActive()) {
-                    sniper.activateSpeedBoost();
-                    sniperAbilitiesUnlocked--;
-                    sniperBoostTimers.add(20 * 60); // 20 seconds cooldown
-                    System.out.println("Sniper boost auto-activated for tower at (" + sniper.getX() + ", " + sniper.getY() + ")");
+                if (Math.abs(mouseX - iconX) <= clickableRadius && Math.abs(mouseY - iconY) <= clickableRadius) {
+                    if (sniperAbilitiesUnlocked > 0) {
+                        SniperTower tower = chooseSniperTowerToBoost();
+                        if (tower != null) {
+                            tower.activateSpeedBoost();
+                            sniperAbilitiesUnlocked--;
+                            sniperBoostTimers.add(20 * 60); // 20 seconds
+                            System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
+                            updateSniperAbilityLabels();
+                        } else {
+                            System.out.println("No valid sniper tower near cursor to boost.");
+                        }
+                    }
                 }
             }
-            updateSniperAbilityLabels();
+        }
+    
+        // Toggle auto activate on key press (with simple edge detection)
+        if (Greenfoot.isKeyDown("A") && !autoActivateSniper) {
+            autoActivateSniper = true;
+            System.out.println("Auto sniper activate ON");
+        } else if (Greenfoot.isKeyDown("S") && autoActivateSniper) {
+            autoActivateSniper = false;
+            System.out.println("Auto sniper activate OFF");
+        }
+    
+        // Use auto activate if enabled
+        if (autoActivateSniper && sniperAbilitiesUnlocked > 0) {
+            SniperTower tower = chooseSniperTowerToBoost();
+            if (tower != null) {
+                tower.activateSpeedBoost();
+                sniperAbilitiesUnlocked--;
+                sniperBoostTimers.add(20 * 60);
+                System.out.println("Auto sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
+                updateSniperAbilityLabels();
+            }
         }
     
         updateSniperAbilityLabels();
     }
+
     
     // Helper method to activate a single sniper boost near the mouse cursor
     private void activateSingleSniperBoost() {

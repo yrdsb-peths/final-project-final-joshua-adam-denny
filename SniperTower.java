@@ -5,6 +5,7 @@ public class SniperTower extends Tower {
     private int baseCooldownTime;  // store original cooldown time
     private boolean speedBoostActive = false;
     private int speedBoostTimer = 0;  // counts down the boost duration in frames
+    private int upgradedCooldownTime;
 
     public SniperTower() {
         GameWorld world = (GameWorld) getWorld();
@@ -13,8 +14,10 @@ public class SniperTower extends Tower {
         img.scale(60, 60);
         setImage(img);
 
-        baseCooldownTime = 120;  // original cooldown
-        cooldownTime = baseCooldownTime;
+        baseCooldownTime = 120;
+        upgradedCooldownTime = baseCooldownTime;
+        cooldownTime = upgradedCooldownTime;
+
 
         range = 1000;        // long range
         damage = 20;         // high damage
@@ -37,7 +40,9 @@ public class SniperTower extends Tower {
         if (level < maxLevel && world != null && world.spendMoney(upgradeCost)) {
             level++;
             damage += 10;  // boost damage significantly
-            cooldownTime = Math.max(60, cooldownTime - 30);  // slightly faster
+            upgradedCooldownTime = Math.max(60, upgradedCooldownTime - 30);
+            cooldownTime = upgradedCooldownTime;
+
             totalInvested += upgradeCost;
             upgradeCost += 100;  // higher cost per upgrade
             updateImage();
@@ -80,10 +85,11 @@ public class SniperTower extends Tower {
         if (speedBoostActive) {
             speedBoostTimer--;
             if (speedBoostTimer <= 0) {
-                cooldownTime = baseCooldownTime;
+                cooldownTime = upgradedCooldownTime;
                 speedBoostActive = false;
                 System.out.println("Speed boost expired on tower at (" + getX() + "," + getY() + ")");
             }
+
         }
     
         super.act();
