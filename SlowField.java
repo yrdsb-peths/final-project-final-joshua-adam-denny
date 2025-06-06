@@ -11,9 +11,8 @@ public class SlowField extends Actor {
         this.slowAmount = slowAmount;
         this.duration = duration;
 
-        GreenfootImage img = new GreenfootImage(radius * 2, radius * 2);
+        GreenfootImage img = new GreenfootImage("Field.png");
         img.setColor(new Color(100, 100, 255, 100)); // semi-transparent blue
-        img.fillOval(0, 0, radius * 2, radius * 2);
         setImage(img);
     }
 
