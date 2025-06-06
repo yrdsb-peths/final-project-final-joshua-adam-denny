@@ -3,7 +3,8 @@ import greenfoot.*;
 public class FlameThrowerTower extends Tower {
     private int coneProjectiles = 3;  // Start with 3 projectiles
     private final int maxProjectiles = 6;  // Max projectiles at max upgrade
-    private int coneAngle = 60;       // Total cone angle in degrees (spread)
+    private int coneAngle = 60;  // Total cone angle in degrees (spread)
+    private int shots = 0;
     
     public FlameThrowerTower() {
         GreenfootImage img = new GreenfootImage("FlameThrower_tower.png");
@@ -57,10 +58,22 @@ public class FlameThrowerTower extends Tower {
     protected void shoot(Enemy target) {
         if (target == null) return;
     
+        shots++;
+    
+        boolean specialBlast = false;
+        int originalConeAngle = coneAngle;
+        int originalProjectiles = coneProjectiles;
+    
+        if (shots == 25) {
+            // Special 360-degree blast
+            coneAngle = 360;
+            coneProjectiles = 250;
+            shots = 0;
+            specialBlast = true;
+        }
+    
         double baseAngle = Math.atan2(target.getY() - getY(), target.getX() - getX());
         int baseRotation = (int) Math.toDegrees(baseAngle);
-    
-        // Rotate the flamethrower tower itself to face the target
         setRotation(baseRotation);
     
         for (int i = 0; i < coneProjectiles; i++) {
@@ -70,6 +83,12 @@ public class FlameThrowerTower extends Tower {
             FlameProjectile fp = new FlameProjectile(target, damage, bulletSpeed, 50, 20, level, this);
             fp.setRotation((int) projectileAngle);
             getWorld().addObject(fp, getX(), getY());
+        }
+    
+        // Reset cone values if it was a special attack
+        if (specialBlast) {
+            coneAngle = originalConeAngle;
+            coneProjectiles = originalProjectiles;
         }
     }
 

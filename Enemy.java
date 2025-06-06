@@ -2,6 +2,8 @@ import greenfoot.*;
 import java.util.*;
 
 public abstract class Enemy extends Actor {
+    private boolean slowedWhileBurning = false;
+    private int normalSpeed;
     protected int speed;
     protected int health;
     private List<BurnEffect> burnEffects = new ArrayList<>();
@@ -17,6 +19,7 @@ public abstract class Enemy extends Actor {
     private int moneyOnDeath = 10;
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
+        this.normalSpeed = speed;
         this.health = health;
         this.pm = ParticleManager.getInstance();
         this.moneyOnDeath = money;
