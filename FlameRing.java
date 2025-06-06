@@ -5,39 +5,54 @@ public class FlameRing extends Actor {
     private int radius;
     private int damage;
     private int burnDuration;
-    private boolean applied = false;
-    private int lifespan = 10; // frames to stay visible before removal
-    private int age = 0;
+    private boolean effectApplied = false;
+
+    private GreenfootImage[] frames = new GreenfootImage[9];
+    private int currentFrame = 0;
+    private int frameDelay = 3;
+    private int frameCounter = 0;
 
     public FlameRing(int radius, int damage, int burnDuration) {
         this.radius = radius;
         this.damage = damage;
         this.burnDuration = burnDuration;
+        loadFrames();
+        setImage(frames[0]);
+    }
 
-        GreenfootImage img = new GreenfootImage(radius * 2, radius * 2);
-        img.setColor(new Color(255, 100, 0, 150));
-        img.fillOval(0, 0, radius * 2, radius * 2);
-        setImage(img);
+    private void loadFrames() {
+        for (int i = 0; i < frames.length; i++) {
+            GreenfootImage img = new GreenfootImage("Fire ring/Fire" + i + ".png");
+            img.scale(radius * 2, radius * 2);
+            frames[i] = img;
+        }
     }
 
     public void act() {
-        if (!applied && getWorld() != null) {
-            applied = true;
+        if (!effectApplied && getWorld() != null) {
+            effectApplied = true;
             List<Enemy> enemies = getWorld().getObjects(Enemy.class);
             for (Enemy e : enemies) {
                 if (distanceTo(e) <= radius) {
                     e.takeDamage(damage);
-                    e.applyBurn(new BurnEffect(1, burnDuration, 10)); // You can tweak damage and interval
+                    e.applyBurn(new BurnEffect(1, burnDuration, 10));
                 }
             }
         }
 
-        // Visual lifespan timer — fade out
-        age++;
-        getImage().setTransparency(Math.max(0, 200 - age * 20));
+        animate();
+    }
 
-        if (age >= lifespan) {
-            getWorld().removeObject(this);
+    private void animate() {
+        frameCounter++;
+        if (frameCounter >= frameDelay) {
+            frameCounter = 0;
+            currentFrame++;
+            if (currentFrame < frames.length) {
+                setImage(frames[currentFrame]);
+            } else {
+                getWorld().removeObject(this);
+            }
         }
     }
 

@@ -78,7 +78,7 @@ public class FlameThrowerTower extends Tower {
             shots = 0;
     
             if (level >= maxLevel) {
-                getWorld().addObject(new FlameRing(200, 10, 60), getX(), getY());
+                getWorld().addObject(new FlameRing(200, 5, 10), getX(), getY());
             }
         }
     }
