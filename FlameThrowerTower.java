@@ -60,18 +60,6 @@ public class FlameThrowerTower extends Tower {
     
         shots++;
     
-        boolean specialBlast = false;
-        int originalConeAngle = coneAngle;
-        int originalProjectiles = coneProjectiles;
-    
-        if (shots == 25) {
-            // Special 360-degree blast
-            coneAngle = 360;
-            coneProjectiles = 250;
-            shots = 0;
-            specialBlast = true;
-        }
-    
         double baseAngle = Math.atan2(target.getY() - getY(), target.getX() - getX());
         int baseRotation = (int) Math.toDegrees(baseAngle);
         setRotation(baseRotation);
@@ -85,11 +73,15 @@ public class FlameThrowerTower extends Tower {
             getWorld().addObject(fp, getX(), getY());
         }
     
-        // Reset cone values if it was a special attack
-        if (specialBlast) {
-            coneAngle = originalConeAngle;
-            coneProjectiles = originalProjectiles;
+        // 🔥 FlameRing after 25 shots if at max level
+        if (shots == 25) {
+            shots = 0;
+    
+            if (level >= maxLevel) {
+                getWorld().addObject(new FlameRing(200, 10, 60), getX(), getY());
+            }
         }
     }
+
 
 }
