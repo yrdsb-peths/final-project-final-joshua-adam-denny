@@ -14,13 +14,14 @@ public class Tower extends Actor {
     protected int baseCost;
     protected int upgradeCostPerLevel;
     protected int totalInvested = 0;
+    protected GameWorld gw;
 
     public void act() {
         if (cooldown > 0) {
             cooldown--;
         } else {
             Enemy target = getEnemyInRange();
-            if (target != null) {
+            if (target != null && gw.getStatus() == GameWorld.Status.RUNNING) {
                 shoot(target);
                 cooldown = cooldownTime;
             }
@@ -64,6 +65,7 @@ public class Tower extends Actor {
 
     @Override
     public void addedToWorld(World world) {
+        gw = (GameWorld) world;
         totalInvested = baseCost;
         updateImage();
     }

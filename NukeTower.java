@@ -16,7 +16,6 @@ public class NukeTower extends Tower {
     private int frameDelay = 5;
     int fuseTime = 300;
     private Enemy lockedTarget = null; // Stores the enemy to fire at during animation
-
     public NukeTower() {
         loadAnimationFrames();
         updateImage();
@@ -30,7 +29,7 @@ public class NukeTower extends Tower {
         range = 200;
         totalInvested = baseCost;
     }
-
+    
     private void loadAnimationFrames() {
         fireFrames = new GreenfootImage[12];
         for (int i = 0; i < fireFrames.length; i++) {
@@ -43,7 +42,8 @@ public class NukeTower extends Tower {
 
     @Override
     public void act() {
-        if (isAnimating) {
+        
+        if (isAnimating && gw.getStatus() == GameWorld.Status.RUNNING){
             animationTimer++;
             if (animationTimer % frameDelay == 0) {
                 if (animationIndex < fireFrames.length) {

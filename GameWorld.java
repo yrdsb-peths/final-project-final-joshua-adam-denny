@@ -42,6 +42,7 @@ public class GameWorld extends World {
     private boolean sniperKeyPreviouslyDown = false;
     private boolean autoActivateSniper = false;   // toggles auto activate on/off
     private boolean activateToggleKeyPreviouslyDown = false; // track key press edge
+    private boolean pauseButtonPreviouslyPressed = false;
 
     // Wave/Money Variables
     private boolean autoNextWave = false;
@@ -92,7 +93,7 @@ public class GameWorld extends World {
         wavePrompt.setLineColor(Color.BLACK);
         uiManager = UIManager.getInstance();
         //addObject(new DDCRender(), CENTER_X, CENTER_Y);
-        addObject(UIManager.getInstance(),CENTER_X, CENTER_Y);
+        addObject(uiManager,CENTER_X, CENTER_Y);
         addObject(ParticleManager.getInstance(),CENTER_X, CENTER_Y);
         
         Base base = new Base();
@@ -108,17 +109,22 @@ public class GameWorld extends World {
         phaseStartTime = System.currentTimeMillis();
         
         setPaintOrder(
+            EndGamePopup.class,
+            EndGameButton.class,
             ImageActor.class,
             NukeMissile.class,
             DDCRender.class,
             Label.class,
             Button.class,
-            EndGamePopup.class,
+            
+            CheckButton.class,
+            PauseButton.class,
+            PauseMenu.class,
             Transition.class, 
+            PauseButton.class,
             Sidebar.class,
             UI.class, 
             ExplosionEffect.class,
-            
             Bullet.class,
             Tower.class, 
             Enemy.class
@@ -148,27 +154,67 @@ public class GameWorld extends World {
             resetInputFlags();
             break;
           case PAUSED:
-            handlePause();
+              handlePauseButton();
             break;
           case GAMEOVER:
-            // (you probably never call act() in gameover)
+              // hawk
             break;
         }
     }
     
     private void handlePauseButton()
     {
-        if (uiManager.isPauseButtonPressed())
-        {
-            status = Status.PAUSED;
-            clearUpgradeMenu();
-            cancelDragging();
+        boolean pausePressedNow = uiManager.isPauseButtonPressed();
+
+        if (pausePressedNow && !pauseButtonPreviouslyPressed) {
+            if (status == Status.RUNNING) {
+                uiManager.togglePauseMenu(); 
+                status = Status.PAUSED;
+                clearUpgradeMenu();
+                cancelDragging();
+                setPaintOrder(
+                    EndGamePopup.class,
+                    CheckButton.class,
+                    PauseButton.class,
+                    PauseMenu.class,
+                    Transition.class, 
+                    NukeMissile.class,
+                    DDCRender.class,
+                    Label.class,
+                    Button.class,
+                    Sidebar.class,
+                    UI.class, 
+                    ExplosionEffect.class,
+                    Bullet.class,
+                    Tower.class, 
+                    Enemy.class,
+                    ImageActor.class
+                );
+            }
+            else if (status == Status.PAUSED) {
+                uiManager.togglePauseMenu();   
+                status = Status.RUNNING;
+                setPaintOrder(
+                    NukeMissile.class,
+                    DDCRender.class,
+                    Label.class,
+                    Button.class,
+                    EndGamePopup.class,
+                    Transition.class, 
+                    Sidebar.class,
+                    UI.class, 
+                    CheckButton.class,
+                    ExplosionEffect.class,
+                    Bullet.class,
+                    Tower.class, 
+                    Enemy.class,
+                    ImageActor.class
+                );
+            }
         }
-    }
-    
-    private void handlePause()
-    {
-    
+
+        // 3) Remember for next frame
+        pauseButtonPreviouslyPressed = pausePressedNow;
     }
     
     private void handleAnimations()
@@ -196,6 +242,8 @@ public class GameWorld extends World {
                         NukeMissile.class,
                         DDCRender.class,
                         Label.class,
+                        PauseButton.class,
+                        PauseMenu.class,
                         Button.class,
                         EndGamePopup.class,
                         Transition.class, 
@@ -696,6 +744,8 @@ public class GameWorld extends World {
             EndGameLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
+            PauseButton.class,
+            PauseMenu.class,
             Transition.class, 
             ImageActor.class,
             Label.class,
@@ -719,7 +769,7 @@ public class GameWorld extends World {
                 // some handling here idfk im too tired
             }
         }
-        UIManager.getInstance().fadeIn(155, time);
+        uiManager.fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
         addObject(endPopup, CENTER_X, 0);
         

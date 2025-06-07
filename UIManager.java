@@ -12,7 +12,7 @@ public class UIManager extends Actor
     private Transition transition = Transition.getInstance();
     private Sidebar sideBar = Sidebar.getInstance();
     private HealthBar healthBar = HealthBar.getInstance();
-    private Button pauseButton;
+    private PauseButton pauseButton;
     
     public UIManager()
     {
@@ -20,7 +20,7 @@ public class UIManager extends Actor
 
         pauseButtonImages[0] = new GreenfootImage("ui/button-pause.png");
         pauseButtonImages[1] = new GreenfootImage("ui/button-pause-pressed.png");
-        pauseButton = new Button(true, pauseButtonImages, 40,40);
+        pauseButton = new PauseButton(true, pauseButtonImages, 40,40);
     }
     
 
@@ -90,5 +90,25 @@ public class UIManager extends Actor
     public boolean isPauseButtonPressed()
     {
         return pauseButton.isPressed();
+    }
+    
+    public void togglePauseMenu()
+    {
+        GameWorld gw = (GameWorld) getWorld();
+        switch(gw.getStatus()) {
+          case RUNNING:
+            fadeIn(155, 250);
+            PauseMenu pauseMenu = PauseMenu.getInstance();
+            gw.addObject(pauseMenu, gw.getWidth()/2, 0);
+            break;
+          case PAUSED:
+              PauseMenu.getInstance().removeSelf();
+              fadeOut(0, 250);
+            break;
+          case GAMEOVER:
+              // hawk
+            break;
+        }
+        
     }
 }

@@ -10,7 +10,7 @@ public abstract class Enemy extends Actor {
     private GreenfootImage baseImage;
     private GreenfootImage burnedImage;
     private boolean isBurning = false;
-
+    private GameWorld gw;
     public boolean isDead = false;
     private ParticleManager pm;
     private World world;
@@ -31,6 +31,7 @@ public abstract class Enemy extends Actor {
         this.world = w;
         this.worldWidth = world.getWidth();
         this.worldHeight = world.getHeight();
+        gw = (GameWorld) getWorld();
     }
 
     protected void setBaseImage(GreenfootImage img) {
@@ -80,7 +81,7 @@ public abstract class Enemy extends Actor {
     public void act() {
         if (getWorld() == null) return;        
         updateBurns();
-        if (!isDead)
+        if (!isDead && gw.getStatus() == GameWorld.Status.RUNNING) 
         {
             move(speed);
         }

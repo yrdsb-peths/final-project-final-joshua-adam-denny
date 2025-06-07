@@ -12,9 +12,11 @@ public class CheckButton extends UI {
     private final GreenfootImage checkedImg;
     private boolean checked = false;
 
-    public CheckButton() {
-        uncheckedImg = new GreenfootImage("ui/checkbutton.png");
-        checkedImg   = new GreenfootImage("ui/checkbuttonChecked.png");
+    public CheckButton(int size) {
+        uncheckedImg = new GreenfootImage("ui/checkbox.png");
+        checkedImg = new GreenfootImage("ui/checkboxchecked.png");
+        uncheckedImg.scale(size,size);
+        checkedImg.scale(size,size);
         setImage(uncheckedImg);
     }
 
@@ -22,8 +24,16 @@ public class CheckButton extends UI {
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
             checked = !checked;
-            setImage( checked ? checkedImg : uncheckedImg );
         }
+        
+        setImage( checked ? checkedImg : uncheckedImg );
+    }
+    
+    public void setTransparency(int alpha)
+    {
+        alpha = (int)Utils.clamp(alpha,0,255);
+        uncheckedImg.setTransparency(alpha);
+        checkedImg.setTransparency(alpha);
     }
 
     public boolean isChecked() {
