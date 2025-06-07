@@ -59,7 +59,7 @@ public class _InitWorld extends World {
     
     public _InitWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-
+        Greenfoot.setSpeed(50);
         bg.setColor(new Color(66, 66, 66));
         bg.fill();
         setBackground(bg);
@@ -135,6 +135,7 @@ public class _InitWorld extends World {
 
     @Override
     public void act() {
+        Greenfoot.setSpeed(50);
         long now = System.currentTimeMillis();
         elapsed.add(0, now - phaseStartTime);
         

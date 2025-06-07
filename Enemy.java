@@ -17,12 +17,20 @@ public abstract class Enemy extends Actor {
     private int worldWidth;
     private int worldHeight;
     private int moneyOnDeath = 10;
+    private int originalSpeed;
+    private int slowTimer = 0;
+    private static GreenfootImage fireOverlay;
+    
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
         this.normalSpeed = speed;
         this.health = health;
         this.pm = ParticleManager.getInstance();
         this.moneyOnDeath = money;
+        
+        if (fireOverlay == null) {
+            fireOverlay = new GreenfootImage("fire.png");
+        }
     }
     
     @Override
@@ -37,13 +45,9 @@ public abstract class Enemy extends Actor {
     protected void setBaseImage(GreenfootImage img) {
         baseImage = new GreenfootImage(img);
         burnedImage = new GreenfootImage(img);
-        GreenfootImage fireImg = new GreenfootImage("fire.png");
-        burnedImage.drawImage(
-            fireImg,
-            (baseImage.getWidth()  - fireImg.getWidth())  / 2,
-            (baseImage.getHeight() - fireImg.getHeight()) / 2 + 15
-        );
-        
+        int x = (img.getWidth() - fireOverlay.getWidth())/2;
+        int y = (img.getHeight() - fireOverlay.getHeight())/2 + 15;
+        burnedImage.drawImage(fireOverlay,x,y);
         setImage(baseImage);
         
     }
@@ -79,34 +83,33 @@ public abstract class Enemy extends Actor {
     }
     private int totalCount = 0;
     public void act() {
-        if (getWorld() == null) return;        
+        if (gw == null) return;     
+        
         updateBurns();
-        if (!isDead && gw.getStatus() == GameWorld.Status.RUNNING) 
+        
+        if (isDead) {
+            if (totalCount < 5) {
+                totalCount++;
+                pm.addParticle(getX(), getY(), 
+                    Greenfoot.getRandomNumber(360),
+                    Greenfoot.getRandomNumber(5) + 2.5, 
+                    Color.RED );
+            } else {
+                if (gw != null) {
+                    gw.removeObject(this);
+                }
+                return; // stop doing anything else
+            }
+        }
+        
+        if (gw.getStatus() == GameWorld.Status.RUNNING) 
         {
             move(speed);
         }
         updateImage();
-        if (world != null && getX() >= worldWidth - 160) {
-            ((GameWorld) world).loseLife(getLifeDamage());
-            world.removeObject(this);
-        }
-                
-        if (isDead) {
-            if (totalCount < 5) {
-                totalCount++;
-                pm.addParticle(
-                    getX(), 
-                    getY(), 
-                    Greenfoot.getRandomNumber(360),
-                    Greenfoot.getRandomNumber(5) + 2.5, 
-                    Color.RED 
-                );
-            } else {
-                if (getWorld() != null) {
-                    getWorld().removeObject(this);
-                }
-                return; // stop doing anything else
-            }
+        if (getX() >= gw.getWidth() - 160) {
+            gw.loseLife(getLifeDamage());
+            gw.removeObject(this);
         }
     }
 
@@ -115,14 +118,12 @@ public abstract class Enemy extends Actor {
     public int getLifeDamage() { return 1; }
     public void takeDamage(int damage) {
         health -= damage;
-        if (health <= 0 && getWorld() != null) {
-            ((GameWorld) getWorld()).addMoney(moneyOnDeath);
+        if (health <= 0 && gw != null) {
+            gw.addMoney(moneyOnDeath);
             isDead = true;
             
         }
     }
-    private int originalSpeed;
-    private int slowTimer = 0;
     
     public void applySlow(int amount, int duration) {
         if (originalSpeed == 0) originalSpeed = speed;

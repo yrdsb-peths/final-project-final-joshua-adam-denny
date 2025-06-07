@@ -2,8 +2,28 @@
 const express = require('express');
 const app = express();
 const port = 8080;
+const DATA_FILE = path.join(__dirname, 'leaderboard.json');
+
+
 
 app.use(express.json());
+
+
+let storedEntries = [];
+try {
+  const raw = fs.readFileSync(DATA_FILE, 'utf8');
+  storedEntries = JSON.parse(raw);
+} catch (e) {
+  console.log('No existing leaderboard file, bwomp.');
+  storedEntries = [];
+}
+
+function saveEntries() {
+  fs.writeFileSync(DATA_FILE,
+    JSON.stringify(storedEntries, null, 2),
+    'utf8'
+  );
+}
 
 function logMiddleware(req, res, next) {
     let userIP = '';
@@ -22,16 +42,16 @@ function logMiddleware(req, res, next) {
 app.use(logMiddleware)
 
 class Leaderboard {
-    constructor() {
-        this.entries = [];
+    constructor(entries) {
+        this.entries = entries; 
     }
+
     add(id, score, wave) {
         const entry = { id, score, wave };
         let idx = this.entries.findIndex(e => e.score < score);
-        if (idx === -1) {
-            idx = this.entries.length;
-        }
+        if (idx === -1) idx = this.entries.length;
         this.entries.splice(idx, 0, entry);
+        saveEntries();
         return idx + 1;
     }
 
@@ -40,7 +60,7 @@ class Leaderboard {
     }
 }
 
-const leaderboard = new Leaderboard();
+const leaderboard = new Leaderboard(storedEntries);
 
 app.post('/sendScore', (req, res) => {
     const { id, score, wave } = req.body;
@@ -60,12 +80,27 @@ app.post('/sendScore', (req, res) => {
 });
 
 app.get('/getLeaderboard', (req, res) => {
-  const lines = leaderboard
-    .top(10)
-    .map(e => `${e.id},${e.score},${e.wave}`);
-  res
-    .type('text/plain')
-    .send(lines.join('\n'));
+  const topList = leaderboard.top(10);
+  const result = [];
+  for (let i = 0; i < 10; i++) {
+    if (i < topList.length) {
+      const e = topList[i];
+      result.push({
+        userID: e.id,
+        rank:   i + 1,
+        score:  e.score,
+        wave:   e.wave
+      });
+    } else {
+      result.push({
+        userID: "(empty)",
+        rank:    0,
+        score:  6969,
+        wave:     0
+      });
+    }
+  }
+  res.json(result);
 });
 
 app.get('/connect', (req, res) => {

@@ -19,8 +19,4 @@ public class Base extends Actor
         img.scale(180, 315);
         setImage(img);
     }
-    public void act()
-    {
-        // Add your action code here.
-    }
 }
