@@ -138,9 +138,7 @@ public class GameWorld extends World {
         overlay.fill();
         overlay.setTransparency(255);
         addObject(overlay,CENTER_X, CENTER_Y);
-        
-        themeMusic.setVolume(30);  // Optional: Set volume from 0–100
-        themeMusic.playLoop();     // Play music in a loop
+        AudioManager.playMusic(themeMusic);
     }
 
     double rotation = 0;

@@ -80,13 +80,11 @@ public class FlameThrowerTower extends Tower {
             shots = 0;
             if (level >= maxLevel) {
                 getWorld().addObject(new FlameRing(200, 5, 10), getX(), getY());
-                GreenfootSound ring = new GreenfootSound("FlameRing.mp3");
-                ring.setVolume(70);  // Optional: Set volume from 0–100
-                ring.play(); 
+                AudioManager.playSpecialSFX(new GreenfootSound("FlameRing.mp3"));
             }
         }
     
-        // 🔊 SOUND LOGIC
+        // sound logic
         soundCooldown = SOUND_STOP_DELAY; // Reset delay every time a shot happens
         if (!flameSound.isPlaying()) {
             flameSound.playLoop();
