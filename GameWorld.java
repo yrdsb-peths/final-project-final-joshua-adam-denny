@@ -31,7 +31,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100000;
+    private int money = 100;
 
     private Label moneyLabel;
     private Label waveLabel;
@@ -268,47 +268,85 @@ public class GameWorld extends World {
     }
     
     public int getEnemyMoneyDeath(String type) {
-        switch (type) {
-            case "Basic": return 10;
-            case "Fast": return 20;
-            case "Tank": return 50;
-            case "Big": return 100;
-            case "Boss": return 1000;  // VERY TOUGH
-            default: return 10;
+        // Base money values by type
+        int baseAmount;
+        switch (type) { 
+            case "Basic": baseAmount = 5; break;
+            case "Fast": baseAmount = 15; break;
+            case "Tank": baseAmount = 40; break;
+            case "Big": baseAmount = 75; break;
+            case "Boss": baseAmount = 300; break;  // VERY TOUGH
+            default: baseAmount = 10; break;
+        }
+        
+        if (wave <= 20) {
+            return baseAmount;
+        } else {
+            // Calculate waves past 20
+            int wavesOver20 = wave - 20;
+    
+
+        double rampFactor = Math.pow(0.75, wavesOver20);
+        rampFactor = Math.max(rampFactor, 0.05);    
+        
+        return (int)(baseAmount * rampFactor);
         }
     }
+
 
     public int getEnemyHealth(String type) {
         int base = getEnemyBaseHealth(type);
-
+    
         if (wave <= 20) {
             return base;
         }
-
+    
         double multiplier;
         switch (type) {
-            case "Basic": multiplier = 1.02; break;
-            case "Fast":  multiplier = 1.03; break;
-            case "Tank":  multiplier = 1.07; break;
-            case "Big":   multiplier = 1.10; break;
-            case "Boss": multiplier = 1.15; break;
-            default:      multiplier = 1.02; break;
+            case "Basic": multiplier = 1.05; break;  // increased from 1.02
+            case "Fast":  multiplier = 1.07; break;  // increased from 1.03
+            case "Tank":  multiplier = 1.12; break;  // increased from 1.07
+            case "Big":   multiplier = 1.15; break;  // increased from 1.10
+            case "Boss": multiplier = 1.20; break;   // increased from 1.15
+            default:      multiplier = 1.05; break;
         }
-
+    
         int wavesOver20 = wave - 20;
-        return (int)(base * (1 + wavesOver20 * 0.05) * Math.pow(multiplier, wavesOver20 * 0.1));
-
+        // Increase linear ramp to 0.1 (previously 0.05) and exponent multiplier factor to 0.2 (previously 0.1)
+        return (int)(base * (1 + wavesOver20 * 0.10) * Math.pow(multiplier, wavesOver20 * 0.2));
     }
+
 
     public int getEnemySpeed(String type) {
-        int base = 1 + wave / 5;
+        int base;
+        int wavesOver20 = Math.max(0, wave - 20);
+    
+        if (wave <= 20) {
+            // Small steady growth before wave 20
+            base = 1 + wave / 10;  // slow increase
+        } else {
+            // Faster growth after wave 20
+            base = 3 + wavesOver20 / 2 + 20 / 10; 
+        }
+    
+        // Calculate tankSpeed first for Boss speed capping
+        int tankSpeed = Math.max(1, base - (wave <= 20 ? 1 : 3));
+    
         switch (type) {
-            case "Fast": return base + 2;
-            case "Tank": return Math.max(1, base - 1);
-            case "Boss": return 1;
-            default: return base;
+            case "Fast":
+                return base + (wave <= 20 ? 2 : 6);  // small early boost, big late boost
+            case "Tank":
+                return tankSpeed;
+            case "Boss":
+                // Boss speed increases slowly but never reaches tankSpeed
+                int bossSpeed = 1 + (wave <= 20 ? wave / 20 : wavesOver20 / 5);
+                return Math.min(bossSpeed, tankSpeed - 1);
+            default:
+                return base;
         }
     }
+
+
 
     private void handleWaveProgression() {
         if (waitingForNextWave && Greenfoot.isKeyDown("space")) {

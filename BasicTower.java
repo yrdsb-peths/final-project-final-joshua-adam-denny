@@ -16,7 +16,7 @@ public class BasicTower extends Tower {
         bulletSpeed = 10;
 
         baseCost = 50;
-        upgradeCostPerLevel = 10;
+        upgradeCostPerLevel = 25;
         upgradeCost = upgradeCostPerLevel;
         totalInvested = baseCost;
     }
