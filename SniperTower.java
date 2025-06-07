@@ -2,25 +2,32 @@ import greenfoot.*;
 import java.util.List;
 
 public class SniperTower extends Tower {
-    private int baseCooldownTime;  // store original cooldown time
+    private int baseCooldownTime;
     private boolean speedBoostActive = false;
-    private int speedBoostTimer = 0;  // counts down the boost duration in frames
+    private int speedBoostTimer = 0;
     private int upgradedCooldownTime;
+    private int orbitAngle = 0;
+
+    private GreenfootImage towerImage;
+    private GreenfootImage boostOverlay;
 
     public SniperTower() {
         GameWorld world = (GameWorld) getWorld();
 
-        GreenfootImage img = new GreenfootImage("Sniper_tower.png");
-        img.scale(60, 60);
-        setImage(img);
+        towerImage = new GreenfootImage("Sniper_tower.png");
+        towerImage.scale(60, 60);
+
+        boostOverlay = new GreenfootImage("boost.png");
+        boostOverlay.scale(60, 60);
+
+        setImage(towerImage);
 
         baseCooldownTime = 120;
         upgradedCooldownTime = baseCooldownTime;
         cooldownTime = upgradedCooldownTime;
 
-
-        range = 1000;        // long range
-        damage = 20;         // high damage
+        range = 1000;
+        damage = 20;
         bulletSpeed = 30;
         baseCost = 300;
         upgradeCostPerLevel = 150;
@@ -28,7 +35,6 @@ public class SniperTower extends Tower {
         upgradeCost = upgradeCostPerLevel;
         totalInvested = baseCost;
 
-        
         if (level == maxLevel && world != null) {
             world.unlockSniperAbility();
         }
@@ -39,19 +45,17 @@ public class SniperTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world != null && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 10;  // boost damage significantly
+            damage += 10;
             upgradedCooldownTime = Math.max(60, upgradedCooldownTime - 30);
             cooldownTime = upgradedCooldownTime;
 
             totalInvested += upgradeCost;
-            upgradeCost += 100;  // higher cost per upgrade
+            upgradeCost += 100;
             updateImage();
 
- 
-            if (level == maxLevel && world != null) {
+            if (level == maxLevel) {
                 world.incrementMaxLevelSnipers();
             }
-
             return true;
         }
         return false;
@@ -59,11 +63,10 @@ public class SniperTower extends Tower {
 
     @Override
     protected void updateImage() {
-        GreenfootImage img = new GreenfootImage("Sniper_tower.png");
+        GreenfootImage img = new GreenfootImage(towerImage); // fresh copy
         img.scale(60, 60);
         setImage(img);
-
-        super.updateImage();  // add outline based on level
+        super.updateImage();  // add outline
     }
 
     @Override
@@ -85,39 +88,35 @@ public class SniperTower extends Tower {
         if (speedBoostActive) {
             speedBoostTimer--;
             if (speedBoostTimer <= 0) {
-                cooldownTime = baseCooldownTime;
+                cooldownTime = upgradedCooldownTime;
                 speedBoostActive = false;
                 System.out.println("Speed boost expired on tower at (" + getX() + "," + getY() + ")");
-                updateImage(); // reset to normal image when boost ends
+                updateImage(); // reset to base image
             } else {
-                addBoostImage();  // show green transparent overlay
+                drawBoostOverlay(); // draw with animated overlay
             }
+        } else {
+            updateImage();
         }
-        else {
-            updateImage(); // ensure normal image if not boosted
-        }
-    
+
+        orbitAngle = (orbitAngle + 5) % 360; // advance for rotation
         super.act();
     }
-
-
-
 
     public boolean isBoostActive() {
         return speedBoostActive;
     }
 
-    
     public void activateSpeedBoost() {
         if (!speedBoostActive) {
             cooldownTime = baseCooldownTime / 10;
             cooldown = 0;
             speedBoostTimer = 5 * 60;
             speedBoostActive = true;
-        
+            // Greenfoot.playSound("boost.wav");
         }
     }
-    
+
     @Override
     public void sell() {
         GameWorld world = (GameWorld) getWorld();
@@ -131,17 +130,14 @@ public class SniperTower extends Tower {
         getWorld().removeObject(this);
     }
 
-
-    private void addBoostImage() {
-        GreenfootImage base = new GreenfootImage("Sniper_tower.png");
+    private void drawBoostOverlay() {
+        GreenfootImage base = new GreenfootImage(towerImage); // fresh copy
         base.scale(60, 60);
-    
-        GreenfootImage overlay = new GreenfootImage(base.getWidth(), base.getHeight());
-        overlay.setColor(new Color(0, 255, 0, 100)); // green with transparency (alpha=100/255)
-        overlay.fillRect(0, 0, overlay.getWidth(), overlay.getHeight());
-    
-        base.drawImage(overlay, 0, 0);
+
+        GreenfootImage rotatedOverlay = new GreenfootImage(boostOverlay); // fresh copy
+        rotatedOverlay.rotate(orbitAngle);
+
+        base.drawImage(rotatedOverlay, 0, 0);
         setImage(base);
     }
-
 }

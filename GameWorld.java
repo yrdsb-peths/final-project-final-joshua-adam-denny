@@ -717,43 +717,51 @@ public class GameWorld extends World {
             return false;
         });
     
-        // Handle mouse click on icon to trigger boost
-        if (Greenfoot.mouseClicked(null)) {
-            MouseInfo mouse = Greenfoot.getMouseInfo();
-            if (mouse != null && sniperIcon != null) {
-                int mouseX = mouse.getX();
-                int mouseY = mouse.getY();
+        boolean keyDownNow = Greenfoot.isKeyDown("s");
+        MouseInfo mouse = Greenfoot.getMouseInfo();
     
-                int iconX = sniperIcon.getX();
-                int iconY = sniperIcon.getY();
+        if (mouse != null && sniperIcon != null) {
+            int mouseX = mouse.getX();
+            int mouseY = mouse.getY();
     
-                int clickableRadius = 30;
+            int iconX = sniperIcon.getX();
+            int iconY = sniperIcon.getY();
     
-                if (Math.abs(mouseX - iconX) <= clickableRadius && Math.abs(mouseY - iconY) <= clickableRadius) {
-                    if (sniperAbilitiesUnlocked > 0) {
-                        SniperTower tower = chooseSniperTowerToBoost();
-                        if (tower != null) {
-                            tower.activateSpeedBoost();
-                            sniperAbilitiesUnlocked--;
-                            sniperBoostTimers.add(20 * 60); // 20 seconds
-                            System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
-                            updateSniperAbilityLabels();
-                        } else {
-                            System.out.println("No valid sniper tower near cursor to boost.");
-                        }
-                    }
+            int clickableRadius = 30;
+    
+            boolean clickedOnIcon = false;
+    
+            if (Greenfoot.mouseClicked(null)) {
+                int dx = mouseX - iconX;
+                int dy = mouseY - iconY;
+                if (dx * dx + dy * dy <= clickableRadius * clickableRadius) {
+                    clickedOnIcon = true;
+                }
+            }
+    
+            if ((clickedOnIcon || (keyDownNow && !sniperKeyPreviouslyDown)) && sniperAbilitiesUnlocked > 0) {
+                SniperTower tower = chooseSniperTowerToBoost();
+                if (tower != null) {
+                    tower.activateSpeedBoost();
+                    sniperAbilitiesUnlocked--;
+                    sniperBoostTimers.add(20 * 60); // 20 seconds
+                    System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
+                    updateSniperAbilityLabels();
+                } else {
+                    System.out.println("No valid sniper tower near cursor to boost.");
                 }
             }
         }
     
+        sniperKeyPreviouslyDown = keyDownNow; // Track key state
+    
         // Toggle auto activate on key press (with simple edge detection)
-        if (Greenfoot.isKeyDown("A") && !autoActivateSniper) {
-            autoActivateSniper = true;
-            System.out.println("Auto sniper activate ON");
-        } else if (Greenfoot.isKeyDown("S") && autoActivateSniper) {
-            autoActivateSniper = false;
-            System.out.println("Auto sniper activate OFF");
+        boolean aKeyDownNow = Greenfoot.isKeyDown("A");
+        if (aKeyDownNow && !activateToggleKeyPreviouslyDown) {
+            autoActivateSniper = !autoActivateSniper;
+            System.out.println("Auto sniper activate " + (autoActivateSniper ? "ON" : "OFF"));
         }
+        activateToggleKeyPreviouslyDown = aKeyDownNow;
     
         // Use auto activate if enabled
         if (autoActivateSniper && sniperAbilitiesUnlocked > 0) {
@@ -769,6 +777,8 @@ public class GameWorld extends World {
     
         updateSniperAbilityLabels();
     }
+
+
 
     
     // Helper method to activate a single sniper boost near the mouse cursor
