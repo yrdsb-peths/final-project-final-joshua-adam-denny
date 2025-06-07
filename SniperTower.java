@@ -39,7 +39,20 @@ public class SniperTower extends Tower {
             world.unlockSniperAbility();
         }
     }
-
+    @Override
+    protected void shoot(Enemy target) {
+        // Rotate the tower to face the enemy
+        int dx = target.getX() - getX();
+        int dy = target.getY() - getY();
+        double angle = Math.toDegrees(Math.atan2(dy, dx));
+        setRotation((int) angle);
+        GreenfootSound shoot = new GreenfootSound("gunShotBig.mp3");
+        shoot.setVolume(30);  // Optional: Set volume from 0–100
+        shoot.play(); 
+        // Shoot a bullet and include this tower as the source
+        getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
+    }
+    
     @Override
     public boolean upgrade() {
         GameWorld world = (GameWorld) getWorld();
@@ -113,7 +126,10 @@ public class SniperTower extends Tower {
             cooldown = 0;
             speedBoostTimer = 5 * 60;
             speedBoostActive = true;
-            // Greenfoot.playSound("boost.wav");
+            GreenfootSound boost = new GreenfootSound("sniperBoost.mp3");
+            boost.setVolume(100);  // Optional: Set volume from 0–100
+            boost.play(); 
+            
         }
     }
 

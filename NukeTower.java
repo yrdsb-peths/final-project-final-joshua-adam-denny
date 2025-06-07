@@ -88,6 +88,9 @@ public class NukeTower extends Tower {
         if (getWorld() != null) {
             NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 130, fuseTime, level, 2);
             getWorld().addObject(missile, getX(), getY());
+            GreenfootSound launch = new GreenfootSound("missileLaunchBig.mp3");
+            launch.setVolume(45);  // Optional: Set volume from 0–100
+            launch.play(); 
         }
     }
 

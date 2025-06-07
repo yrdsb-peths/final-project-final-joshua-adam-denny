@@ -77,7 +77,17 @@ public class NukeMissile extends Projectile {
             int dotDamage = 25;
             getWorld().addObject(new RadioactiveField(fieldDuration, dotDamage, explosionRadius), getX(), getY());
         }
-        
+        if (projectileType == 1) {
+            GreenfootSound launch1 = new GreenfootSound("explosionSmall.mp3");
+            launch1.setVolume(45);  // Optional: Set volume from 0–100
+            launch1.play(); 
+        }
+        else if (projectileType == 2) 
+        {
+            GreenfootSound launch2 = new GreenfootSound("explosionBig.mp3");
+            launch2.setVolume(70);  // Optional: Set volume from 0–100
+            launch2.play(); 
+        }
         getWorld().removeObject(this);
     }
 

@@ -30,7 +30,7 @@ public class GameWorld extends World {
     private int insideCount = 0;
     private boolean towerPlacedThisClick = false;
     
-    private GreenfootSound themeMusic = new GreenfootSound("themeMusic.mp3");
+    public GreenfootSound themeMusic = new GreenfootSound("themeMusic.mp3");
     
     // Sniper Special Ability @ lvl 3
     private List<Integer> sniperBoostTimers = new ArrayList<>();
@@ -139,7 +139,7 @@ public class GameWorld extends World {
         overlay.setTransparency(255);
         addObject(overlay,CENTER_X, CENTER_Y);
         
-        themeMusic.setVolume(60);  // Optional: Set volume from 0–100
+        themeMusic.setVolume(15);  // Optional: Set volume from 0–100
         themeMusic.playLoop();     // Play music in a loop
     }
 
@@ -490,6 +490,9 @@ public class GameWorld extends World {
         }
     }
 
+    public void setAutoNextWave(boolean value) {
+        autoNextWave = value;
+    }
 
 
     private void nextWave() {

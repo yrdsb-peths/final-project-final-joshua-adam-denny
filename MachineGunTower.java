@@ -54,10 +54,14 @@ public class MachineGunTower extends Tower {
         double angle = Math.toDegrees(Math.atan2(dy, dx));
         setRotation((int) angle);
         // Shoot a bullet
+        GreenfootSound shoot = new GreenfootSound("gunShotSmall.mp3");
+        shoot.setVolume(30);  // Optional: Set volume from 0–100
+        shoot.play(); 
         if (shotNum > 25 && level == 3)
         {
             launchMissle(target);
             shotNum = 0;
+            
         }
         else
         {
@@ -74,6 +78,9 @@ public class MachineGunTower extends Tower {
 
             NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime, 0, 1);
             getWorld().addObject(missile, getX(), getY());
+            GreenfootSound launch = new GreenfootSound("missileLaunchSmall.mp3");
+            launch.setVolume(45);  // Optional: Set volume from 0–100
+            launch.play(); 
         }
     }
 

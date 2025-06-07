@@ -50,7 +50,9 @@ public class BasicTower extends Tower {
         int dy = target.getY() - getY();
         double angle = Math.toDegrees(Math.atan2(dy, dx));
         setRotation((int) angle);
-
+        GreenfootSound shoot = new GreenfootSound("gunShotSmall.mp3");
+        shoot.setVolume(30);  // Optional: Set volume from 0–100
+        shoot.play(); 
         // Always fire a normal bullet
         getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
 
@@ -60,7 +62,11 @@ public class BasicTower extends Tower {
             if (slowShotCounter >= slowShotInterval) {
                 getWorld().addObject(new SlowFieldBullet(target, damage, bulletSpeed, this), getX(), getY());
                 slowShotCounter = 0;
+                GreenfootSound net = new GreenfootSound("netThrow.mp3");
+                net.setVolume(75);  // Optional: Set volume from 0–100
+                net.play(); 
             }
         }
+         
     }
 }

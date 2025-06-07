@@ -36,7 +36,9 @@ public class PauseMenu extends UI
     private ImageActor blackOverlay;
     private Button PauseButton;
     private GameWorld gw;
-    
+    private Slider volumeSlider;
+    private CheckButton autoStartCheckBox;
+
     public PauseMenu()
     {
         // Initialize the image for the popup
@@ -99,6 +101,16 @@ public class PauseMenu extends UI
         blackOverlay.fill();
         w.addObject(blackOverlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
         
+        volumeSlider = new Slider(100, 60); // max volume = 100, initial value = 60
+        volumeSlider.getImage().setTransparency(0);
+
+        
+        autoStartCheckBox = new CheckButton(40);
+        autoStartCheckBox.setTransparency(0);
+        autoStartCheckBox.setChecked((boolean) PlayerPrefs.getData("AutoStart", false));
+        w.addObject(volumeSlider, getX(), getY());
+        w.addObject(autoStartCheckBox, getX(), getY());
+
     }
     
     public static PauseMenu getInstance() {
@@ -119,6 +131,9 @@ public class PauseMenu extends UI
             world.removeObject(mainMenuButton);
             world.removeObject(preformanceModeCheckBox);
             world.removeObject(blackOverlay);
+            world.removeObject(volumeSlider);
+            world.removeObject(autoStartCheckBox);
+
         }
         
         lockedIn = false;
@@ -137,7 +152,9 @@ public class PauseMenu extends UI
         creditsButton = null;
         continueButton = null;
         mainMenuButton = null;
-    
+        volumeSlider = null;
+        autoStartCheckBox = null;
+
         // Clear overlay reference
         blackOverlay = null;
     }
@@ -203,6 +220,12 @@ public class PauseMenu extends UI
             continueButton.setActive(true);
             mainMenuButton.setActive(true);
         }
+        volumeSlider.getImage().setTransparency(alpha);
+
+        autoStartCheckBox.setTransparency(alpha);
+        autoStartCheckBox.setLocation(getX() + 190, newY+5);       // Auto Start on top
+        preformanceModeCheckBox.setLocation(getX() + 30, newY+5);  // Performance mode below
+
     }
 
     private void fadeIn(World world) {
@@ -274,27 +297,39 @@ public class PauseMenu extends UI
         if (!lockedIn) {
             start();
         }
-        if (preformanceModeCheckBox.isChecked()) {
-            PlayerPrefs.setData("PreformanceMode", true);
-        } else
-        {
-            PlayerPrefs.setData("PreformanceMode", false);
-        }
-        
     
-        if (restartButton.isPressed()) {
+        if (preformanceModeCheckBox != null) {
+            PlayerPrefs.setData("PreformanceMode", preformanceModeCheckBox.isChecked());
+        }
+    
+        if (restartButton != null && restartButton.isPressed()) {
             enterPhase(1);
         }
-        if (creditsButton.isPressed()) {
+        if (creditsButton != null && creditsButton.isPressed()) {
             enterPhase(2);
         }
-        if (continueButton.isPressed()) {
+        if (continueButton != null && continueButton.isPressed()) {
             enterPhase(3);
         }
-        if (mainMenuButton.isPressed()) {
+        if (mainMenuButton != null && mainMenuButton.isPressed()) {
             enterPhase(4);
         }
-        
+    
+        if (autoStartCheckBox != null) {
+            PlayerPrefs.setData("AutoStart", autoStartCheckBox.isChecked());
+        }
+    
+        if (gw != null) {
+            if (volumeSlider != null) {
+                gw.themeMusic.setVolume(volumeSlider.getValue());
+            }
+            if (autoStartCheckBox != null) {
+                gw.setAutoNextWave(autoStartCheckBox.isChecked());
+            }
+        }
+    
         handleAnimation();
     }
+
+
 }

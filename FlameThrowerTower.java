@@ -5,7 +5,10 @@ public class FlameThrowerTower extends Tower {
     private final int maxProjectiles = 6;  // Max projectiles at max upgrade
     private int coneAngle = 60;  // Total cone angle in degrees (spread)
     private int shots = 0;
-    
+    private GreenfootSound flameSound = new GreenfootSound("flameShooting.mp3");
+    private int soundCooldown = 0;
+    private final int SOUND_STOP_DELAY = 10; // frames after last shot before stopping
+
     public FlameThrowerTower() {
         GreenfootImage img = new GreenfootImage("FlameThrower_tower.png");
         img.scale(80, 80);
@@ -73,15 +76,34 @@ public class FlameThrowerTower extends Tower {
             getWorld().addObject(fp, getX(), getY());
         }
     
-        // 🔥 FlameRing after 25 shots if at max level
         if (shots == 25) {
             shots = 0;
-    
             if (level >= maxLevel) {
                 getWorld().addObject(new FlameRing(200, 5, 10), getX(), getY());
+                GreenfootSound ring = new GreenfootSound("FlameRing.mp3");
+                ring.setVolume(45);  // Optional: Set volume from 0–100
+                ring.play(); 
+            }
+        }
+    
+        // 🔊 SOUND LOGIC
+        soundCooldown = SOUND_STOP_DELAY; // Reset delay every time a shot happens
+        if (!flameSound.isPlaying()) {
+            flameSound.playLoop();
+        }
+    }
+
+    @Override
+    public void act() {
+        super.act(); // Ensure superclass behavior runs
+        if (soundCooldown > 0) {
+            soundCooldown--;
+        } else {
+            if (flameSound.isPlaying()) {
+                flameSound.stop();
             }
         }
     }
 
-
+    
 }
