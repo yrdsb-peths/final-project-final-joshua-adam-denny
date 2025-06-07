@@ -36,7 +36,6 @@ public class PauseMenu extends UI
     private ImageActor blackOverlay;
     private Button PauseButton;
     private GameWorld gw;
-    private Slider volumeSlider;
     private CheckButton autoStartCheckBox;
 
     public PauseMenu()
@@ -100,15 +99,11 @@ public class PauseMenu extends UI
         blackOverlay.setColor(new Color(0,0,0));
         blackOverlay.fill();
         w.addObject(blackOverlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
-        
-        volumeSlider = new Slider(100, 60); // max volume = 100, initial value = 60
-        volumeSlider.getImage().setTransparency(0);
 
         
         autoStartCheckBox = new CheckButton(40);
         autoStartCheckBox.setTransparency(0);
         autoStartCheckBox.setChecked((boolean) PlayerPrefs.getData("AutoStart", false));
-        w.addObject(volumeSlider, getX(), getY());
         w.addObject(autoStartCheckBox, getX(), getY());
 
     }
@@ -131,7 +126,6 @@ public class PauseMenu extends UI
             world.removeObject(mainMenuButton);
             world.removeObject(preformanceModeCheckBox);
             world.removeObject(blackOverlay);
-            world.removeObject(volumeSlider);
             world.removeObject(autoStartCheckBox);
 
         }
@@ -152,7 +146,6 @@ public class PauseMenu extends UI
         creditsButton = null;
         continueButton = null;
         mainMenuButton = null;
-        volumeSlider = null;
         autoStartCheckBox = null;
 
         // Clear overlay reference
@@ -220,7 +213,6 @@ public class PauseMenu extends UI
             continueButton.setActive(true);
             mainMenuButton.setActive(true);
         }
-        volumeSlider.getImage().setTransparency(alpha);
 
         autoStartCheckBox.setTransparency(alpha);
         autoStartCheckBox.setLocation(getX() + 190, newY+5);       // Auto Start on top
@@ -320,9 +312,6 @@ public class PauseMenu extends UI
         }
     
         if (gw != null) {
-            if (volumeSlider != null) {
-                gw.themeMusic.setVolume(volumeSlider.getValue());
-            }
             if (autoStartCheckBox != null) {
                 gw.setAutoNextWave(autoStartCheckBox.isChecked());
             }

@@ -81,7 +81,7 @@ public class FlameThrowerTower extends Tower {
             if (level >= maxLevel) {
                 getWorld().addObject(new FlameRing(200, 5, 10), getX(), getY());
                 GreenfootSound ring = new GreenfootSound("FlameRing.mp3");
-                ring.setVolume(45);  // Optional: Set volume from 0–100
+                ring.setVolume(70);  // Optional: Set volume from 0–100
                 ring.play(); 
             }
         }
