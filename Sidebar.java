@@ -296,4 +296,29 @@ public class Sidebar extends UI {
             }
         }
     }
+    public void cancelDrag(int id) {
+        switch (id) {
+            case 1:
+                dragging1 = false;
+                button1.resetPressedState();
+                break;
+            case 2:
+                dragging2 = false;
+                button2.resetPressedState();
+                break;
+            case 3:
+                dragging3 = false;
+                button3.resetPressedState();
+                break;
+            case 4:
+                dragging4 = false;
+                button4.resetPressedState();
+                break;
+            case 5:
+                dragging5 = false;
+                button5.resetPressedState();
+                break;
+        }
+    }
+
 }
