@@ -6,8 +6,7 @@ public class UpgradeMenu extends Actor {
 
     public UpgradeMenu(Tower tower) {
         this.tower = tower;
-        updateImage();
-        showRangeCircle();
+
     }
 
     public void act() {

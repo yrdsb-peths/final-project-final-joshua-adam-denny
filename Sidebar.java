@@ -230,72 +230,50 @@ public class Sidebar extends UI {
         handleDrag(button5, "Nuke", price5, gw, 5);
     }
 
+    private boolean[] mouseWasDown = new boolean[6]; // 1-based indexing for IDs
+    
     private void handleDrag(Button button, String towerName, int cost, GameWorld gw, int id) {
         boolean dragging = false;
         switch (id) {
-            case 1:
-                dragging = dragging1;
-                break;
-            case 2:
-                dragging = dragging2;
-                break;
-            case 3:
-                dragging = dragging3;
-                break;
-            case 4:
-                dragging = dragging4;
-                break;
-            case 5:
-                dragging = dragging5;
-                break;
+            case 1: dragging = dragging1; break;
+            case 2: dragging = dragging2; break;
+            case 3: dragging = dragging3; break;
+            case 4: dragging = dragging4; break;
+            case 5: dragging = dragging5; break;
         }
-
-        if (button.isPressed()) {
+    
+        if (Greenfoot.mousePressed(button)) {
+            mouseWasDown[id] = true;
+        }
+    
+        if (mouseWasDown[id] && !Greenfoot.mousePressed(button)) {
+            // Full press+release detected on this button
+            mouseWasDown[id] = false;
+    
             if (!dragging && gw.getMoney() >= cost) {
                 switch (id) {
-                    case 1:
-                        dragging1 = true;
-                        break;
-                    case 2:
-                        dragging2 = true;
-                        break;
-                    case 3:
-                        dragging3 = true;
-                        break;
-                    case 4:
-                        dragging4 = true;
-                        break;
-                    case 5:
-                        dragging5 = true;
-                        break;
+                    case 1: dragging1 = true; break;
+                    case 2: dragging2 = true; break;
+                    case 3: dragging3 = true; break;
+                    case 4: dragging4 = true; break;
+                    case 5: dragging5 = true; break;
                 }
                 gw.startDraggingTower(towerName);
             }
-        } else if (dragging && Greenfoot.mouseClicked(null)) {
+        }
+    
+        // End drag after mouse click anywhere
+        if (dragging && Greenfoot.mouseClicked(null)) {
             switch (id) {
-                case 1:
-                    dragging1 = false;
-                    button.resetPressedState();
-                    break;
-                case 2:
-                    dragging2 = false;
-                    button.resetPressedState();
-                    break;
-                case 3:
-                    dragging3 = false;
-                    button.resetPressedState();
-                    break;
-                case 4:
-                    dragging4 = false;
-                    button.resetPressedState();
-                    break;
-                case 5:
-                    dragging5 = false;
-                    button.resetPressedState();
-                    break;
+                case 1: dragging1 = false; button.resetPressedState(); break;
+                case 2: dragging2 = false; button.resetPressedState(); break;
+                case 3: dragging3 = false; button.resetPressedState(); break;
+                case 4: dragging4 = false; button.resetPressedState(); break;
+                case 5: dragging5 = false; button.resetPressedState(); break;
             }
         }
     }
+
     public void cancelDrag(int id) {
         switch (id) {
             case 1:
