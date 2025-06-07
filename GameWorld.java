@@ -23,7 +23,8 @@ public class GameWorld extends World {
     private boolean activateToggleKeyPreviouslyDown = false; // track key press edge
 
 
-    
+    private boolean autoNextWave = false;
+    private boolean autoNextWaveKeyPreviouslyDown = false;
     private int wave = 0;
     private int enemiesSpawned = 0;
     private int enemiesToSpawn = 0;
@@ -349,19 +350,40 @@ public class GameWorld extends World {
 
 
     private void handleWaveProgression() {
-        if (waitingForNextWave && Greenfoot.isKeyDown("space")) {
+        // Handle toggle for auto next wave using 'd' key
+        if (Greenfoot.isKeyDown("d")) {
+            if (!autoNextWaveKeyPreviouslyDown) {
+                autoNextWave = !autoNextWave;
+                autoNextWaveKeyPreviouslyDown = true;
+        
+                if (autoNextWave) {
+                    wavePrompt.setValue("Auto next wave: ON");
+                } else {
+                    wavePrompt.setValue("Auto next wave: OFF");
+                }
+            }
+        } else {
+            autoNextWaveKeyPreviouslyDown = false;
+        }
+
+    
+        // If waiting for next wave and autoNextWave is ON, start automatically
+        if (waitingForNextWave && (autoNextWave || Greenfoot.isKeyDown("space"))) {
             nextWave();
             waitingForNextWave = false;
             wavePrompt.setValue("");
             if (spawnBatchSize < 5) spawnBatchSize++;
         }
-
+    
+        // When wave ends, prompt player to start next wave or wait for auto mode
         if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(BasicEnemy.class).isEmpty()) {
             waitingForNextWave = true;
-            wavePrompt.setValue("Press SPACE to start next wave");
+            wavePrompt.setValue(autoNextWave ? "Auto next wave: ON" : "Press SPACE to start next wave");
             addMoney(200);
         }
     }
+
+
 
     private void nextWave() {
         wave++;
