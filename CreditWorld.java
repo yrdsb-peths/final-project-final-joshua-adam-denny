@@ -51,16 +51,11 @@ public class CreditWorld extends World
         
         double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
         
-        
-        double[][][] room = new double[0][][];
-        double[][][] room2 = new double[0][][];
         double[][][] room3 = new double[0][][];
         double[][][] monke = new double[0][][];
         try 
         {
             monke = ObjParser.parseObj("3dModels/monkey.obj", 100);
-            room = ObjParser.parseObj("3dModels/room.obj", 100);
-            room2 = ObjParser.parseObj("3dModels/room2.obj", 100);
             room3 = ObjParser.parseObj("3dModels/room3.obj", 100);
         } 
         catch(Exception err) 
@@ -101,7 +96,6 @@ public class CreditWorld extends World
         
         
         poly.rotate(Math.toRadians(180), Math.toRadians(rotation), 0);
-        double typeshi = (Math.cos(position)/Math.sin(position))*30;
         poly.position(0,Math.sin(position)*30,200);
         poly.setScale(scale);
         

@@ -18,7 +18,6 @@ public class Button extends UI
     private int rightSide = 0;
     private int topSide = 0;
     private int bottomSide = 0;
-    private boolean hasHighlighted = false;
     private boolean hoverMode = false;
     
     

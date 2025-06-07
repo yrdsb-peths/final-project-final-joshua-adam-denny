@@ -635,16 +635,18 @@ public class GameWorld extends World {
 
     private void gameOver() {
         int time = 500; // 500ms for fade in
-        setPaintOrder(
-            NukeMissile.class,    
+        setPaintOrder(  
             EndGameLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
             Transition.class, 
+            ImageActor.class,
             Label.class,
             Button.class,
             PolyRender.class, 
+            NukeMissile.class,  
             UI.class, 
+            Sidebar.class,
             Tower.class, 
             Enemy.class
         );

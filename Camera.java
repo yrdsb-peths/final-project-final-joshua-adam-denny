@@ -27,8 +27,6 @@ public class Camera extends DDCRender {
     }
 
     public void act() {
-        CreditWorld world = (CreditWorld) getWorld();
-
         if (firstAct) {
             standHeight = PolyRender.Y_Pos;
             groundY = standHeight;
@@ -108,9 +106,9 @@ public class Camera extends DDCRender {
         }
 
         if (Greenfoot.isKeyDown("up")) {
-            PolyRender.X_Rot -= turnSpeed; 
+            PolyRender.X_Rot = Utils.clamp(PolyRender.X_Rot - turnSpeed, -90, 90); 
         } else if (Greenfoot.isKeyDown("down")) {
-            PolyRender.X_Rot += turnSpeed;
+            PolyRender.X_Rot = Utils.clamp(PolyRender.X_Rot + turnSpeed, -90, 90);;
         }
         
     }

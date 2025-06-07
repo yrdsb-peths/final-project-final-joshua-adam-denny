@@ -1,5 +1,4 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.io.IOException;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +35,6 @@ public class MainMenu extends World
     public MainMenu()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-        
-        double[][][] text = new double[0][][];
-        try {
-            text = ObjParser.parseObj("3dModels/text.obj", 100);
-        } catch(IOException balls) {
-            
-        }
         
         
         setBackground(blurred);
