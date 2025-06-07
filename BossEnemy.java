@@ -1,6 +1,8 @@
 import greenfoot.*;
 
 public class BossEnemy extends Enemy {
+    private GreenfootSound roll = new GreenfootSound("rollingTank.mp3");
+
     public BossEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("Boss.png");
@@ -104,4 +106,16 @@ public class BossEnemy extends Enemy {
     public int getLifeDamage() {
         return 100;
     }
+    
+    @Override
+    public void act() {
+        super.act(); // Ensure superclass behavior runs
+        if (isDead == false) {
+            roll.playLoop();
+        }
+        else if (isDead == true) 
+        {
+            roll.stop();
+        }
+    }   
 }

@@ -7,6 +7,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class TankEnemy extends Enemy {
+    private GreenfootSound walk = new GreenfootSound("heavyFootsteps.mp3");
 
     public TankEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
@@ -19,6 +20,18 @@ public class TankEnemy extends Enemy {
     public int getLifeDamage() {
         return 5;
     }
+    @Override
+    public void act() {
+        super.act(); // Ensure superclass behavior runs
+        if (isDead == false) {
+            walk.setVolume(60);
+            walk.playLoop();
+        }
+        else if (isDead == true) 
+        {
+            walk.stop();
+        }
+    }   
 }
 
 
