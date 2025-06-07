@@ -457,24 +457,8 @@ public class GameWorld extends World {
 
 
     private void handleWaveProgression() {
-        // Handle toggle for auto next wave using 'd' key
-        if (Greenfoot.isKeyDown("d")) {
-            if (!autoNextWaveKeyPreviouslyDown) {
-                autoNextWave = !autoNextWave;
-                autoNextWaveKeyPreviouslyDown = true;
-        
-                if (autoNextWave) {
-                    wavePrompt.setValue("Auto next wave: ON");
-                } else {
-                    wavePrompt.setValue("Auto next wave: OFF");
-                }
-            }
-        } else {
-            autoNextWaveKeyPreviouslyDown = false;
-        }
 
-    
-        // If waiting for next wave and autoNextWave is ON, start automatically
+            // If waiting for next wave and autoNextWave is ON, start automatically
         if (waitingForNextWave && (autoNextWave || Greenfoot.isKeyDown("space"))) {
             nextWave();
             waitingForNextWave = false;
