@@ -96,7 +96,7 @@ public abstract class Enemy extends Actor {
                 pm.addParticle(
                     getX(), 
                     getY(), 
-                    Greenfoot.getRandomNumber(360) - 135.0,
+                    Greenfoot.getRandomNumber(360),
                     Greenfoot.getRandomNumber(5) + 2.5, 
                     Color.RED 
                 );

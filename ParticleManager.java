@@ -69,7 +69,7 @@ public class ParticleManager extends Actor
         {
             Particle p = particles.get(i);
             p.x += Math.cos(p.angleRad) * p.speed;
-            p.y += Math.cos(p.angleRad) * p.speed;
+            p.y += Math.sin(p.angleRad) * p.speed;
             p.speed = Math.max(0, p.speed-0.1);
             
             if (p.speed == 0)

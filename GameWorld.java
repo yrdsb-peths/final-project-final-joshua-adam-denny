@@ -108,13 +108,26 @@ public class GameWorld extends World {
     double position  = 0;
 
     public void act() {
-        handleAnimations();
-        handleEnemySpawning();
-        handleWaveProgression();
-        handleTowerDragging();
-        handleTowerClickUpgrade();
-        handleSniperBoost();
-        resetInputFlags();
+        if (status.equals("running"))
+        {
+            handleAnimations();
+            handleEnemySpawning();
+            handleWaveProgression();
+            handleTowerDragging();
+            handleTowerClickUpgrade();
+            handleSniperBoost();
+            resetInputFlags();
+        }
+        
+        if (status.equals("paused"))
+        {
+            handlePause();
+        }
+    }
+    
+    private void handlePause()
+    {
+    
     }
     
     private void handleAnimations()
