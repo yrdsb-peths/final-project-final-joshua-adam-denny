@@ -156,7 +156,7 @@ public class Sidebar extends UI {
         
         if (gw.getStatus() == GameWorld.Status.PAUSED) return;
         
-        if ((boolean)PlayerPrefs.getData("PreformanceMode", true) == false)
+        if ((boolean)PlayerPrefs.getData("PreformanceMode", false) == false)
         {
             balls += 0.5;
             button5Icon.rotate(Math.toRadians(35.0), Math.toRadians(balls), 0);
