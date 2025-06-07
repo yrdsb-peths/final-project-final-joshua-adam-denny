@@ -54,7 +54,7 @@ public class MachineGunTower extends Tower {
         double angle = Math.toDegrees(Math.atan2(dy, dx));
         setRotation((int) angle);
         // Shoot a bullet
-        if (shotNum > 40 && level == 3)
+        if (shotNum > 25 && level == 3)
         {
             launchMissle(target);
             shotNum = 0;

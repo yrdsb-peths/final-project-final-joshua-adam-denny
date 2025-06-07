@@ -85,15 +85,21 @@ public class SniperTower extends Tower {
         if (speedBoostActive) {
             speedBoostTimer--;
             if (speedBoostTimer <= 0) {
-                cooldownTime = upgradedCooldownTime;
+                cooldownTime = baseCooldownTime;
                 speedBoostActive = false;
                 System.out.println("Speed boost expired on tower at (" + getX() + "," + getY() + ")");
+                updateImage(); // reset to normal image when boost ends
+            } else {
+                addBoostImage();  // show green transparent overlay
             }
-
+        }
+        else {
+            updateImage(); // ensure normal image if not boosted
         }
     
         super.act();
     }
+
 
 
 
@@ -126,5 +132,16 @@ public class SniperTower extends Tower {
     }
 
 
+    private void addBoostImage() {
+        GreenfootImage base = new GreenfootImage("Sniper_tower.png");
+        base.scale(60, 60);
+    
+        GreenfootImage overlay = new GreenfootImage(base.getWidth(), base.getHeight());
+        overlay.setColor(new Color(0, 255, 0, 100)); // green with transparency (alpha=100/255)
+        overlay.fillRect(0, 0, overlay.getWidth(), overlay.getHeight());
+    
+        base.drawImage(overlay, 0, 0);
+        setImage(base);
+    }
 
 }
