@@ -23,8 +23,8 @@ public class Sidebar extends UI {
     private final int price4 = 4500;
     private final int price5 = 10000;
 
-    private GreenfootImage buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
-    private GreenfootImage buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
+    private GreenfootImage buttonBaseImage;
+    private GreenfootImage buttonBaseImagePressed;
 
     private PolyRender button1Icon;
     private PolyRender button2Icon;
@@ -73,6 +73,9 @@ public class Sidebar extends UI {
         } catch (IOException balls) {
 
         }
+        
+        buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
+        buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
 
         button1Icon = new PolyRender(button1IconModel, 600, 600, 150);
         button1Icon.setVersionOneRender_MinMaxLighting(10.0, 255.0);
@@ -150,6 +153,8 @@ public class Sidebar extends UI {
             return;
 
         money = gw.getMoney();
+        
+        if (gw.getStatus() == GameWorld.Status.PAUSED) return;
         
         if (animate)
         {

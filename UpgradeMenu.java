@@ -74,9 +74,6 @@ public class UpgradeMenu extends Actor {
             }
         } else {
             tower.sell();
-            
-            closeMenu();
-            world.removeObject(this);
             world.clearUpgradeMenu();
             return;
         }

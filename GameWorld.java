@@ -3,13 +3,34 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.io.IOException;
+/*
+ * Main GameWorld
+ * 
+ * 
+ * @author Joshua Stevens, Denny Ung, Adam Fung.
+ * @version 7.0.1 (June 7, 2025)
+ */
+
+
+
 public class GameWorld extends World {
+    
+    // Final Variables
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
+    private static final int CENTER_X = WORLD_WIDTH/2;
+    private static final int CENTER_Y = WORLD_HEIGHT/2;
+    private static final int PLAY_AREA_WIDTH = 1000;
+    private static final int TOWER_CANCEL_X = 1000;
+    private static final int UPGRADE_MENU_OFFSET_X = 80;
     
+    // Tower spawnning variables
     private boolean draggingTower = false;
     private boolean wasOutsideArea = true;
     private int insideCount = 0;
+    private boolean towerPlacedThisClick = false;
+    
+    // Sniper Special Ability @ lvl 3
     private List<Integer> sniperBoostTimers = new ArrayList<>();
     private int sniperBoostTimer = 0;
     private int sniperAbilitiesUnlocked = 0;
@@ -22,7 +43,7 @@ public class GameWorld extends World {
     private boolean autoActivateSniper = false;   // toggles auto activate on/off
     private boolean activateToggleKeyPreviouslyDown = false; // track key press edge
 
-
+    // Wave/Money Variables
     private boolean autoNextWave = false;
     private boolean autoNextWaveKeyPreviouslyDown = false;
     private int wave = 0;
@@ -33,26 +54,33 @@ public class GameWorld extends World {
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
     private int money = 100;
-
+    private int phase = 0;
+    private boolean waitingForNextWave = true;
+    
+    // Label/UI Variables
     private Label moneyLabel;
     private Label waveLabel;
     private Label wavePrompt;
     private TowerPreview towerPreview = null;
+    private UIManager uiManager;
+    private UpgradeMenu currentMenu = null;
     
-    private int phase = 0;
+    // Animation Variables
     private long phaseStartTime;
     private List<Long> elapsed = new ArrayList<>();
     private ImageActor overlay = new ImageActor(WORLD_WIDTH,WORLD_HEIGHT);
-
-    private boolean waitingForNextWave = true;
-    private boolean keyHeld = false;
-    private boolean towerPlacedThisClick = false;
-    private int lives = 100;
-    private UpgradeMenu currentMenu = null;
     
+    // Misc Variables
+    private boolean keyHeld = false;
+    private int lives = 100;
     ScuffedAPI client = ScuffedAPI.getInstance();
 
-    private String status = "running"; // "running", "paused", "gameover"
+    public enum Status {
+        RUNNING,
+        PAUSED,
+        GAMEOVER;
+    }
+    private Status status = Status.RUNNING;
 
     public GameWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -62,17 +90,17 @@ public class GameWorld extends World {
         waveLabel = new Label("Wave: " + wave, 30);
         wavePrompt = new Label("Press SPACE to start first wave", 24);
         wavePrompt.setLineColor(Color.BLACK);
-
-        //addObject(new DDCRender(), WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        addObject(UIManager.getInstance(),WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-        addObject(ParticleManager.getInstance(),WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        uiManager = UIManager.getInstance();
+        //addObject(new DDCRender(), CENTER_X, CENTER_Y);
+        addObject(UIManager.getInstance(),CENTER_X, CENTER_Y);
+        addObject(ParticleManager.getInstance(),CENTER_X, CENTER_Y);
         
         Base base = new Base();
         addObject(base, 925, 300);
         
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
-        addObject(wavePrompt, WORLD_WIDTH / 2, WORLD_HEIGHT - 30);
+        addObject(wavePrompt, CENTER_X, WORLD_HEIGHT - 30);
         
         
         
@@ -101,15 +129,16 @@ public class GameWorld extends World {
         overlay.setColor(new Color(0,0,0));
         overlay.fill();
         overlay.setTransparency(255);
-        addObject(overlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
+        addObject(overlay,CENTER_X, CENTER_Y);
     }
 
     double rotation = 0;
     double position  = 0;
 
     public void act() {
-        if (status.equals("running"))
-        {
+        switch(status) {
+          case RUNNING:
+            handlePauseButton();
             handleAnimations();
             handleEnemySpawning();
             handleWaveProgression();
@@ -117,11 +146,23 @@ public class GameWorld extends World {
             handleTowerClickUpgrade();
             handleSniperBoost();
             resetInputFlags();
-        }
-        
-        if (status.equals("paused"))
-        {
+            break;
+          case PAUSED:
             handlePause();
+            break;
+          case GAMEOVER:
+            // (you probably never call act() in gameover)
+            break;
+        }
+    }
+    
+    private void handlePauseButton()
+    {
+        if (uiManager.isPauseButtonPressed())
+        {
+            status = Status.PAUSED;
+            clearUpgradeMenu();
+            cancelDragging();
         }
     }
     
@@ -190,7 +231,7 @@ public class GameWorld extends World {
         if (wave % 10 == 0 && wave != 10 && enemiesSpawned == 0) {
             int hp = getEnemyHealth("Boss");
             int speed = getEnemySpeed("Boss");
-            addObject(new BossEnemy(speed, hp,1000), 0, WORLD_HEIGHT / 2);
+            addObject(new BossEnemy(speed, hp,1000), 0, CENTER_Y);
             return;
         }
 
@@ -430,24 +471,20 @@ public class GameWorld extends World {
                 int y = mi.getY();
     
                 // Clamp x to stay within world bounds
-                if (x > 1000) x = 1000;
+                if (x > PLAY_AREA_WIDTH) x = PLAY_AREA_WIDTH;
                 towerPreview.setLocation(x, y);
                 MouseInfo mouse = Greenfoot.getMouseInfo();
                 int mouseX = mouse.getX();
                 
                 if (Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
-                    if (mi.getButton() == 1 && mouseX < 1000) {
+                    if (mi.getButton() == 1 && mouseX < PLAY_AREA_WIDTH) {
                         placeTower(towerPreview.getTowerType(), x, y);
                         towerPlacedThisClick = true;
-                    } else if (mouseX >= 1000) {
+                    } else if (mouseX >= PLAY_AREA_WIDTH) {
                         cancelDragging();
                         towerPlacedThisClick = true;
                     }
                 }
-
-
-                
-
             }
     
             // Escape key cancels dragging
@@ -483,7 +520,7 @@ public class GameWorld extends World {
         // pass the tower range to TowerPreview constructor:
         Tower tower = createTower(towerType);
         towerPreview = new TowerPreview(towerType, tower.getRange());
-        addObject(towerPreview, WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+        addObject(towerPreview, CENTER_X, CENTER_Y);
     }
 
     private void placeTower(String towerType, int x, int y) {
@@ -559,11 +596,7 @@ public class GameWorld extends World {
 
                     // If same tower is clicked, toggle menu off
                     if (tower == selectedTower && currentMenu != null) {
-                        currentMenu.closeMenu();
-                        removeObject(currentMenu);
-                        currentMenu = null;
-                        selectedTower = null;
-                        return;
+                        clearUpgradeMenu();
                     }
 
                     // Close old menu
@@ -574,19 +607,14 @@ public class GameWorld extends World {
 
                     // Create new menu
                     currentMenu = new UpgradeMenu(tower);
-                    addObject(currentMenu, tower.getX() + 80, tower.getY());
+                    addObject(currentMenu, tower.getX() + UPGRADE_MENU_OFFSET_X, tower.getY());
                     selectedTower = tower;
 
                     // SHOW RANGE CIRCLE AFTER MENU IS ADDED
                     currentMenu.showRangeCircle();
                 } else {
                     // Clicked elsewhere, remove any open menu
-                    if (currentMenu != null) {
-                        currentMenu.closeMenu();
-                        removeObject(currentMenu);
-                        currentMenu = null;
-                        selectedTower = null;
-                    }
+                    clearUpgradeMenu();
                 }
             }
         }
@@ -594,13 +622,29 @@ public class GameWorld extends World {
 
 
     public void clearUpgradeMenu() {
-        currentMenu = null;
+        if (currentMenu != null) {
+            currentMenu.closeMenu();
+            removeObject(currentMenu);
+            currentMenu = null;
+            selectedTower = null;
+        }
     }
 
     private void resetInputFlags() {
         if (!Greenfoot.mousePressed(null)) {
             towerPlacedThisClick = false;
         }
+    }
+    
+    
+    public Status getStatus()
+    {
+        return status;
+    }
+    
+    public void setStatus(Status newStatus)
+    {
+        this.status  = newStatus;
     }
 
     public int getMoney() {
@@ -639,9 +683,9 @@ public class GameWorld extends World {
 
     public void loseLife(int amount) {
         lives = Math.max(lives-amount, 0);
-        if (lives <= 0 && status.equals("running")) {
+        if (lives <= 0 && status == Status.RUNNING) {
             gameOver();
-            status = "gameover";
+            status = Status.GAMEOVER;
         }
     }
 
@@ -677,9 +721,23 @@ public class GameWorld extends World {
         }
         UIManager.getInstance().fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
-        addObject(endPopup, WORLD_WIDTH / 2, 0);
+        addObject(endPopup, CENTER_X, 0);
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
+     * SNIPER CUSTOM ABILITY.
+     */
     
     public void unlockSniperAbility() {
         sniperAbilitiesUnlocked++;
@@ -962,9 +1020,4 @@ public class GameWorld extends World {
     public int getMaxLevelSnipersCount() {
         return maxLevelSnipersCount;
     }
-
-
-
-
-    
 }

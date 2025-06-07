@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PauseMenu extends UI
 {
-    public static PauseMenu _instance;
+    public static PauseMenu _instance; 
     private Button PauseButton;
     
     
