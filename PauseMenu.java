@@ -235,7 +235,10 @@ public class PauseMenu extends UI
                 fadeIn(new CreditWorld());
                 break;
             case 3: // continue
+                blackOverlay.setTransparency(0);
+                phaseStartTime = System.currentTimeMillis(); 
                 removeSelf();
+                UIManager.getInstance().togglePauseMenu();
                 gw.setStatus(GameWorld.Status.RUNNING);
                 break;
             case 4: // Main Menu
