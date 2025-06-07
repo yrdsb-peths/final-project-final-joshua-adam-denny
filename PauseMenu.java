@@ -33,8 +33,9 @@ public class PauseMenu extends UI
     private int phase = 0;
     private long phaseStartTime;
     private List<Long> elapsed = new ArrayList<>();
-    private ImageActor blackOverlay;private Button PauseButton;
-    
+    private ImageActor blackOverlay;
+    private Button PauseButton;
+    private GameWorld gw;
     
     public PauseMenu()
     {
@@ -50,7 +51,7 @@ public class PauseMenu extends UI
     
     @Override
     protected void addedToWorld(World w) {
-        
+        gw = (GameWorld)w;
         startY = getY();
         targetY = w.getHeight() / 2; // always center to it to the middle of the world.
         GreenfootImage[] restartButtonImages = new GreenfootImage[2];
@@ -234,7 +235,8 @@ public class PauseMenu extends UI
                 fadeIn(new CreditWorld());
                 break;
             case 3: // continue
-                fadeIn(new GameWorld());
+                removeSelf();
+                gw.setStatus(GameWorld.Status.RUNNING);
                 break;
             case 4: // Main Menu
                 fadeIn(new MainMenu());
