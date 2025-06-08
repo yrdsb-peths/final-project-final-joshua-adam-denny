@@ -54,7 +54,7 @@ public class ScuffedAPI {
         }
     }
     
-    public int sendScore(int score, int wave) throws IOException {
+    public int sendScore(long score, int wave) throws IOException {
         URL url = new URL(api_url + "/sendScore");
         HttpURLConnection client = (HttpURLConnection) url.openConnection();
 

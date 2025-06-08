@@ -55,6 +55,7 @@ public class GameWorld extends World {
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
     private int money = 100000;
+    private long moneyTotal = money;
     private int phase = 0;
     private boolean waitingForNextWave = true;
     
@@ -667,7 +668,9 @@ public class GameWorld extends World {
 
     public void addMoney(int amount) {
         money += amount;
+        moneyTotal+=amount;
         updateMoneyLabel();
+        
     }
 
     public boolean spendMoney(int amount) {
@@ -717,7 +720,7 @@ public class GameWorld extends World {
         
         
         uiManager.fadeIn(155, time);
-        EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
+        EndGamePopup endPopup = new EndGamePopup(wave, (int) moneyTotal, time);
         addObject(endPopup, CENTER_X, 0);
         
     }
