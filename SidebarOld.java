@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Sidebar UI 
  * 
- * @author Denny Ung
+ * @author Denny Ung and Joshua Stevens
  * @version Version 1.0.0 (May 30th, 2025)
  */
 public class SidebarOld extends UI

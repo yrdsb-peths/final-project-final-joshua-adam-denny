@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class UpgradeMenu extends UI {
     private Tower tower;
     private RangeCircle rangeCircle;

@@ -1,6 +1,11 @@
 import greenfoot.*;
 import java.util.List;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class FlameRing extends Actor {
     private int radius;
     private int damage;

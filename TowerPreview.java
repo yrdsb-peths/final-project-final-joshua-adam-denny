@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class TowerPreview extends Actor {
     private String towerType;
     private RangeCircle rangeCircle;

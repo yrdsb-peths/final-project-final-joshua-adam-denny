@@ -1,6 +1,11 @@
 import greenfoot.*;
 import java.util.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class ExplosionEffect extends Actor {
     private static final int FRAME_COUNT = 8;
     private static final int FRAME_DURATION = 4; // Each frame shown for 4 acts

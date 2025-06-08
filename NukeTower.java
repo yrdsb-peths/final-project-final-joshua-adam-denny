@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class NukeTower extends Tower {
     private int missileCooldown = 0;
     private int missileCooldownTime = 3600;

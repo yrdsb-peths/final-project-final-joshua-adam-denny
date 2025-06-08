@@ -1,6 +1,11 @@
 import greenfoot.*;
 import java.util.List;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Adam Fung
+ * @version (a version number or a date)
+ */
 public class RadioactiveField extends Actor {
     private int duration;
     private int tickInterval;

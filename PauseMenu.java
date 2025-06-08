@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Pause Menu UI
  * 
- * @author Denny Ung
+ * @author Denny Ung and Joshua Stevens
  * @version Version 1.0.0 (June 7, 2025)
  */
 public class PauseMenu extends UI

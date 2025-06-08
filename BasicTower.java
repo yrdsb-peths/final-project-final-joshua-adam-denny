@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class BasicTower extends Tower {
     public String imageName = "Basic_tower.png";
     private int slowShotCounter = 0;

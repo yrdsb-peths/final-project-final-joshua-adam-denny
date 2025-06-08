@@ -1,6 +1,11 @@
 import greenfoot.*;
 import java.util.List;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class Tower extends Actor {
     protected int cooldownTime = 60;
     protected int cooldown = 0;

@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class FlameThrowerTower extends Tower {
     private int coneProjectiles = 3;  // Start with 3 projectiles
     private final int maxProjectiles = 6;  // Max projectiles at max upgrade

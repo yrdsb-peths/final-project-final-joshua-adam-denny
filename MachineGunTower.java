@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");
     private int shotNum = 0;

@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class BigEnemy here.
+ * Write a description of class Base here.
  * 
- * @author (your name) 
+ * @Joshua Stevens
  * @version (a version number or a date)
  */
 public class BigEnemy extends Enemy {

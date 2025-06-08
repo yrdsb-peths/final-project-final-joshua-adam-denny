@@ -1,4 +1,11 @@
 import greenfoot.Actor;
+
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class BurnEffect extends Actor{
     private int damagePerTick;
     private int ticksRemaining;

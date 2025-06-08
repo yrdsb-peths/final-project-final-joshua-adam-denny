@@ -1,5 +1,10 @@
 import greenfoot.*;
-
+/**
+ * Write a description of class Base here.
+ * 
+ * @Joshua Stevens
+ * @version (a version number or a date)
+ */
 public class BasicEnemy extends Enemy {
     private GreenfootSound walk = new GreenfootSound("lightFootsteps.mp3");
 

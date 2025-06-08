@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class TankEnemy here.
+ * Write a description of class Base here.
  * 
- * @author (your name) 
+ * @Joshua Stevens
  * @version (a version number or a date)
  */
 public class TankEnemy extends Enemy {
