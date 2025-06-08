@@ -78,6 +78,24 @@ public class GameWorld extends World {
     private int lives = 100;
     ScuffedAPI client = ScuffedAPI.getInstance();
 
+    private Class<?>[] defaultPaintOrder = {
+        NukeMissile.class,
+        DDCRender.class,
+        Label.class,
+        PauseButton.class,
+        PauseMenu.class,
+        Button.class,
+        EndGamePopup.class,
+        Transition.class, 
+        Sidebar.class,
+        UI.class, 
+        ExplosionEffect.class,
+        Bullet.class,
+        Tower.class, 
+        Enemy.class,
+        ImageActor.class
+    };
+
     public enum Status {
         RUNNING,
         PAUSED,
@@ -110,34 +128,13 @@ public class GameWorld extends World {
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
         
-        setPaintOrder(
-            EndGamePopup.class,
-            EndGameButton.class,
-            ImageActor.class,
-            NukeMissile.class,
-            DDCRender.class,
-            Label.class,
-            Button.class,
-            
-            CheckButton.class,
-            PauseButton.class,
-            PauseMenu.class,
-            Transition.class, 
-            PauseButton.class,
-            Sidebar.class,
-            UI.class, 
-            ExplosionEffect.class,
-            Bullet.class,
-            Tower.class, 
-            Enemy.class
-        );
-        
-        
+        setPaintOrder(ImageActor.class);
         
         overlay.setColor(new Color(0,0,0));
         overlay.fill();
         overlay.setTransparency(255);
         addObject(overlay,CENTER_X, CENTER_Y);
+        AudioManager.stopMusic();
         AudioManager.playMusic(themeMusic);
     }
 
@@ -175,8 +172,9 @@ public class GameWorld extends World {
                 status = Status.PAUSED;
                 clearUpgradeMenu();
                 cancelDragging();
-                setPaintOrder(
+                setPaintOrder( // PAUSE MENU PAINT ORDER
                     EndGamePopup.class,
+                    Slider.class,
                     CheckButton.class,
                     PauseButton.class,
                     PauseMenu.class,
@@ -197,22 +195,7 @@ public class GameWorld extends World {
             else if (status == Status.PAUSED) {
                 uiManager.togglePauseMenu();   
                 status = Status.RUNNING;
-                setPaintOrder(
-                    NukeMissile.class,
-                    DDCRender.class,
-                    Label.class,
-                    Button.class,
-                    EndGamePopup.class,
-                    Transition.class, 
-                    Sidebar.class,
-                    UI.class, 
-                    CheckButton.class,
-                    ExplosionEffect.class,
-                    Bullet.class,
-                    Tower.class, 
-                    Enemy.class,
-                    ImageActor.class
-                );
+                setPaintOrder(defaultPaintOrder);
             }
         }
 
@@ -241,23 +224,7 @@ public class GameWorld extends World {
                     overlay.setTransparency(0);
                     removeObject(overlay);
                     phase = 1;
-                    setPaintOrder(
-                        NukeMissile.class,
-                        DDCRender.class,
-                        Label.class,
-                        PauseButton.class,
-                        PauseMenu.class,
-                        Button.class,
-                        EndGamePopup.class,
-                        Transition.class, 
-                        Sidebar.class,
-                        UI.class, 
-                        ExplosionEffect.class,
-                        Bullet.class,
-                        Tower.class, 
-                        Enemy.class,
-                        ImageActor.class
-                    );
+                    setPaintOrder(defaultPaintOrder);
                 }
                 break;
         }
@@ -743,7 +710,7 @@ public class GameWorld extends World {
 
     private void gameOver() {
         int time = 500; // 500ms for fade in
-        setPaintOrder(  
+        setPaintOrder(  // GAME OVER PAINT ORDER
             EndGameLabel.class,
             EndGameButton.class,
             EndGamePopup.class,

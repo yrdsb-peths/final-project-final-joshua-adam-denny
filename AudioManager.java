@@ -7,12 +7,36 @@ import greenfoot.*;
  */
 public class AudioManager 
 {
-    public static void playMusic(GreenfootSound audioPlayer)
-    {
-        int vol = (int) PlayerPrefs.getData("VolumeMusic", 30);
-        audioPlayer.setVolume(vol);
-        audioPlayer.play();
+    private static GreenfootSound currentMusic = null;
+    public static void playMusic(GreenfootSound music) {
+        
+        if (currentMusic != null && currentMusic != music) {
+            currentMusic.stop();
+        }
+        currentMusic = music;
+        int vol = PlayerPrefs.getData("VolumeMusic", 30);
+        currentMusic.setVolume(vol);
+        if (!currentMusic.isPlaying()) {
+            currentMusic.playLoop();
+        }
     }
+    
+
+    public static void stopMusic() {
+        if (currentMusic != null) {
+            currentMusic.stop();
+            currentMusic = null;
+        }
+    }
+    
+    public static void setMusicVolume(int volume) {
+        int vol = (int)Utils.clamp(volume, 0, 100);
+        PlayerPrefs.setData("VolumeMusic", vol);
+        if (currentMusic != null) {
+            currentMusic.setVolume(vol);
+        }
+    }
+    
     public static void playMusic(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);

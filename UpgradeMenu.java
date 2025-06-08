@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class UpgradeMenu extends Actor {
+public class UpgradeMenu extends UI {
     private Tower tower;
     private RangeCircle rangeCircle;
 
@@ -22,13 +22,13 @@ public class UpgradeMenu extends Actor {
         if (tower.isMaxUpgraded()) {
             img.drawString("Max Upgrade", 5, 20);
         } else {
-            img.drawString("Upgrade ($" + tower.getUpgradeCost() + ")", 5, 20);
+            img.drawString("Upgrade ($" + tower.getUpgradeCost() + ")", 5, 18);
         }
     
-        img.drawString("Sell ($" + tower.getSellValue() + ")", 5, 40);
+        img.drawString("Sell ($" + tower.getSellValue() + ")", 5, 45);
     
         // NEW: Show damage dealt
-        img.drawString("Dmg: " + tower.getTotalDamageDone(), 5, 60);
+        img.drawString("Dmg: " + tower.getTotalDamageDone(), 5, 70);
     
         setImage(img);
     }
@@ -40,19 +40,23 @@ public class UpgradeMenu extends Actor {
         GameWorld world = (GameWorld) getWorld();
         world.addObject(rangeCircle, tower.getX(), tower.getY());
         world.setPaintOrder(
-            NukeMissile.class,
             UpgradeMenu.class,
+            NukeMissile.class,
             DDCRender.class,
             Label.class,
+            PauseButton.class,
+            PauseMenu.class,
             Button.class,
             EndGamePopup.class,
             Transition.class, 
-            Sidebar.class, 
-            RangeCircle.class,
+            Sidebar.class,
             UI.class, 
+            ExplosionEffect.class,
+            Bullet.class,
             Tower.class, 
-            Enemy.class
-        );
+            Enemy.class,
+            ImageActor.class
+        ); // Upgrade Menu on top of everything
     }
 
     public void handleClick(int globalX, int globalY) {

@@ -22,21 +22,26 @@ public class PauseMenu extends UI
     private int targetY;
     private boolean lockedIn = false;
 
-    private final int buttonSize = 80;
-
+    private final int buttonSize = 40;
+    private final int primaryButtonSize = buttonSize + 20;
+    
     private PauseButton restartButton;
     private PauseButton creditsButton;
     private PauseButton continueButton;
     private PauseButton mainMenuButton;
     CheckButton preformanceModeCheckBox;
-
+    private CheckButton autoStartCheckBox;
+    private Slider volumeMusicSlider;
+    private Slider volumeSFXSlider;
+    private Slider volumeSpecialSFXSlider;
+    
+    
     private int phase = 0;
     private long phaseStartTime;
     private List<Long> elapsed = new ArrayList<>();
+    
     private ImageActor blackOverlay;
-    private Button PauseButton;
     private GameWorld gw;
-    private CheckButton autoStartCheckBox;
 
     public PauseMenu()
     {
@@ -72,25 +77,48 @@ public class PauseMenu extends UI
         mainMenuButtonImages[0] = new GreenfootImage("ui/button-mainMenu.png");
         mainMenuButtonImages[1] = new GreenfootImage("ui/button-mainMenu-pressed.png");
 
-        restartButton = new PauseButton(false, restartButtonImages, buttonSize, buttonSize);
-        creditsButton = new PauseButton(false, creditsButtonImages, buttonSize, buttonSize);
-        continueButton = new PauseButton(false, continueButtonImages, buttonSize, buttonSize);
-        mainMenuButton = new PauseButton(false, mainMenuButtonImages, 40, 40);
-
+        restartButton = new PauseButton(false, restartButtonImages, primaryButtonSize, primaryButtonSize);
+        creditsButton = new PauseButton(false, creditsButtonImages, primaryButtonSize, primaryButtonSize);
+        continueButton = new PauseButton(false, continueButtonImages, primaryButtonSize, primaryButtonSize);
+        mainMenuButton = new PauseButton(false, mainMenuButtonImages, buttonSize, buttonSize);
+        autoStartCheckBox = new CheckButton(buttonSize- 20);
+        preformanceModeCheckBox = new CheckButton(buttonSize- 20);
+        volumeMusicSlider = new Slider(200, 20);  // 200px track, 40px tall
+        volumeSFXSlider = new Slider(200, 20);
+        volumeSpecialSFXSlider = new Slider(200, 20);
+        
+        autoStartCheckBox.setChecked((boolean) PlayerPrefs.getData("AutoStart", false));
+        preformanceModeCheckBox.setChecked((boolean) PlayerPrefs.getData("PreformanceMode", false));
+        
+        
         restartButton.setTransparency(0);
         creditsButton.setTransparency(0);
         continueButton.setTransparency(0);
         mainMenuButton.setTransparency(0);
-        preformanceModeCheckBox = new CheckButton(40);
         preformanceModeCheckBox.setTransparency(0);
-        preformanceModeCheckBox.setChecked((boolean) PlayerPrefs.getData("PreformanceMode", false));
+        autoStartCheckBox.setTransparency(0);
+        volumeMusicSlider.setTransparency(0);
+        volumeSFXSlider.setTransparency(0);
+        volumeSpecialSFXSlider.setTransparency(0);
         
-        w.addObject(preformanceModeCheckBox, getX(), getY());
+        
+        volumeMusicSlider.setValue((int)PlayerPrefs.getData("VolumeMusic",30));
+        volumeSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSFX",30));
+        volumeSpecialSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSpecialSFX",75));
+        
         w.addObject(restartButton, getX(), getY());
         w.addObject(creditsButton, getX() - 150, getY());
         w.addObject(continueButton, getX() + 150, getY());
-        w.addObject(mainMenuButton, getX() - 200, getY()); // Top left
+        w.addObject(mainMenuButton, getX() - 200, getY());
         
+        w.addObject(preformanceModeCheckBox, getX(), getY());
+        w.addObject(autoStartCheckBox, getX(), getY());
+        
+        w.addObject(volumeMusicSlider, getX(), getY());
+        w.addObject(volumeSFXSlider, getX(), getY());
+        w.addObject(volumeSpecialSFXSlider, getX(), getY());
+        
+
         
         
         
@@ -99,12 +127,6 @@ public class PauseMenu extends UI
         blackOverlay.setColor(new Color(0,0,0));
         blackOverlay.fill();
         w.addObject(blackOverlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
-
-        
-        autoStartCheckBox = new CheckButton(40);
-        autoStartCheckBox.setTransparency(0);
-        autoStartCheckBox.setChecked((boolean) PlayerPrefs.getData("AutoStart", false));
-        w.addObject(autoStartCheckBox, getX(), getY());
 
     }
     
@@ -125,9 +147,11 @@ public class PauseMenu extends UI
             world.removeObject(continueButton);
             world.removeObject(mainMenuButton);
             world.removeObject(preformanceModeCheckBox);
-            world.removeObject(blackOverlay);
             world.removeObject(autoStartCheckBox);
-
+            world.removeObject(volumeMusicSlider);
+            world.removeObject(volumeSFXSlider);
+            world.removeObject(volumeSpecialSFXSlider);
+            world.removeObject(blackOverlay);
         }
         
         lockedIn = false;
@@ -181,19 +205,31 @@ public class PauseMenu extends UI
 
         image.setTransparency(alpha);
         preformanceModeCheckBox.setTransparency(alpha);
+        autoStartCheckBox.setTransparency(alpha);
         restartButton.setTransparency(alpha);
         creditsButton.setTransparency(alpha);
         continueButton.setTransparency(alpha);
         mainMenuButton.setTransparency(alpha);
+        volumeMusicSlider.setTransparency(alpha);
+        volumeSFXSlider.setTransparency(alpha);
+        volumeSpecialSFXSlider.setTransparency(alpha);
         setImage(image);
 
         // update the position of the popup/actor
         int newY = startY + (int) (ease * (targetY - startY));
         setLocation(getX(), newY);
-        preformanceModeCheckBox.setLocation(getX() + 150, newY);
-        restartButton.setLocation(getX(), newY + 100); // bottom center
-        creditsButton.setLocation(getX() - 150, newY + 100); // bottom left
-        continueButton.setLocation(getX() + 150, newY + 100); // bottom right
+        
+        volumeMusicSlider.setLocation(getX() + 120, newY-60); 
+        volumeSFXSlider.setLocation(getX() + 120, newY-20); 
+        volumeSpecialSFXSlider.setLocation(getX() + 120, newY+20); 
+        
+        autoStartCheckBox.setLocation(getX()-20, newY-65); 
+        preformanceModeCheckBox.setLocation(getX()-20, newY-25); 
+        
+        
+        restartButton.setLocation(getX(), newY + 120); // bottom center
+        creditsButton.setLocation(getX() - 150, newY + 120); // bottom left
+        continueButton.setLocation(getX() + 150, newY + 120); // bottom right
         mainMenuButton.setLocation(getX() - 200, newY - 125); // Top left
 
         // lock tf IN.)
@@ -214,9 +250,7 @@ public class PauseMenu extends UI
             mainMenuButton.setActive(true);
         }
 
-        autoStartCheckBox.setTransparency(alpha);
-        autoStartCheckBox.setLocation(getX() + 190, newY+5);       // Auto Start on top
-        preformanceModeCheckBox.setLocation(getX() + 30, newY+5);  // Performance mode below
+        
 
     }
 
@@ -284,6 +318,15 @@ public class PauseMenu extends UI
         this.phase = newPhase;
         phaseStartTime = System.currentTimeMillis(); 
     }
+    
+    private void handleSliders()
+    {
+        PlayerPrefs.setData("VolumeMusic",volumeMusicSlider.getValue());
+        PlayerPrefs.setData("VolumeSFX",volumeSFXSlider.getValue());
+        PlayerPrefs.setData("VolumeSpecialSFX",volumeSpecialSFXSlider.getValue());
+        
+        AudioManager.setMusicVolume(volumeMusicSlider.getValue());
+    }
 
     public void act() {
         if (!lockedIn) {
@@ -316,7 +359,7 @@ public class PauseMenu extends UI
                 gw.setAutoNextWave(autoStartCheckBox.isChecked());
             }
         }
-    
+        handleSliders();
         handleAnimation();
     }
 

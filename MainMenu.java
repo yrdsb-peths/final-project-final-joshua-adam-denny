@@ -167,9 +167,7 @@ public class MainMenu extends World
                     overlay.setTransparency(progressAlpha);
                 } else {
                     enterPhase(phase+1);
-                    setPaintOrder(
-                        UI.class
-                    );
+                    setPaintOrder(UI.class);// The start button should be on top of everything.
                 }
                 break;
             case 69:
@@ -204,7 +202,7 @@ public class MainMenu extends World
         {
             overlay.setColor(Color.BLACK);
             overlay.fill();
-            setPaintOrder(ImageActor.class);
+            setPaintOrder(ImageActor.class); // overlay on top of all.
             enterPhase(69);
         }
     }

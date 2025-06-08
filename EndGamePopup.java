@@ -208,19 +208,9 @@ public class EndGamePopup extends UI {
     {
         getWorld().setPaintOrder(
             ImageActor.class,
-            EndGameButton.class,
-            EndGamePopup.class,
-            NukeMissile.class,
-            DDCRender.class,
             Label.class,
-            Button.class,
-            Transition.class, 
-            Sidebar.class,
-            UI.class, 
-            ExplosionEffect.class,
-            Bullet.class,
-            Tower.class, 
-            Enemy.class
+            EndGameButton.class,
+            EndGamePopup.class
         );
         this.phase = newPhase;
         phaseStartTime = System.currentTimeMillis(); 
