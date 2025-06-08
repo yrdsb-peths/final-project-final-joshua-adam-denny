@@ -431,7 +431,7 @@ public class GameWorld extends World {
         if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(BasicEnemy.class).isEmpty()) {
             waitingForNextWave = true;
             wavePrompt.setValue(autoNextWave ? "Auto next wave: ON" : "Press SPACE to start next wave");
-            addMoney(200);
+            addMoney(200 * (wave/5));
         }
     }
 

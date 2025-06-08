@@ -61,14 +61,22 @@ Joshua Stevens • Denny Ung • Adam Fung
 
 Scripting: Joshua Stevens • Denny Ung • Adam Fung
 
-Base game: Joshua Stevens
-UI Design: Denny Ung 
-Graphical Assets: Adam Fung
+### Audio used:   
+- Audio Name: "Waves" | Artist(s): Dr.p\*m  
+- Audio Name: "Crash" (intro) | Artist(s): Dr.p\*m  
+- Audio Name: "House Building Theme" | Artist(s): Rockstar Games (Red Dead Redemption 2)  
+  
+  
+  
+<br>
+<br>
+<br>
 
-Audio used: 
-    Audio Name: "Waves" | Artist(s): Dr.p*m
-    Audio Name: "Crash" (intro) | Artist(s): Dr.p*m
-    Audio Name: "House Building Theme" | Artist(s): Rockstar Games (Red Dead Redemption 2)
+### Font(s) under OTF License.
 
 
-Font(s) under OTF License.
+
+
+##
+*this is literally abusing greenfoot to its maximums lmao.*
+##

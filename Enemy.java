@@ -95,7 +95,7 @@ public abstract class Enemy extends Actor {
         
         if (isDead) {
             AudioManager.stopLoopingSFX(movement);
-            if (totalCount < 5) {
+            if (totalCount < 5 && (boolean) PlayerPrefs.getData("PreformanceMode", false) == false) {
                 totalCount++;
                 pm.addParticle(getX(), getY(), 
                     Greenfoot.getRandomNumber(360),
