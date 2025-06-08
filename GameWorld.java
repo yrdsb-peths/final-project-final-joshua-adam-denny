@@ -701,12 +701,13 @@ public class GameWorld extends World {
     private void gameOver() {
         int time = 500; // 500ms for fade in
         setPaintOrder(  // GAME OVER PAINT ORDER
-            CustomLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
+            Transition.class, 
+            HealthBar.class,
+            CustomLabel.class,
             PauseButton.class,
             PauseMenu.class,
-            Transition.class, 
             ImageActor.class,
             CustomLabel.class,
             Button.class,

@@ -75,6 +75,19 @@ public class EndGamePopup extends UI {
     @Override
     protected void addedToWorld(World w) {
         
+        w.setPaintOrder(
+            CustomLabel.class,
+            EndGameButton.class,
+            ImageActor.class,
+            EndGamePopup.class,
+            Transition.class,
+            PauseButton.class,
+            HealthBar.class,
+            UI.class,
+            Button.class,
+            Sidebar.class
+        );
+        
         startY = getY();
         targetY = w.getHeight() / 2; // always center to it to the middle of the world.
         GreenfootImage[] restartButtonImages = new GreenfootImage[2];
@@ -240,7 +253,13 @@ public class EndGamePopup extends UI {
             ImageActor.class,
             CustomLabel.class,
             EndGameButton.class,
-            EndGamePopup.class
+            EndGamePopup.class,
+            Transition.class,
+            PauseButton.class,
+            HealthBar.class,
+            UI.class,
+            Button.class,
+            Sidebar.class
         );
         this.phase = newPhase;
         phaseStartTime = System.currentTimeMillis(); 
