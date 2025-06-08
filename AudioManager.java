@@ -162,6 +162,11 @@ public class AudioManager
     public static void playAudio(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);
+        audioPlayer.play();
+    }
+    public static void playAudioLoop(GreenfootSound audioPlayer, int volume)
+    {
+        audioPlayer.setVolume(volume);
         audioPlayer.playLoop();
     }
 

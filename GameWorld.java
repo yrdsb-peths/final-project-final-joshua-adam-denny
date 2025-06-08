@@ -88,8 +88,8 @@ public class GameWorld extends World {
         Sidebar.class,
         UI.class, 
         ExplosionEffect.class,
-        Bullet.class,
         Tower.class, 
+        Bullet.class,
         Enemy.class,
         ImageActor.class
     };

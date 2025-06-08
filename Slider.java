@@ -23,7 +23,7 @@ public class Slider extends UI {
     public Slider(int length, int height) {
         trackLength = length;
         trackHeight = height / 3; 
-        knobRadius  = height / 2;
+        knobRadius  = height / 3;
         setImage(new GreenfootImage(trackLength + knobRadius*2, height));
         knobY = height / 2;
         knobX = valueToX(value);
@@ -66,7 +66,7 @@ public class Slider extends UI {
         img.setColor(Color.GRAY);
         int y0 = knobY - trackHeight/2;
         img.fillRect(knobRadius, y0, trackLength, trackHeight);
-        img.setColor(dragging ? Color.RED : Color.WHITE);
+        img.setColor(dragging ? Color.WHITE : Color.BLUE);
         
         
         img.fillOval(knobX - knobRadius, knobY - knobRadius, knobRadius*2, knobRadius*2);
