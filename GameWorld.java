@@ -359,11 +359,11 @@ public class GameWorld extends World {
             return baseAmount;
         } else {
             // Calculate waves past 20
-            int wavesOver20 = wave - 20;
-        double rampFactor = Math.pow(0.75, wavesOver20);
-        rampFactor = Math.max(rampFactor, 0.05);    
+            int wavesOver20 = (wave - 20);
+            double rampFactor = Math.pow(0.9, wavesOver20);
+            rampFactor = Math.max(rampFactor, 0.2);    
         
-        return (int)(baseAmount * rampFactor);
+            return (int)(baseAmount * rampFactor);
         }
     }
     public int getEnemyHealth(String type) {
