@@ -13,10 +13,11 @@ public class FlameThrowerTower extends Tower {
     private GreenfootSound flameSound;
     private int soundCooldown = 0;
     private final int SOUND_STOP_DELAY = 10; // frames after last shot before stopping
+    private String imageName = "FlameThrower_tower.png";
 
     public FlameThrowerTower() {
-        GreenfootImage img = new GreenfootImage("FlameThrower_tower.png");
-        img.scale(80, 80);
+        GreenfootImage img = new GreenfootImage(imageName);
+        img.scale(72, 40);
         setImage(img);
 
         cooldownTime = 7;    // Much faster firing rate
@@ -41,6 +42,11 @@ public class FlameThrowerTower extends Tower {
             if (coneProjectiles < maxProjectiles) {
                 coneProjectiles++;
             }
+            
+            if (level == 1) {
+            imageName = "FlameThrower_tower_1.png";
+        }
+        
             totalInvested += upgradeCost;
             upgradeCost += 300;
             updateImage();
@@ -51,8 +57,8 @@ public class FlameThrowerTower extends Tower {
 
     @Override
     protected void updateImage() {
-        GreenfootImage img = new GreenfootImage("FlameThrower_tower.png");
-        img.scale(80, 80);
+        GreenfootImage img = new GreenfootImage(imageName);
+        img.scale(72, 40);
         setImage(img);
         super.updateImage();
     }
