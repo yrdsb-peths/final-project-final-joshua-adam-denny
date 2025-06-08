@@ -51,7 +51,7 @@ public class PauseMenu extends UI
         image.setTransparency(0);
         setImage(image);
         phaseStartTime = System.currentTimeMillis();
-
+        AudioManager.stopAllSFX();
         deltaTime.mark();
     }
     
