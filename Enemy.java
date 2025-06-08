@@ -115,6 +115,7 @@ public abstract class Enemy extends Actor {
         if (getX() >= gw.getWidth() - 160) {
             gw.loseLife(getLifeDamage());
             gw.removeObject(this);
+            isDead = true;
         }
     }
 

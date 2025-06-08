@@ -11,8 +11,6 @@ import java.io.IOException;
  * @version 7.0.1 (June 7, 2025)
  */
 
-
-
 public class GameWorld extends World {
     
     // Final Variables
@@ -56,7 +54,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 1000000;
+    private int money = 100;
     private int phase = 0;
     private boolean waitingForNextWave = true;
     
@@ -122,9 +120,6 @@ public class GameWorld extends World {
         addObject(moneyLabel, 100, 30);
         addObject(waveLabel, 250, 30);
         addObject(wavePrompt, CENTER_X, WORLD_HEIGHT - 30);
-        
-        
-        
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
         
@@ -357,16 +352,12 @@ public class GameWorld extends World {
         } else {
             // Calculate waves past 20
             int wavesOver20 = wave - 20;
-    
-
         double rampFactor = Math.pow(0.75, wavesOver20);
         rampFactor = Math.max(rampFactor, 0.05);    
         
         return (int)(baseAmount * rampFactor);
         }
     }
-
-
     public int getEnemyHealth(String type) {
         int base = getEnemyBaseHealth(type);
     
@@ -418,9 +409,6 @@ public class GameWorld extends World {
                 return base;
         }
     }
-
-
-
     private void handleWaveProgression() {
 
             // If waiting for next wave and autoNextWave is ON, start automatically
@@ -521,9 +509,6 @@ public class GameWorld extends World {
             towerPlacedThisClick = false;
         }
     }
-
-
-
     public void startDraggingTower(String towerType) {
         if (towerPreview != null) {
             towerPreview.removePreview();  // safely remove old preview and circle
@@ -551,8 +536,6 @@ public class GameWorld extends World {
 
         } 
     }
-
-
 
     private void cancelDragging() {
         if (towerPreview != null) {
@@ -637,8 +620,6 @@ public class GameWorld extends World {
             }
         }
     }
-
-
     public void clearUpgradeMenu() {
         if (currentMenu != null) {
             currentMenu.closeMenu();
@@ -706,7 +687,6 @@ public class GameWorld extends World {
             status = Status.GAMEOVER;
         }
     }
-
 
     private void gameOver() {
         int time = 500; // 500ms for fade in
@@ -836,7 +816,6 @@ public class GameWorld extends World {
         }
     }
 
-    
     private void handleSniperBoost() {
         // Update cooldown timers
         for (int i = 0; i < sniperBoostTimers.size(); i++) {
@@ -912,9 +891,6 @@ public class GameWorld extends World {
         updateSniperAbilityLabels();
     }
 
-
-
-    
     // Helper method to activate a single sniper boost near the mouse cursor
     private void activateSingleSniperBoost() {
         if (sniperAbilitiesUnlocked > 0) {
@@ -928,10 +904,6 @@ public class GameWorld extends World {
         }
     }
 
-
-
-
-    
     public void activateSniperBoost() {
         if (sniperAbilitiesUnlocked > 0) {
             List<SniperTower> snipers = getObjects(SniperTower.class);
@@ -947,8 +919,6 @@ public class GameWorld extends World {
         }
     }
 
-
-    
     private SniperTower chooseSniperTowerToBoost() {
         List<SniperTower> snipers = getObjects(SniperTower.class);
         if (snipers.isEmpty()) return null;
@@ -1011,7 +981,6 @@ public class GameWorld extends World {
         }
     }
 
-    
     public int getMaxLevelSnipersCount() {
         return maxLevelSnipersCount;
     }
