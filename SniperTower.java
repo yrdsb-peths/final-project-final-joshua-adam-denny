@@ -72,8 +72,10 @@ public class SniperTower extends Tower {
             updateImage();
             
             if (level == 1) {
-                imageName = "Sniper_tower_1.png";
-            }
+            imageName = "Sniper_tower_1.png";
+            towerImage = new GreenfootImage(imageName);
+            towerImage.scale(100, 45);
+        }
 
             if (level == maxLevel) {
                 world.incrementMaxLevelSnipers();
@@ -86,7 +88,7 @@ public class SniperTower extends Tower {
     @Override
     protected void updateImage() {
         GreenfootImage img = new GreenfootImage(towerImage); // fresh copy
-        img.scale(60, 60);
+        img.scale(100, 45);
         setImage(img);
         super.updateImage();  // add outline
     }
