@@ -15,7 +15,7 @@ public abstract class Enemy extends Actor {
     private GreenfootImage baseImage;
     private GreenfootImage burnedImage;
     private boolean isBurning = false;
-    private GameWorld gw;
+    public GameWorld gw;
     public boolean isDead = false;
     private ParticleManager pm;
     private World world;

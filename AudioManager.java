@@ -11,6 +11,7 @@ public class AudioManager
     private static GreenfootSound currentMusic = null;
     private static Thread introWatcher = null;
     private static final Set<GreenfootSound> activeSFX = new HashSet<>();
+    private static final Set<GreenfootSound> loopingSFX = new HashSet<>();
     
     /*
      * MUSIC PLAYER FUNCTIONS
@@ -125,12 +126,34 @@ public class AudioManager
         activeSFX.add(audioPlayer);
     }
     
+    public static void playLoopingSFX(GreenfootSound sfx) {
+        int vol = PlayerPrefs.getData("VolumeSFX", 30);
+        sfx.setVolume(vol);
+        sfx.playLoop();
+        loopingSFX.add(sfx);
+    }
+    
+    public static void stopLoopingSFX(GreenfootSound sfx) {
+        if (loopingSFX.remove(sfx)) {
+            sfx.stop();
+        }
+    }
+    
+    public static void stopAllLoopingSFX() {
+        for (GreenfootSound sfx : loopingSFX) {
+            sfx.stop();
+        }
+        loopingSFX.clear();
+    }
+    
     public static void stopAllSFX() {
         for (GreenfootSound sfx : activeSFX) {
             sfx.stop();
         }
         activeSFX.clear();
     }
+    
+    
     
     
     /*

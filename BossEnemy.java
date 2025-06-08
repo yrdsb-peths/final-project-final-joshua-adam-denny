@@ -116,11 +116,14 @@ public class BossEnemy extends Enemy {
     public void act() {
         super.act(); // Ensure superclass behavior runs
         if (isDead == false) {
-            roll.playLoop();
+            if (roll.isPlaying() == false && gw.getStatus()== GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
+            {
+                AudioManager.playLoopingSFX(roll);
+            }
         }
         else if (isDead == true) 
         {
-            roll.stop();
+            AudioManager.stopLoopingSFX(roll);
         }
     }   
 }

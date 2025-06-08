@@ -24,12 +24,14 @@ public class TankEnemy extends Enemy {
     public void act() {
         super.act(); // Ensure superclass behavior runs
         if (isDead == false) {
-            walk.setVolume(60);
-            walk.playLoop();
+            if (walk.isPlaying() == false && gw.getStatus() == GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
+            {
+                AudioManager.playLoopingSFX(walk);
+            }
         }
         else if (isDead == true) 
         {
-            walk.stop();
+            AudioManager.stopLoopingSFX(walk);
         }
     }   
 }

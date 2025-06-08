@@ -52,6 +52,7 @@ public class PauseMenu extends UI
         setImage(image);
         phaseStartTime = System.currentTimeMillis();
         AudioManager.stopAllSFX();
+        AudioManager.stopAllLoopingSFX();
         deltaTime.mark();
     }
     
@@ -127,6 +128,9 @@ public class PauseMenu extends UI
         blackOverlay.setColor(new Color(0,0,0));
         blackOverlay.fill();
         w.addObject(blackOverlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
+
+        AudioManager.stopAllSFX();
+        AudioManager.stopAllLoopingSFX();
 
     }
     
@@ -250,7 +254,8 @@ public class PauseMenu extends UI
             mainMenuButton.setActive(true);
         }
 
-        
+        AudioManager.stopAllSFX();
+        AudioManager.stopAllLoopingSFX();
 
     }
 

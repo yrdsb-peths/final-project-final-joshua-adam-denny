@@ -25,11 +25,14 @@ public class FastEnemy extends Enemy {
     public void act() {
         super.act(); // Ensure superclass behavior runs
         if (isDead == false) {
-            drone.playLoop();
+            if (drone.isPlaying() == false && gw.getStatus()== GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
+            {
+                AudioManager.playLoopingSFX(drone);
+            }
         }
         else if (isDead == true) 
         {
-            drone.stop();
+            AudioManager.stopLoopingSFX(drone);
         }
     }   
 }

@@ -25,7 +25,10 @@ public class BigEnemy extends Enemy {
     public void act() {
         super.act(); // Ensure superclass behavior runs
         if (isDead == false) {
-            drive.playLoop();
+            if (drive.isPlaying() == false && gw.getStatus()== GameWorld.Status.RUNNING)
+            {
+                AudioManager.playLoopingSFX(drive);
+            }
         }
         else if (isDead == true) 
         {

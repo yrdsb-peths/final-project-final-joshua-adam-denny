@@ -56,7 +56,8 @@ public class EndGamePopup extends UI {
         image.setTransparency(0);
         setImage(image);
         phaseStartTime = System.currentTimeMillis();
-
+        AudioManager.stopAllSFX();
+        AudioManager.stopAllLoopingSFX();
         deltaTime.mark();
     }
 
