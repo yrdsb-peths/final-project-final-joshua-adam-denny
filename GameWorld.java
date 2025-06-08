@@ -54,7 +54,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100000;
+    private int money = 100;
     private long moneyTotal = money;
     private int phase = 0;
     private boolean waitingForNextWave = true;
@@ -431,7 +431,8 @@ public class GameWorld extends World {
         if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(BasicEnemy.class).isEmpty()) {
             waitingForNextWave = true;
             wavePrompt.setValue(autoNextWave ? "Auto next wave: ON" : "Press SPACE to start next wave");
-            addMoney(200 * (wave/5));
+            addMoney(Math.max(200, 200 * (wave/5)));
+            
         }
     }
 
