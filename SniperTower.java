@@ -156,7 +156,7 @@ public class SniperTower extends Tower {
 
     private void drawBoostOverlay() {
         GreenfootImage base = new GreenfootImage(towerImage); // fresh copy
-        base.scale(60, 60);
+        base.scale(100, 55);
 
         GreenfootImage rotatedOverlay = new GreenfootImage(boostOverlay); // fresh copy
         rotatedOverlay.rotate(orbitAngle);
