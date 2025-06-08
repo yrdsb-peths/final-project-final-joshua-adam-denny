@@ -53,7 +53,7 @@ public class LeaderboardPage extends UI
         deltaTime.mark();
         
         for(int i = 0; i < 10; i++) {
-            CustomLabel lbl = new CustomLabel("If you see this,\n you aren't connected to ScuffedAPI!", 20);
+            CustomLabel lbl = new CustomLabel("If you see this,\n you aren't connected to ScuffedAPI!, \nLoad _initWorld first!", 20);
             lbl.setTransparency(0);
             lbl.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,20));
             lbl.setFillColor(Color.WHITE);
@@ -195,6 +195,9 @@ public class LeaderboardPage extends UI
             world.removeObject(this);
             world.removeObject(mainMenuButton);
             world.removeObject(blackOverlay);
+            for(CustomLabel lbl : entryLabels) {
+                world.removeObject(lbl);
+            }
         }
         world.enterPhase(99);
         lockedIn = false;

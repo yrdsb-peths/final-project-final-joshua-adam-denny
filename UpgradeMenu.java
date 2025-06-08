@@ -48,7 +48,7 @@ public class UpgradeMenu extends UI {
             UpgradeMenu.class,
             NukeMissile.class,
             DDCRender.class,
-            Label.class,
+            CustomLabel.class,
             PauseButton.class,
             PauseMenu.class,
             Button.class,

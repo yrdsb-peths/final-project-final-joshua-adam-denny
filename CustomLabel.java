@@ -7,9 +7,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * The Label is an actor, so you will need to create it, and then add it to the world
  * in Greenfoot.  If you keep a reference to the Label then you can change the text it
  * displays.  
+ * 
+ * Admendment v1.2:
+ * Added Custom fonts, with dynamic sizing.
+ * - Denny Ung
  *
- * @author Amjad Altadmri 
- * @version 1.1
+ * @author Amjad Altadmri, Denny Ung
+ * @version 1.2
  */
 public class CustomLabel extends UI
 {
@@ -18,7 +22,7 @@ public class CustomLabel extends UI
     private Color lineColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
     private Font font;
-    private int alpha;
+    private int alpha = 255;
     private static final Color transparent = new Color(0,0,0,0);
     
     
@@ -114,13 +118,8 @@ public class CustomLabel extends UI
             label.setFont(font);
         }
         
-        label.setColor(Color.WHITE);
-        label.drawString(value, 0, fontSize);
-        
-        if (!lineColor.equals(transparent)) {
-            label.setColor(Color.WHITE);
-            label.drawString(value, 1, fontSize+1);
-        }
+        label.setColor(fillColor);
+        label.drawString(value, 1, fontSize);
         
         label.setTransparency(alpha);
         setImage(label);

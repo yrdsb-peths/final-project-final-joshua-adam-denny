@@ -317,7 +317,7 @@ public class MainMenu extends World
         
         if (leaderboardButton.isPressed() && !leaderboardButtonPreviouslyPressed) {
             setPaintOrder(
-                Label.class,
+                CustomLabel.class,
                 Slider.class,
                 CheckButton.class,
                 mainMenuSideButton.class,
@@ -345,7 +345,7 @@ public class MainMenu extends World
                 SettingsPage.class,
                 Transition.class, 
                 DDCRender.class,
-                Label.class,
+                CustomLabel.class,
                 ImageActor.class,
                 Button.class,
                 UI.class

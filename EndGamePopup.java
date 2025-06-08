@@ -209,7 +209,7 @@ public class EndGamePopup extends UI {
     {
         getWorld().setPaintOrder(
             ImageActor.class,
-            Label.class,
+            CustomLabel.class,
             EndGameButton.class,
             EndGamePopup.class
         );

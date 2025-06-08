@@ -34,8 +34,8 @@ public class GameWorld extends World {
     private List<Integer> sniperBoostTimers = new ArrayList<>();
     private int sniperBoostTimer = 0;
     private int sniperAbilitiesUnlocked = 0;
-    private Label sniperAbilitiesAvailableLabel = null;
-    private Label sniperCooldownLabel = null;
+    private CustomLabel sniperAbilitiesAvailableLabel = null;
+    private CustomLabel sniperCooldownLabel = null;
     private boolean sniperBoostActive = false;
     private SniperAbility sniperIcon = null;
     private int maxLevelSnipersCount = 0;
@@ -59,9 +59,9 @@ public class GameWorld extends World {
     private boolean waitingForNextWave = true;
     
     // Label/UI Variables
-    private Label moneyLabel;
-    private Label waveLabel;
-    private Label wavePrompt;
+    private CustomLabel moneyLabel;
+    private CustomLabel waveLabel;
+    private CustomLabel wavePrompt;
     private TowerPreview towerPreview = null;
     private UIManager uiManager;
     private UpgradeMenu currentMenu = null;
@@ -79,7 +79,7 @@ public class GameWorld extends World {
     public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
         DDCRender.class,
-        Label.class,
+        CustomLabel.class,
         PauseButton.class,
         PauseMenu.class,
         Button.class,
@@ -105,9 +105,12 @@ public class GameWorld extends World {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         setBackground("grass.png");
 
-        moneyLabel = new Label("Money: $" + money, 30);
-        waveLabel = new Label("Wave: " + wave, 30);
-        wavePrompt = new Label("Press SPACE to start first wave", 24);
+        moneyLabel = new CustomLabel("Money: $" + money, 30);
+        moneyLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        waveLabel = new CustomLabel("Wave: " + wave, 30);
+        waveLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        wavePrompt = new CustomLabel("Press SPACE to start first wave", 24);
+        wavePrompt.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 24));
 
         wavePrompt.setLineColor(Color.BLACK);
         uiManager = UIManager.getInstance();
@@ -179,7 +182,8 @@ public class GameWorld extends World {
                     Transition.class, 
                     NukeMissile.class,
                     DDCRender.class,
-                    Label.class,
+                    
+                    CustomLabel.class,
                     Button.class,
                     Sidebar.class,
                     UI.class, 
@@ -694,14 +698,14 @@ public class GameWorld extends World {
     private void gameOver() {
         int time = 500; // 500ms for fade in
         setPaintOrder(  // GAME OVER PAINT ORDER
-            EndGameLabel.class,
+            CustomLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
             PauseButton.class,
             PauseMenu.class,
             Transition.class, 
             ImageActor.class,
-            Label.class,
+            CustomLabel.class,
             Button.class,
             PolyRender.class, 
             NukeMissile.class,  
@@ -760,7 +764,7 @@ public class GameWorld extends World {
     
             // Update available label
             if (sniperAbilitiesAvailableLabel == null) {
-                sniperAbilitiesAvailableLabel = new Label(String.valueOf(sniperAbilitiesUnlocked), 30);
+                sniperAbilitiesAvailableLabel = new CustomLabel(String.valueOf(sniperAbilitiesUnlocked), 30);
                 addObject(sniperAbilitiesAvailableLabel, 50, 570);
             } else {
                 sniperAbilitiesAvailableLabel.setValue(String.valueOf(sniperAbilitiesUnlocked));
@@ -780,7 +784,7 @@ public class GameWorld extends World {
             }
     
             if (sniperCooldownLabel == null) {
-                sniperCooldownLabel = new Label("", 30);
+                sniperCooldownLabel = new CustomLabel("", 30);
                 addObject(sniperCooldownLabel, 50, 570);
             }
     

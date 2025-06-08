@@ -99,7 +99,6 @@ public class ScuffedAPI {
         for (String line : resp.split("\\r?\\n")) {
             if (line.length() == 0)
                 continue;
-            System.out.println(line);
             String[] parts = line.split(",");
             if (parts.length < 3)
                 continue;

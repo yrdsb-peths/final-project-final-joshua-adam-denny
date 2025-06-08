@@ -313,7 +313,7 @@ public class PauseMenu extends UI
             Transition.class, 
             NukeMissile.class,
             DDCRender.class,
-            Label.class,
+            CustomLabel.class,
             Button.class,
             Sidebar.class,
             UI.class, 
