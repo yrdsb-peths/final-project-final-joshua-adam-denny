@@ -303,6 +303,11 @@ public class MainMenu extends World
             onSettingsPage = false;
             enterPhase(99);
         }
+        
+        if (Greenfoot.isKeyDown("`"))
+        {
+            ScuffedAPI.setUsername(Greenfoot.ask("Set ScuffedAPI Leaderboard username: "));
+        }
     }
     
     private void handleButtons()

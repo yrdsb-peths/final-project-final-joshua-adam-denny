@@ -19,7 +19,7 @@ public class ScuffedAPI {
     //private final String api_url = "https://api-ddc.scuffed.dev";
     private final String api_url = "http://localhost:8080";
     private final String api_key = "ballsballsballs";// not really a key, but i hate bots so yuh. too lazy to implement a proper key system., unused
-    private final String user = UUID.randomUUID().toString().replace("-", "").substring(0, 8);;
+    private static String user = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     private static final Pattern PLACE_PATTERN = Pattern.compile("\"place\"\\s*:\\s*(\\d+)");
     private boolean connected = false; 
     public static synchronized ScuffedAPI getInstance() {
@@ -29,7 +29,7 @@ public class ScuffedAPI {
         return instance;
     }
     
-    public String getUUID()
+    public static String getUUID()
     {
         return user;
     }
@@ -37,6 +37,11 @@ public class ScuffedAPI {
     public boolean isConnected()
     {
         return connected;
+    }
+    
+    public static void setUsername(String username)
+    {
+        user = username;
     }
     
     public boolean connect() {

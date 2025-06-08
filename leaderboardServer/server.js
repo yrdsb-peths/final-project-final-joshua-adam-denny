@@ -94,9 +94,10 @@ app.get('/getLeaderboard', (req, res) => {
       lines.push(`${e.id},${e.score},${e.wave}`);
     } else {
       // placeholder for empty slots
-      lines.push(`N/A,N/A,N/A`);
+      lines.push(`No one,0,0`);
     }
   }
+  console.log(lines.join('\n'));
   res
     .type('text/plain')
     .send(lines.join('\n'));

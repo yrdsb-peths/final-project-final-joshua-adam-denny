@@ -268,6 +268,11 @@ public class PauseMenu extends UI
             progressAlpha = (int) Utils.clamp(progressAlpha, 0, 255);
             blackOverlay.setTransparency(progressAlpha);
         } else {
+            if (world.getClass() != GameWorld.class)
+            {
+                AudioManager.stopMusic();
+                AudioManager.playMusic(new GreenfootSound("waves-loop.mp3"));
+            }
             WorldManager.setWorld(world);
             blackOverlay.setTransparency(0);
             phaseStartTime = System.currentTimeMillis(); 
