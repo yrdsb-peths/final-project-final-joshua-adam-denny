@@ -136,7 +136,9 @@ public class _InitWorld extends World {
         
         
     }
-
+    
+    
+    private boolean initPlay = false;  
     @Override
     public void act() {
         Greenfoot.setSpeed(50);
@@ -154,6 +156,7 @@ public class _InitWorld extends World {
                     bg1Scuffed.setTransparency(255);
                     bg1Engine.setTransparency(255);
                     enterPhase(1);
+                    AudioManager.playAudio(new GreenfootSound("intro.mp3"), 50);
                 }
                 break;
 
@@ -435,6 +438,11 @@ public class _InitWorld extends World {
                     int alpha = (int) Math.round(
                         Utils.map(elapsed.get(phase), 0, 500, 0, 255)
                     );
+                    int volume = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 60, 30)
+                    );
+                    PlayerPrefs.setData("VolumeMusic",volume);
+                     AudioManager.setMusicVolume(volume);
                     alpha = (int) Utils.clamp(alpha, 0, 255);
                     blackOverlay.setTransparency(alpha);
                 } else {
