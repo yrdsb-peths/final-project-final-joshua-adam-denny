@@ -1,4 +1,5 @@
 import greenfoot.*;
+import java.util.*;
 /**
  * Write a description of class AudioManagert here.
  * 
@@ -9,7 +10,17 @@ public class AudioManager
 {
     private static GreenfootSound currentMusic = null;
     private static Thread introWatcher = null;
+    private static final Set<GreenfootSound> activeSFX = new HashSet<>();
     
+    /*
+     * MUSIC PLAYER FUNCTIONS
+     */
+    
+    
+    /*
+     * Play a looping music track.
+     * @param music The GreenfootSound object to play in a loop.
+     */
     public static void playMusic(GreenfootSound music) {
         stopMusic();
         currentMusic = music;
@@ -20,9 +31,8 @@ public class AudioManager
     
     /**
      * Play an intro track once, then switch to the looping track.
-     * @param intro the one-time opening music
-     * @param loop  the music to playLoop() after the intro ends
-     * @param world the World to which we’ll add a small helper Actor
+     * @param intro the one time opening music
+     * @param loopTrack Looping track to play after the intro finishes
      */
     public static void playMusic(GreenfootSound intro, GreenfootSound loopTrack) {
         stopMusic();  // kills any existing music & watcher
@@ -52,6 +62,10 @@ public class AudioManager
     }
     
 
+    /**
+     * Stop all Music Players. and kills the watcher thread if it exists.
+        * This will stop the currently playing music and any intro watcher thread. 
+     */
     public static void stopMusic() {
         // kill the watcher thread, if any
         if (introWatcher != null) {
@@ -64,7 +78,11 @@ public class AudioManager
             currentMusic = null;
         }
     }
-    
+
+    /**
+     * Set the volume of the currently playing music.
+     * @param volume The volume level to set (0-100).
+     */
     public static void setMusicVolume(int volume) {
         int vol = (int)Utils.clamp(volume, 0, 100);
         PlayerPrefs.setData("VolumeMusic", vol);
@@ -74,16 +92,22 @@ public class AudioManager
     }
     
     
+    /*
+     * *SFX FUNCTIONS*
+     */
+    
     public static void playSFX(GreenfootSound audioPlayer)
     {
         int vol = (int) PlayerPrefs.getData("VolumeSFX", 30);
         audioPlayer.setVolume(vol);
         audioPlayer.play();
+        activeSFX.add(audioPlayer);
     }
     public static void playSFX(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);
         audioPlayer.play();
+        activeSFX.add(audioPlayer);
     }
     
     public static void playSpecialSFX(GreenfootSound audioPlayer)
@@ -91,13 +115,27 @@ public class AudioManager
         int vol = (int) PlayerPrefs.getData("VolumeSpecialSFX", 75);
         audioPlayer.setVolume(vol);
         audioPlayer.play();
+        activeSFX.add(audioPlayer);
     }
+    
     public static void playSpecialSFX(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);
         audioPlayer.play();
+        activeSFX.add(audioPlayer);
     }
-
+    
+    public static void stopAllSFX() {
+        for (GreenfootSound sfx : activeSFX) {
+            sfx.stop();
+        }
+        activeSFX.clear();
+    }
+    
+    
+    /*
+     * GENERAL AUDIO PLAYER
+     */
     public static void playAudio(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);
