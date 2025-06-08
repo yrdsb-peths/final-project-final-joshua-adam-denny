@@ -11,7 +11,7 @@ A zombie shooter where you have to defend your base and get upgrades along the w
 
 [Windows]
 1. Open `File Explorer` and navigate to `C:\Program Files\Greenfoot` and locate the `greenfoot.jar` file.
-2. Copy this `greenfoot.jar` to the `\lib` Folder in this project.
+2. Copy t his `greenfoot.jar` to the `\lib` Folder in this project.
 
 <br>
 <br>
@@ -23,13 +23,36 @@ Copy the `project.greenfoot.md` file and rename it to `project.greenfoot`
 [Markdown basics](https://www.markdownguide.org/getting-started/)
 
 
-Controls
+# Scuffed Tower Defense
 
-1:select basic tower (costs $50)
-2:select sniper tower (costs $300) 
-3:select machinegun tower (costs $750)
-4:select nuke (costs $5000)
-left click: place tower
-left click tower: upgrade tower(up to 3 times) 
-space: start
-right click: sell:
+A 3D tower defense game built in Greenfoot. Place and upgrade five tower types to fend off progressive waves of enemies, earn cash, and use special abilities.
+
+## Installation & Running
+
+1. Clone or unzip the project.
+2. Open the folder in Greenfoot and compile.
+3. Run `_InitWorld` to start.
+
+## Controls
+
+* **1–5**: Select towers
+* **Click**: Place tower
+* **Esc**: Cancel placement
+* **Space**: Start wave
+* **D**: Toggle auto-wave
+* **S/A**: Activate/sniper boost
+* **Pause**: Click pause button
+
+## Project Structure
+
+```
+3dModels/   # 3D icons
+images/     # General Images/Icons
+images/ui/  # UI assets
+sounds/     # Music & SFX
+*.java      # Source code
+```
+
+## Authors
+
+Joshua Stevens • Denny Ung • Adam Fung
