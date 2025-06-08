@@ -65,7 +65,7 @@ public class BasicTower extends Tower {
             if (slowShotCounter >= slowShotInterval) {
                 getWorld().addObject(new SlowFieldBullet(target, damage, bulletSpeed, this), getX(), getY());
                 slowShotCounter = 0;
-                AudioManager.playSpecialSFX(new GreenfootSound("gunShotSmall.mp3"));
+                AudioManager.playSpecialSFX(new GreenfootSound("netThrow.mp3"));
             }
         }
          
