@@ -22,6 +22,7 @@ public class RadioactiveField extends Actor {
 
         GreenfootImage img = new GreenfootImage("radioactive.png");
         img.scale(radius, radius);
+        img.setTransparency(150);
         setImage(img);
     }
 
