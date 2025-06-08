@@ -884,10 +884,7 @@ public class GameWorld extends World {
                     tower.activateSpeedBoost();
                     sniperAbilitiesUnlocked--;
                     sniperBoostTimers.add(20 * 60); // 20 seconds
-                    System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
                     updateSniperAbilityLabels();
-                } else {
-                    System.out.println("No valid sniper tower near cursor to boost.");
                 }
             }
         }
@@ -898,7 +895,6 @@ public class GameWorld extends World {
         boolean aKeyDownNow = Greenfoot.isKeyDown("A");
         if (aKeyDownNow && !activateToggleKeyPreviouslyDown) {
             autoActivateSniper = !autoActivateSniper;
-            System.out.println("Auto sniper activate " + (autoActivateSniper ? "ON" : "OFF"));
         }
         activateToggleKeyPreviouslyDown = aKeyDownNow;
     
@@ -909,7 +905,6 @@ public class GameWorld extends World {
                 tower.activateSpeedBoost();
                 sniperAbilitiesUnlocked--;
                 sniperBoostTimers.add(20 * 60);
-                System.out.println("Auto sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
                 updateSniperAbilityLabels();
             }
         }
@@ -928,11 +923,8 @@ public class GameWorld extends World {
                 tower.activateSpeedBoost();
                 sniperAbilitiesUnlocked--;
                 sniperBoostTimers.add(20 * 60); // 20 seconds cooldown
-                System.out.println("Sniper boost activated for tower at (" + tower.getX() + ", " + tower.getY() + ")");
                 updateSniperAbilityLabels();
-            } else {
-                System.out.println("No valid sniper tower near cursor to boost.");
-            }
+            } 
         }
     }
 
@@ -952,9 +944,6 @@ public class GameWorld extends World {
                     return;
                 }
             }
-    
-            // If no unboosted snipers found
-            System.out.println("No unboosted sniper tower found to activate ability.");
         }
     }
 

@@ -60,7 +60,7 @@ public class CreditWorld extends World
         } 
         catch(Exception err) 
         {
-            System.out.println(err);
+            
         }
         
         

@@ -57,7 +57,6 @@ public class Tower extends Actor {
 
 
     public boolean upgrade() {
-        System.out.println("Upgrade not implemented for this tower type.");
         return false;
     }
 

@@ -107,7 +107,6 @@ public class SniperTower extends Tower {
             if (speedBoostTimer <= 0) {
                 cooldownTime = upgradedCooldownTime;
                 speedBoostActive = false;
-                System.out.println("Speed boost expired on tower at (" + getX() + "," + getY() + ")");
                 updateImage(); // reset to base image
             } else {
                 drawBoostOverlay(); // draw with animated overlay
