@@ -6,13 +6,13 @@ import greenfoot.*;
  * @version (a version number or a date)
  */
 public class BossEnemy extends Enemy {
-    private GreenfootSound roll = new GreenfootSound("rollingTank.mp3");
 
     public BossEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("Boss.png");
         img.scale(360, 160);
         setImage(img);
+        super.movement = new GreenfootSound("rollingTank.mp3");
     }
 
     @Override
@@ -115,15 +115,5 @@ public class BossEnemy extends Enemy {
     @Override
     public void act() {
         super.act(); // Ensure superclass behavior runs
-        if (isDead == false) {
-            if (roll.isPlaying() == false && gw.getStatus()== GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
-            {
-                AudioManager.playLoopingSFX(roll);
-            }
-        }
-        else if (isDead == true) 
-        {
-            AudioManager.stopLoopingSFX(roll);
-        }
     }   
 }

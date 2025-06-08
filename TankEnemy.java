@@ -7,13 +7,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class TankEnemy extends Enemy {
-    private GreenfootSound walk = new GreenfootSound("heavyFootsteps.mp3");
 
     public TankEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("hippo.png");
         img.scale(80, 80);
         setBaseImage(img);
+        super.movement = new GreenfootSound("heavyFootsteps.mp3");
     }
 
     @Override
@@ -23,16 +23,6 @@ public class TankEnemy extends Enemy {
     @Override
     public void act() {
         super.act(); // Ensure superclass behavior runs
-        if (isDead == false) {
-            if (walk.isPlaying() == false && gw.getStatus() == GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
-            {
-                AudioManager.playLoopingSFX(walk);
-            }
-        }
-        else if (isDead == true) 
-        {
-            AudioManager.stopLoopingSFX(walk);
-        }
     }   
 }
 

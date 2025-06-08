@@ -7,13 +7,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class BigEnemy extends Enemy {
-    private GreenfootSound drive = new GreenfootSound("jeepDriving.mp3");
 
     public BigEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("teddybear.png");
         img.scale(80, 80); // or scale appropriately to your design
         setBaseImage(img);
+        super.movement = new GreenfootSound("jeepDriving.mp3");
     }
 
     
@@ -24,16 +24,6 @@ public class BigEnemy extends Enemy {
     @Override
     public void act() {
         super.act(); // Ensure superclass behavior runs
-        if (isDead == false) {
-            if (drive.isPlaying() == false && gw.getStatus()== GameWorld.Status.RUNNING)
-            {
-                AudioManager.playLoopingSFX(drive);
-            }
-        }
-        else if (isDead == true) 
-        {
-            drive.stop();
-        }
     }   
 }
 

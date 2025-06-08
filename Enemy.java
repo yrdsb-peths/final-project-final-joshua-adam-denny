@@ -25,6 +25,7 @@ public abstract class Enemy extends Actor {
     private int originalSpeed;
     private int slowTimer = 0;
     private static GreenfootImage fireOverlay;
+    public GreenfootSound movement;
     
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
@@ -93,6 +94,7 @@ public abstract class Enemy extends Actor {
         updateBurns();
         
         if (isDead) {
+            AudioManager.stopLoopingSFX(movement);
             if (totalCount < 5) {
                 totalCount++;
                 pm.addParticle(getX(), getY(), 
@@ -107,6 +109,12 @@ public abstract class Enemy extends Actor {
             }
         }
         
+        if (movement.isPlaying() == false && gw.getStatus() == GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
+        {
+            AudioManager.playLoopingSFX(movement);
+        }
+        
+        
         if (gw.getStatus() == GameWorld.Status.RUNNING) 
         {
             move(speed);
@@ -114,6 +122,7 @@ public abstract class Enemy extends Actor {
         updateImage();
         if (getX() >= gw.getWidth() - 160) {
             gw.loseLife(getLifeDamage());
+            AudioManager.stopLoopingSFX(movement);
             gw.removeObject(this);
             isDead = true;
         }
