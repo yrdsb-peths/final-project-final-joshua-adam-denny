@@ -54,7 +54,7 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100;
+    private int money = 100000;
     private int phase = 0;
     private boolean waitingForNextWave = true;
     

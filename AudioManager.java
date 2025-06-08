@@ -113,7 +113,7 @@ public class AudioManager
     
     public static void playSpecialSFX(GreenfootSound audioPlayer)
     {
-        int vol = (int) PlayerPrefs.getData("VolumeSpecialSFX", 75);
+        int vol = (int) PlayerPrefs.getData("VolumeSpecialSFX", 50);
         audioPlayer.setVolume(vol);
         audioPlayer.play();
         activeSFX.add(audioPlayer);

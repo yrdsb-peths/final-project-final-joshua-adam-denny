@@ -81,7 +81,7 @@ public class MachineGunTower extends Tower {
 
             NukeMissile missile = new NukeMissile(target, nukeDamage, missileSpeed, explosionRadius, this, 50, fuseTime, 0, 1);
             getWorld().addObject(missile, getX(), getY());
-            AudioManager.playSFX(new GreenfootSound("missileLaunchSmall.mp3"));
+            AudioManager.playSpecialSFX(new GreenfootSound("missileLaunchSmall.mp3"));
         }
     }
 

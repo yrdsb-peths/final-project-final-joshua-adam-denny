@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * Enemy/BossEnemy, this will blow up someones house
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @Joshua Stevens, Denny Ung
+ * @version Version 3.0.5 (June 7, 2025)
  */
 public class BossEnemy extends Enemy {
 
@@ -17,20 +17,21 @@ public class BossEnemy extends Enemy {
 
     @Override
     public void takeDamage(int amount) {
+        if (isDead) return;
         health -= amount;
-        if (health <= 0 && getWorld() != null) {
-            GameWorld world = (GameWorld) getWorld();
-            world.addMoney(1000); 
+        if (health <= 0) {
+            super.isDead = true;
+            GameWorld gw = (GameWorld) getWorld();
+            gw.addMoney(1000); 
 
-            // Spawn additional enemies on death
-            spawnMinions(world);
+            // Spawn additional enemies on death    
+            spawnMinions(gw);
 
-           super.isDead = true;
         }
     }
 
     private void spawnMinions(GameWorld world) {
-        int wave = world.getWave(); // Assuming you have a getWave() method
+        int wave = world.getWave(); 
         int x = getX();
         int y = getY();
     
@@ -43,64 +44,26 @@ public class BossEnemy extends Enemy {
             int typeRoll = Greenfoot.getRandomNumber(100);
             Enemy minion;
     
-            if (wave < 7) {
-                // Early waves: Mostly Basic and some Fast
-                if (typeRoll < 70) {
-                    minion = new BasicEnemy(    
-                        world.getEnemySpeed("Basic"), 
-                        world.getEnemyHealth("Basic"),
-                        world.getEnemyMoneyDeath("Basic")
-                        );
-                } else {
-                    minion = new FastEnemy(
-                        world.getEnemySpeed("Fast"), 
-                        world.getEnemyHealth("Fast"),
-                        world.getEnemyMoneyDeath("Fast")
-                        );
-                }
-            } else if (wave < 15) {
-                // Mid game: Mix in Tank
-                if (typeRoll < 50) {
-                    minion = new FastEnemy(
-                        world.getEnemySpeed("Fast"), 
-                        world.getEnemyHealth("Fast"),
-                        world.getEnemyMoneyDeath("Fast")
-                        );
-                } else if (typeRoll < 85) {
-                    minion = new TankEnemy(
-                        world.getEnemySpeed("Tank"), 
-                        world.getEnemyHealth("Tank"),
-                        world.getEnemyMoneyDeath("Tank")
-                        );
-                } else {
-                    minion = new BasicEnemy(
-                        world.getEnemySpeed("Basic"), 
-                        world.getEnemyHealth("Basic"),
-                        world.getEnemyMoneyDeath("Basic")
-                        );
-                }
+            if (typeRoll < 40) {
+                minion = new TankEnemy(
+                    world.getEnemySpeed("Tank"),
+                    world.getEnemyHealth("Tank"),
+                    world.getEnemyMoneyDeath("Tank")
+                );
+            } else if (typeRoll < 80) {
+                minion = new FastEnemy(
+                    world.getEnemySpeed("Fast"), 
+                    world.getEnemyHealth("Fast"),
+                    world.getEnemyMoneyDeath("Fast")
+                );
             } else {
-                // Late game: Mix in Big enemies
-                if (typeRoll < 40) {
-                    minion = new TankEnemy(
-                        world.getEnemySpeed("Tank"),
-                        world.getEnemyHealth("Tank"),
-                        world.getEnemyMoneyDeath("Tank")
-                    );
-                } else if (typeRoll < 80) {
-                    minion = new FastEnemy(
-                        world.getEnemySpeed("Fast"), 
-                        world.getEnemyHealth("Fast"),
-                        world.getEnemyMoneyDeath("Fast")
-                    );
-                } else {
-                    minion = new BigEnemy(
-                        world.getEnemySpeed("Big"), 
-                        world.getEnemyHealth("Big"),
-                        world.getEnemyMoneyDeath("Big")
-                    );
-                }
+                minion = new BigEnemy(
+                    world.getEnemySpeed("Big"), 
+                    world.getEnemyHealth("Big"),
+                    world.getEnemyMoneyDeath("Big")
+                );
             }
+            
     
             world.addObject(minion, x, y + offsetY);
         }
@@ -111,9 +74,4 @@ public class BossEnemy extends Enemy {
     public int getLifeDamage() {
         return 100;
     }
-    
-    @Override
-    public void act() {
-        super.act(); // Ensure superclass behavior runs
-    }   
 }

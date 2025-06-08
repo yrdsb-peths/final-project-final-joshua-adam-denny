@@ -10,7 +10,7 @@ public class FlameThrowerTower extends Tower {
     private final int maxProjectiles = 6;  // Max projectiles at max upgrade
     private int coneAngle = 60;  // Total cone angle in degrees (spread)
     private int shots = 0;
-    private GreenfootSound flameSound = new GreenfootSound("flameShooting.mp3");
+    private GreenfootSound flameSound;
     private int soundCooldown = 0;
     private final int SOUND_STOP_DELAY = 10; // frames after last shot before stopping
 
@@ -23,7 +23,7 @@ public class FlameThrowerTower extends Tower {
         range = 100;         // Shorter range for flame thrower
         damage = 1;
         bulletSpeed = 15;    // Speed of flame projectiles
-
+        flameSound = new GreenfootSound("flameShooting.mp3");
         baseCost = 4500;
         upgradeCostPerLevel = 900;
         upgradeCost = upgradeCostPerLevel;
@@ -91,9 +91,7 @@ public class FlameThrowerTower extends Tower {
     
         // sound logic
         soundCooldown = SOUND_STOP_DELAY; // Reset delay every time a shot happens
-        if (!flameSound.isPlaying()) {
-            flameSound.playLoop();
-        }
+        AudioManager.playLoopingSFX(flameSound);
     }
 
     @Override
@@ -103,7 +101,7 @@ public class FlameThrowerTower extends Tower {
             soundCooldown--;
         } else {
             if (flameSound.isPlaying()) {
-                flameSound.stop();
+                AudioManager.stopLoopingSFX(flameSound);
             }
         }
     }

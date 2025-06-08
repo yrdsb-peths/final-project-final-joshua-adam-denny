@@ -120,7 +120,7 @@ public abstract class Enemy extends Actor {
             move(speed);
         }
         updateImage();
-        if (getX() >= gw.getWidth() - 160) {
+        if (getX() >= worldWidth - 160) {
             gw.loseLife(getLifeDamage());
             AudioManager.stopLoopingSFX(movement);
             gw.removeObject(this);

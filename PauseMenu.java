@@ -105,7 +105,7 @@ public class PauseMenu extends UI
         
         volumeMusicSlider.setValue((int)PlayerPrefs.getData("VolumeMusic",30));
         volumeSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSFX",30));
-        volumeSpecialSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSpecialSFX",75));
+        volumeSpecialSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSpecialSFX",45));
         
         w.addObject(restartButton, getX(), getY());
         w.addObject(creditsButton, getX() - 150, getY());
