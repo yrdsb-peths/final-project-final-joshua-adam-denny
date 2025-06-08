@@ -20,9 +20,8 @@ public class RadioactiveField extends Actor {
         this.damagePerTick = damagePerTick;
         this.radius = radius;
 
-        GreenfootImage img = new GreenfootImage(radius * 2, radius * 2);
-        img.setColor(new Color(0, 255, 0, 80));
-        img.fillOval(0, 0, radius * 2, radius * 2);
+        GreenfootImage img = new GreenfootImage("radioactive.png");
+        img.scale(radius, radius);
         setImage(img);
     }
 
