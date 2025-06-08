@@ -13,13 +13,14 @@ public class SniperTower extends Tower {
     private int upgradedCooldownTime;
     private int orbitAngle = 0;
 
+    private String imageName = "Sniper_tower.png";
     private GreenfootImage towerImage;
     private GreenfootImage boostOverlay;
 
     public SniperTower() {
         GameWorld world = (GameWorld) getWorld();
 
-        towerImage = new GreenfootImage("Sniper_tower.png");
+        towerImage = new GreenfootImage(imageName);
         towerImage.scale(60, 60);
 
         boostOverlay = new GreenfootImage("boost.png");
@@ -69,6 +70,10 @@ public class SniperTower extends Tower {
             totalInvested += upgradeCost;
             upgradeCost += 100;
             updateImage();
+            
+            if (level == 1) {
+                imageName = "Sniper_tower_1.png";
+            }
 
             if (level == maxLevel) {
                 world.incrementMaxLevelSnipers();
