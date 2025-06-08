@@ -20,7 +20,7 @@ public class _InitWorld extends World {
     private static final int PHASE3_DURATION_MS = 2000;
     
     private static final int PADDING = 10;
-
+    
     private GreenfootImage bg = new GreenfootImage(getWidth(), getHeight());
     
     private ImageActor bg1Scuffed;
@@ -57,16 +57,20 @@ public class _InitWorld extends World {
     private int scuffedAPIAttempts = 0;
     private boolean scuffedAPIConnectioninProgress = false;
     
+    private GreenfootSound introMusic;
+    private GreenfootSound introMusicLoop;
     public _InitWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         Greenfoot.setSpeed(50);
+        AudioManager.stopMusic();
         bg.setColor(new Color(66, 66, 66));
         bg.fill();
         setBackground(bg);
 
         centerX = getWidth() / 2;
         centerY = getHeight() / 2;
-
+        introMusic = new GreenfootSound("waves-mixed.mp3");
+        introMusicLoop = new GreenfootSound("waves-loop.mp3");
         bg1Scuffed = new ImageActor("ui/scuffedBG.png");
         bg1Engine = new ImageActor("ui/engineBG.png");
         bg1PoweredByGreenfoot = new ImageActor("ui/poweredbygreenfoot.png");
@@ -247,6 +251,9 @@ public class _InitWorld extends World {
                     blackOverlay.setColor(new Color(179,179,179));
                     blackOverlay.fill();
                     enterPhase(7);
+                    PlayerPrefs.setData("VolumeMusic",60);
+                    AudioManager.stopMusic();
+                    AudioManager.playMusic(introMusic, introMusicLoop);
                 }
                 
                 break;
@@ -431,6 +438,8 @@ public class _InitWorld extends World {
                     alpha = (int) Utils.clamp(alpha, 0, 255);
                     blackOverlay.setTransparency(alpha);
                 } else {
+                    PlayerPrefs.setData("VolumeMusic",30);
+                    AudioManager.setMusicVolume(30);
                     WorldManager.setWorld(new MainMenu());
                 }
                 break;
