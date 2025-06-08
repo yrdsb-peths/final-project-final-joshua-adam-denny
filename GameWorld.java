@@ -74,9 +74,9 @@ public class GameWorld extends World {
     // Misc Variables
     private boolean keyHeld = false;
     private int lives = 100;
-    ScuffedAPI client = ScuffedAPI.getInstance();
+    private boolean firstAct = false;
 
-    private Class<?>[] defaultPaintOrder = {
+    public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
         DDCRender.class,
         Label.class,
@@ -108,10 +108,10 @@ public class GameWorld extends World {
         moneyLabel = new Label("Money: $" + money, 30);
         waveLabel = new Label("Wave: " + wave, 30);
         wavePrompt = new Label("Press SPACE to start first wave", 24);
+
         wavePrompt.setLineColor(Color.BLACK);
         uiManager = UIManager.getInstance();
         //addObject(new DDCRender(), CENTER_X, CENTER_Y);
-        addObject(uiManager,CENTER_X, CENTER_Y);
         addObject(ParticleManager.getInstance(),CENTER_X, CENTER_Y);
         
         Base base = new Base();
@@ -130,13 +130,16 @@ public class GameWorld extends World {
         overlay.setTransparency(255);
         addObject(overlay,CENTER_X, CENTER_Y);
         AudioManager.stopMusic();
-        AudioManager.playMusic(themeMusic);
     }
 
-    double rotation = 0;
-    double position  = 0;
-
     public void act() {
+        if (!firstAct) // this is for my sanity of not listening to thiss music every SINGLE TIME 
+        {
+            firstAct = true;
+            addObject(uiManager,CENTER_X, CENTER_Y); // To prevent deletion upon reloading the world
+            AudioManager.stopMusic();
+            AudioManager.playMusic(themeMusic);
+        }
         switch(status) {
           case RUNNING:
             handlePauseButton();
@@ -410,7 +413,7 @@ public class GameWorld extends World {
         }
     }
     private void handleWaveProgression() {
-
+        autoNextWave = (boolean) PlayerPrefs.getData("AutoStart", false);
             // If waiting for next wave and autoNextWave is ON, start automatically
         if (waitingForNextWave && (autoNextWave || Greenfoot.isKeyDown("space"))) {
             nextWave();
@@ -709,16 +712,6 @@ public class GameWorld extends World {
         );
         
         
-        
-        if (client.isConnected()) {
-            try {
-                int place = client.sendScore(money, wave);
-                System.out.println("You placed: " + place);
-                client.getLeaderboard().forEach(System.out::println);
-            } catch (IOException e) {
-                // some handling here idfk im too tired
-            }
-        }
         uiManager.fadeIn(155, time);
         EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
         addObject(endPopup, CENTER_X, 0);

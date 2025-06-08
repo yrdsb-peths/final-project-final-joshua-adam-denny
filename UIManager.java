@@ -104,6 +104,7 @@ public class UIManager extends Actor
           case PAUSED:
               PauseMenu.getInstance().removeSelf();
               fadeOut(0, 250);
+              gw.setPaintOrder(gw.defaultPaintOrder);
             break;
           case GAMEOVER:
               // hawk

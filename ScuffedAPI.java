@@ -99,6 +99,7 @@ public class ScuffedAPI {
         for (String line : resp.split("\\r?\\n")) {
             if (line.length() == 0)
                 continue;
+            System.out.println(line);
             String[] parts = line.split(",");
             if (parts.length < 3)
                 continue;
@@ -137,7 +138,7 @@ public class ScuffedAPI {
 
         @Override
         public String toString() {
-            return String.format("UserID: %s | score=%d | wave=%d", id, score, wave);
+            return String.format("Username: %s \nScore: %d | Wave: %d", id, score, wave);
         }
     }
 }
