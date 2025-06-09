@@ -25,7 +25,7 @@ public abstract class Enemy extends Actor {
     private int originalSpeed;
     private int slowTimer = 0;
     private static GreenfootImage fireOverlay;
-    public GreenfootSound movement;
+    public static GreenfootSound movement;
     
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
