@@ -12,14 +12,6 @@ public class DDCRender extends Actor
     public static DDCRender _instance = null;
     Camera camera;
     PolyRender poly2;
-    
-    // Camera position and rotation, but since we dont move, these are final n static.
-    public double X_Pos = 0;
-    public double Y_Pos = 0; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
-    public double Z_Pos = 0;
-    public double X_Rot = 0;
-    public double Y_Rot = 0;
-    public double Z_Rot = 0;
     int halfWidth = 0;
     int halfHeight = 0;
     

@@ -16,13 +16,6 @@ public class CreditWorld extends World
     PolyRender roomPoly2;   
     PolyRender roomPoly3;  
     
-    public double X_Pos = 0;
-    public double Y_Pos = -250; // Spawn one meter above ground zero iwjngoiejgoejrgoiermfioregmeorigmeroi
-    public double Z_Pos = 0;
-    public double X_Rot = 0;
-    public double Y_Rot = 0;
-    public double Z_Rot = 0;
-    
     
     public CreditWorld()
     {    
