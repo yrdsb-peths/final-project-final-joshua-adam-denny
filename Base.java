@@ -18,5 +18,10 @@ public class Base extends Actor
         GreenfootImage img = new GreenfootImage("Tower.png");
         img.scale(180, 315);
         setImage(img);
+        
+        GreenfootImage dude = new GreenfootImage("whiteDude.png");
+        dude.scale(50, 50);
+        img.drawImage(dude, 30, 110);
+
     }
 }
