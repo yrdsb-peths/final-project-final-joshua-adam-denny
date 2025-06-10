@@ -13,6 +13,7 @@ public class NukeTower extends Tower {
     private int explosionRadius = 300;
 
     // Animation fields
+    private String currentImage;
     private GreenfootImage[] fireFrames;
     private int animationIndex = 0;
     private int animationTimer = 0;
@@ -22,7 +23,6 @@ public class NukeTower extends Tower {
     int fuseTime = 300;
     private Enemy lockedTarget = null; // Stores the enemy to fire at during animation
     public NukeTower() {
-        loadAnimationFrames();
         updateImage();
 
         baseCost = 10000;
@@ -31,6 +31,8 @@ public class NukeTower extends Tower {
 
         level = 0;
         maxLevel = 3;
+        
+        loadAnimationFrames();
         range = 200;
         totalInvested = baseCost;
     }
@@ -38,9 +40,15 @@ public class NukeTower extends Tower {
     private void loadAnimationFrames() {
         fireFrames = new GreenfootImage[12];
         for (int i = 0; i < fireFrames.length; i++) {
-            GreenfootImage img = new GreenfootImage("Nuke_tower/Nuke_tower" + i + ".png"); // Note the folder name
-            img.scale(150, 150);
-            fireFrames[i] = img;
+            if(level == 3) {
+                GreenfootImage img = new GreenfootImage("Nuke_tower/Nuke_tower" + i + "_1.png"); // Note the folder name
+                img.scale(150, 150);
+                fireFrames[i] = img;
+            } else {
+                GreenfootImage img = new GreenfootImage("Nuke_tower/Nuke_tower" + i + ".png"); // Note the folder name
+                img.scale(150, 150);
+                fireFrames[i] = img;
+            }
         }
     }
 
@@ -109,6 +117,7 @@ public class NukeTower extends Tower {
             nukeDamage += 250;
             explosionRadius += 50;
             updateImage();
+            loadAnimationFrames();
             return true;
         }
         return false;
@@ -116,7 +125,13 @@ public class NukeTower extends Tower {
 
     @Override
     protected void updateImage() {
-        GreenfootImage baseImg = new GreenfootImage("Nuke_tower/Nuke_tower0.png");
+        if (level == 3) {
+            currentImage = ("Nuke_tower/Nuke_tower0_1.png");
+        } else {
+            currentImage = ("Nuke_tower/Nuke_tower0.png");
+        }
+        GreenfootImage baseImg = new GreenfootImage(currentImage);
+        
         baseImg.scale(150, 150);
 
         if (level == 1) {
