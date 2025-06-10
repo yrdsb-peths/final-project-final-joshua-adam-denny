@@ -43,7 +43,7 @@ public class FlameThrowerTower extends Tower {
                 coneProjectiles++;
             }
             
-            if (level == 1) {
+            if (level == 3) {
             imageName = "FlameThrower_tower_1.png";
         }
         

@@ -71,7 +71,7 @@ public class SniperTower extends Tower {
             upgradeCost += 100;
             updateImage();
             
-            if (level == 1) {
+            if (level == 3) {
             imageName = "Sniper_tower_1.png";
             towerImage = new GreenfootImage(imageName);
             towerImage.scale(100, 45);
