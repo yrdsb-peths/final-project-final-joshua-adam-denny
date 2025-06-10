@@ -12,7 +12,9 @@ public class BossEnemy extends Enemy {
         GreenfootImage img = new GreenfootImage("Boss.png");
         img.scale(360, 160);
         setImage(img);
-        super.movement = new GreenfootSound("rollingTank.mp3");
+        if (!isDead) {
+            this.movement = new GreenfootSound("rollingTank.mp3");
+        }
     }
 
     @Override

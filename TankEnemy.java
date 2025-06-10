@@ -13,7 +13,9 @@ public class TankEnemy extends Enemy {
         GreenfootImage img = new GreenfootImage("hippo.png");
         img.scale(80, 80);
         setBaseImage(img);
-        super.movement = new GreenfootSound("heavyFootsteps.mp3");
+        if (!isDead) {
+            this.movement = new GreenfootSound("heavyFootsteps.mp3");
+        }
     }
 
     @Override

@@ -11,7 +11,9 @@ public class FastEnemy extends Enemy {
         GreenfootImage img = new GreenfootImage("bee2.png"); 
         setBaseImage(img);             // IMPORTANT: set base image for burn tint
         setImage(new GreenfootImage(img));  // set the image after scaling
-        super.movement = new GreenfootSound("droneFlying.mp3");
+        if (!isDead) {
+            this.movement = new GreenfootSound("droneFlying.mp3");
+        }
     }
 
     @Override
