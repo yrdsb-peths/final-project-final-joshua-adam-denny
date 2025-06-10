@@ -23,7 +23,7 @@ Copy the `project.greenfoot.md` file and rename it to `project.greenfoot`
 [Markdown basics](https://www.markdownguide.org/getting-started/)
 
 
-# Scuffed Tower Defense
+# Escape the IRS
 
 A 3D tower defense game built in Greenfoot. Place and upgrade five tower types to fend off progressive waves of enemies, earn cash, and use special abilities.
 
