@@ -104,7 +104,7 @@ public class GameWorld extends World {
 
     public GameWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-        setBackground("grass.png");
+        setBackground("ui/grass.png");
 
         moneyLabel = new CustomLabel("Money: $" + money, 30);
         moneyLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
