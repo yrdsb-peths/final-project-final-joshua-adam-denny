@@ -99,38 +99,29 @@ public class AudioManager
     
     public static void playSFX(GreenfootSound audioPlayer)
     {
+        if (PlayerPrefs.getData("PreformanceMode",false)) return;
         int vol = (int) PlayerPrefs.getData("VolumeSFX", 30);
         audioPlayer.setVolume(vol);
-        audioPlayer.play();
-        activeSFX.add(audioPlayer);
-    }
-    public static void playSFX(GreenfootSound audioPlayer, int volume)
-    {
-        audioPlayer.setVolume(volume);
         audioPlayer.play();
         activeSFX.add(audioPlayer);
     }
     
     public static void playSpecialSFX(GreenfootSound audioPlayer)
     {
-        int vol = (int) PlayerPrefs.getData("VolumeSpecialSFX", 50);
+        if (PlayerPrefs.getData("PreformanceMode",false)) return;
+        int vol = (int) PlayerPrefs.getData("VolumeSpecialSFX", 45);
         audioPlayer.setVolume(vol);
         audioPlayer.play();
         activeSFX.add(audioPlayer);
     }
     
-    public static void playSpecialSFX(GreenfootSound audioPlayer, int volume)
-    {
-        audioPlayer.setVolume(volume);
-        audioPlayer.play();
-        activeSFX.add(audioPlayer);
-    }
-    
     public static void playLoopingSFX(GreenfootSound sfx) {
+        if (PlayerPrefs.getData("PreformanceMode",false)) return;
         int vol = PlayerPrefs.getData("VolumeSFX", 30);
         sfx.setVolume(vol);
         sfx.playLoop();
         loopingSFX.add(sfx);
+
     }
     
     public static void stopLoopingSFX(GreenfootSound sfx) {
@@ -138,6 +129,7 @@ public class AudioManager
             sfx.stop();
         }
     }
+    
     
     public static void stopAllLoopingSFX() {
         for (GreenfootSound sfx : loopingSFX) {

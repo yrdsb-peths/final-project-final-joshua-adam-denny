@@ -1,11 +1,6 @@
 import greenfoot.*;
 import java.util.*;
-/**
- * Write a description of class Base here.
- * 
- * @Joshua Stevens
- * @version (a version number or a date)
- */
+
 public abstract class Enemy extends Actor {
     private boolean slowedWhileBurning = false;
     private int normalSpeed;
@@ -25,23 +20,22 @@ public abstract class Enemy extends Actor {
     private int originalSpeed;
     private int slowTimer = 0;
     private static GreenfootImage fireOverlay;
-    public GreenfootSound movement;
-    
+    protected GreenfootSound movement;
+
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
         this.normalSpeed = speed;
         this.health = health;
         this.pm = ParticleManager.getInstance();
         this.moneyOnDeath = money;
-        
+
         if (fireOverlay == null) {
             fireOverlay = new GreenfootImage("fire.png");
         }
     }
-    
+
     @Override
-    protected void addedToWorld(World w)
-    {
+    protected void addedToWorld(World w) {
         this.world = w;
         this.worldWidth = world.getWidth();
         this.worldHeight = world.getHeight();
@@ -51,11 +45,10 @@ public abstract class Enemy extends Actor {
     protected void setBaseImage(GreenfootImage img) {
         baseImage = new GreenfootImage(img);
         burnedImage = new GreenfootImage(img);
-        int x = (img.getWidth() - fireOverlay.getWidth())/2;
-        int y = (img.getHeight() - fireOverlay.getHeight())/2 + 15;
-        burnedImage.drawImage(fireOverlay,x,y);
+        int x = (img.getWidth() - fireOverlay.getWidth()) / 2;
+        int y = (img.getHeight() - fireOverlay.getHeight()) / 2 + 15;
+        burnedImage.drawImage(fireOverlay, x, y);
         setImage(baseImage);
-        
     }
 
     private void updateImage() {
@@ -87,65 +80,76 @@ public abstract class Enemy extends Actor {
             updateImage();
         }
     }
+
     private int totalCount = 0;
+
     public void act() {
-        if (gw == null) return;     
-        
+        if (gw == null) return;
+
         updateBurns();
-        
+
         if (isDead) {
-            AudioManager.stopLoopingSFX(movement);
-            if (totalCount < 5) {
-                totalCount++;
-                pm.addParticle(getX(), getY(), 
-                    Greenfoot.getRandomNumber(360),
-                    Greenfoot.getRandomNumber(5) + 2.5, 
-                    Color.RED );
-            } else {
-                if (gw != null) {
-                    gw.removeObject(this);
-                }
-                return; // stop doing anything else
+            if (movement != null) {
+                AudioManager.stopLoopingSFX(movement);
             }
+            if (totalCount < 5 && !(boolean) PlayerPrefs.getData("PreformanceMode", false)) {
+                totalCount++;
+                pm.addParticle(getX(), getY(),
+                        Greenfoot.getRandomNumber(360),
+                        Greenfoot.getRandomNumber(5) + 2.5,
+                        Color.RED);
+            } else {
+                gw.removeObject(this);
+            }
+            return;
         }
-        
-        if (movement.isPlaying() == false && gw.getStatus() == GameWorld.Status.RUNNING) // Prevents multiple instances of the sound
-        {
+
+        if (movement != null && !movement.isPlaying() && gw.getStatus() == GameWorld.Status.RUNNING) {
             AudioManager.playLoopingSFX(movement);
         }
-        
-        
-        if (gw.getStatus() == GameWorld.Status.RUNNING) 
-        {
+
+        if (gw.getStatus() == GameWorld.Status.RUNNING) {
             move(speed);
         }
+
         updateImage();
+
         if (getX() >= worldWidth - 160) {
             gw.loseLife(getLifeDamage());
-            AudioManager.stopLoopingSFX(movement);
+            if (movement != null) {
+                AudioManager.stopLoopingSFX(movement);
+            }
             gw.removeObject(this);
             isDead = true;
         }
     }
 
-    public int getSpeed() { return speed; }
-    public int getHealth() { return health; }
-    public int getLifeDamage() { return 1; }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getLifeDamage() {
+        return 1;
+    }
+
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0 && gw != null) {
             gw.addMoney(moneyOnDeath);
             isDead = true;
-            
         }
     }
-    
+
     public void applySlow(int amount, int duration) {
         if (originalSpeed == 0) originalSpeed = speed;
         speed = Math.max(1, originalSpeed - amount);
         slowTimer = duration;
     }
-    
+
     private void updateSlowTimer() {
         if (slowTimer > 0) {
             slowTimer--;
@@ -154,6 +158,4 @@ public abstract class Enemy extends Actor {
             }
         }
     }
-
-    
 }

@@ -2,7 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.awt.GraphicsEnvironment;
 /**
  * Init world
  * 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class MainMenu extends World
 {
-    
+
     private static final int WORLD_WIDTH = 1160;
     private static final int WORLD_HEIGHT = 600;
     
@@ -30,7 +30,22 @@ public class MainMenu extends World
     private GreenfootImage phase2_fedsImg = new GreenfootImage("ui/titlescreen-feds.png");
     private ImageActor phase2_feds = new ImageActor(phase2_fedsImg);
     private ImageActor phase2_title = new ImageActor("ui/titlescreen-title.png");
+    
+    
+    private double fed_locationY_diffNum = 0.0;
+    private boolean leaderboardButtonPreviouslyPressed;
+    private boolean settingsButtonPreviouslyPressed;
+    private boolean onLeaderboardPage;
+    private boolean onSettingsPage;
+    
+    private int padding = 100;
+    private Button leaderboardButton;
+    private Button settingsButton;
     private Button startButton;
+    
+    private LeaderboardPage leaderboardPage = null;
+    private SettingsPage settingsPage = null;
+
     
     public MainMenu()
     {    
@@ -58,8 +73,44 @@ public class MainMenu extends World
             220, 
             70
         );
+        
+        
+        GreenfootImage leaderboardImage = new GreenfootImage("ui/button-short-leaderboard.png");
+        GreenfootImage leaderboardPressedImage = new GreenfootImage("ui/button-short-leaderboard-pressed.png");
+        leaderboardButton = new Button(
+            true, 
+            new GreenfootImage[]{
+                leaderboardImage,
+                leaderboardPressedImage
+            }, 
+            70, 
+            70
+        );
+        
+        GreenfootImage settingsImage = new GreenfootImage("ui/button-pause.png");
+        GreenfootImage settingsPressedImage = new GreenfootImage("ui/button-pause-pressed.png");
+        settingsButton = new Button(
+            true, 
+            new GreenfootImage[]{
+                settingsImage,
+                settingsPressedImage
+            }, 
+            70, 
+            70
+        );
+        
         startButton.setTransparency(0);
+        leaderboardButton.setTransparency(0);
+        settingsButton.setTransparency(0);
+        
+        
         addObject(startButton, CENTERX, CENTERY + 150);
+        addObject(leaderboardButton, 
+                CENTERX - leaderboardImage.getWidth() - padding,
+                CENTERY + 150);
+        addObject(settingsButton,
+                CENTERX + settingsImage.getWidth() + padding, 
+                CENTERY + 150);
         
         overlay.setColor(new Color(0,0,0));
         overlay.fill();
@@ -69,8 +120,6 @@ public class MainMenu extends World
         //Add all buttons down here
     }
     
-    
-    double fed_locationY_diffNum = 0.0;
     public void act()
     {
         long now = System.currentTimeMillis();
@@ -154,6 +203,8 @@ public class MainMenu extends World
                     enterPhase(phase+1);
                     phase2_title.setTransparency(255);
                     startButton.setTransparency(255);
+                    leaderboardButton.setTransparency(255);
+                    settingsButton.setTransparency(255);
                 }
                 break;
             case 6:
@@ -185,15 +236,78 @@ public class MainMenu extends World
                     WorldManager.setWorld(new GameWorld());
                 }
                 break;
+            case 79: // leaderboard
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500)
+                {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 0,155)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,155);
+                    overlay.setTransparency(progressAlpha);
+                } else {
+                    overlay.setTransparency(155);
+                    enterPhase(phase+1);
+                }
+                break;
+            case 89: // settings
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500)
+                {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 0,155)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,155);
+                    overlay.setTransparency(progressAlpha);
+                } else {
+                    overlay.setTransparency(155);
+                    enterPhase(phase+1);
+                }
+                break;
+            case 99: // exit setting/leaderboard
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500)
+                {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 155,0)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,155);
+                    overlay.setTransparency(progressAlpha);
+                } else {
+                    overlay.setTransparency(0);
+                    enterPhase(phase+1);
+                    setPaintOrder(UI.class);
+                }
+                break;
                 
         }
         
-        
-        
-        
-        
+        handleKeystrokes();
         handleButtons();
         handleFedMovement();
+    }
+    
+    private void handleKeystrokes()
+    {
+        if ((Greenfoot.isKeyDown("escape") && onLeaderboardPage) || (Greenfoot.isKeyDown("escape") && onSettingsPage)) 
+        {
+            if (settingsPage != null)
+            {
+                settingsPage.removeSelf();
+            }
+            if (leaderboardPage != null)
+            {
+                leaderboardPage.removeSelf();
+            }
+            onLeaderboardPage = false;
+            onSettingsPage = false;
+            enterPhase(99);
+        }
+        
+        if (Greenfoot.isKeyDown("`"))
+        {
+            ScuffedAPI.setUsername(Greenfoot.ask("Set ScuffedAPI Leaderboard username: "));
+        }
     }
     
     private void handleButtons()
@@ -205,6 +319,51 @@ public class MainMenu extends World
             setPaintOrder(ImageActor.class); // overlay on top of all.
             enterPhase(69);
         }
+        
+        if (leaderboardButton.isPressed() && !leaderboardButtonPreviouslyPressed) {
+            setPaintOrder(
+                CustomLabel.class,
+                Slider.class,
+                CheckButton.class,
+                mainMenuSideButton.class,
+                LeaderboardPage.class,
+                Transition.class, 
+                DDCRender.class,
+                ImageActor.class,
+                Button.class,
+                UI.class
+            );
+            overlay.setColor(Color.BLACK);
+            overlay.fill();
+            enterPhase(79);
+            onLeaderboardPage = true;
+            leaderboardPage = new LeaderboardPage();
+            addObject(leaderboardPage, CENTERX,CENTERY);
+        }
+        leaderboardButtonPreviouslyPressed = leaderboardButton.isPressed();
+        
+        if (settingsButton.isPressed() && !settingsButtonPreviouslyPressed) {
+            setPaintOrder(
+                Slider.class,
+                CheckButton.class,
+                mainMenuSideButton.class,
+                SettingsPage.class,
+                Transition.class, 
+                DDCRender.class,
+                CustomLabel.class,
+                ImageActor.class,
+                Button.class,
+                UI.class
+            );
+            overlay.setColor(Color.BLACK);
+            overlay.fill();
+            enterPhase(89);
+            onSettingsPage = true;
+            settingsPage = new SettingsPage();
+            addObject(settingsPage, CENTERX,CENTERY);
+        }
+        settingsButtonPreviouslyPressed = settingsButton.isPressed();
+        
     }
     
     private void handleFedMovement()
@@ -229,7 +388,7 @@ public class MainMenu extends World
         }
     }
     
-    private void enterPhase(int phaseInt)
+    public void enterPhase(int phaseInt)
     {
         this.phase = phaseInt;
         phaseStartTime = System.currentTimeMillis(); 

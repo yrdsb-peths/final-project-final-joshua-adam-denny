@@ -34,7 +34,7 @@ public class MachineGunTower extends Tower {
             cooldownTime = Math.max(4, cooldownTime - 2);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 150;
-            if (level == 1) {
+            if (level == 3) {
                 imageName = "MachineGun_tower_1.png";
             }
             updateImage();

@@ -7,24 +7,29 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * The Label is an actor, so you will need to create it, and then add it to the world
  * in Greenfoot.  If you keep a reference to the Label then you can change the text it
  * displays.  
+ * 
+ * Admendment v1.2:
+ * Added Custom fonts, with dynamic sizing.
+ * - Denny Ung
  *
- * @author Amjad Altadmri 
- * @version 1.1
+ * @author Amjad Altadmri, Denny Ung
+ * @version 1.2
  */
-public class Label extends UI
+public class CustomLabel extends UI
 {
     private String value;
     private int fontSize;
     private Color lineColor = Color.BLACK;
     private Color fillColor = Color.WHITE;
-    
+    private Font font;
+    private int alpha = 255;
     private static final Color transparent = new Color(0,0,0,0);
-
+    
     
     /**
      * Create a new label, initialise it with the int value to be shown and the font size 
      */
-    public Label(int value, int fontSize)
+    public CustomLabel(int value, int fontSize)
     {
         this(Integer.toString(value), fontSize);
     }
@@ -32,7 +37,7 @@ public class Label extends UI
     /**
      * Create a new label, initialise it with the needed text and the font size 
      */
-    public Label(String value, int fontSize)
+    public CustomLabel(String value, int fontSize)
     {
         this.value = value;
         this.fontSize = fontSize;
@@ -83,12 +88,40 @@ public class Label extends UI
         updateImage();
     }
     
+    public void setFont(Font font)
+    {
+        this.font = font;
+        updateImage();
+    }
+    
+    public void setTransparency(int alpha)
+    {
+        this.alpha = alpha;
+        updateImage();
+    }
+    
 
     /**
      * Update the image on screen to show the current value.
      */
     private void updateImage()
     {
-        setImage(new GreenfootImage(value, fontSize, fillColor, transparent, lineColor));
-    }
+        GreenfootImage meas = new GreenfootImage(
+            value, fontSize, fillColor, transparent, lineColor
+        );
+        int w = meas.getWidth()+ 20;
+        int h = meas.getHeight() + 10;
+        
+        GreenfootImage label = new GreenfootImage(w, h);
+        
+        if (font != null) {
+            label.setFont(font);
+        }
+        
+        label.setColor(fillColor);
+        label.drawString(value, 1, fontSize);
+        
+        label.setTransparency(alpha);
+        setImage(label);
+    }   
 }

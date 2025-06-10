@@ -71,7 +71,7 @@ public class SniperTower extends Tower {
             upgradeCost += 100;
             updateImage();
             
-            if (level == 1) {
+            if (level == 3) {
             imageName = "Sniper_tower_1.png";
             towerImage = new GreenfootImage(imageName);
             towerImage.scale(100, 45);
@@ -156,7 +156,7 @@ public class SniperTower extends Tower {
 
     private void drawBoostOverlay() {
         GreenfootImage base = new GreenfootImage(towerImage); // fresh copy
-        base.scale(60, 60);
+        base.scale(100, 55);
 
         GreenfootImage rotatedOverlay = new GreenfootImage(boostOverlay); // fresh copy
         rotatedOverlay.rotate(orbitAngle);

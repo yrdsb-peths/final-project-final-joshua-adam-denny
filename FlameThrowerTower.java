@@ -43,7 +43,7 @@ public class FlameThrowerTower extends Tower {
                 coneProjectiles++;
             }
             
-            if (level == 1) {
+            if (level == 3) {
             imageName = "FlameThrower_tower_1.png";
         }
         
@@ -102,7 +102,8 @@ public class FlameThrowerTower extends Tower {
 
     @Override
     public void act() {
-        super.act(); // Ensure superclass behavior runs
+        super.act();
+        
         if (soundCooldown > 0) {
             soundCooldown--;
         } else {
@@ -111,6 +112,7 @@ public class FlameThrowerTower extends Tower {
             }
         }
     }
+
 
     
 }

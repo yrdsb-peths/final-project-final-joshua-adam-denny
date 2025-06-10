@@ -49,10 +49,9 @@ public class _InitWorld extends World {
     private int newImageTargetY;
 
     private Button startButton;
-    private Label startLabel;
 
     
-    private Label statusLabel;
+    private CustomLabel statusLabel;
     private Boolean connectionResult = null; 
     private int scuffedAPIAttempts = 0;
     private boolean scuffedAPIConnectioninProgress = false;
@@ -372,7 +371,8 @@ public class _InitWorld extends World {
                 break;
             case 14:
                 if (statusLabel == null) {
-                    statusLabel = new Label("ScuffedAPI: Connecting...", 24);
+                    statusLabel = new CustomLabel("ScuffedAPI: Connecting...", 24);
+                    statusLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,24));
                     addObject(statusLabel, WORLD_WIDTH / 2, WORLD_HEIGHT - statusLabel.getImage().getHeight()/2 - 20);
                 }
                 

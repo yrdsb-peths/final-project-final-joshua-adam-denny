@@ -1,14 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndGameButton here.
+ * Write a description of class mainMenuSideButtons here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class PauseButton extends Button
+public class mainMenuSideButton extends Button
 {
-    public PauseButton(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
+    public mainMenuSideButton(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
     {
         super(isActive,buttonImages,width,height);
     }

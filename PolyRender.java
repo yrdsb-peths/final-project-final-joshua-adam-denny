@@ -246,6 +246,16 @@ public class PolyRender extends DDCRender
         return new int[]{sx, sy};
     }
     
+    public static void reset()
+    {
+        X_Pos = 0;
+        Y_Pos = 0;
+        Z_Pos = 0;
+        X_Rot = 0;
+        Y_Rot = 0;
+        Z_Rot = 0;
+    }
+    
     public void setScale(double scale) 
     {
         this.modelScale = scale;

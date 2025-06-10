@@ -15,7 +15,7 @@ public class HealthBar extends UI
     private int offsetY = 75;
     private final int totalWidth  = 120;
     private final int totalHeight = 30;
-    private Label livesLabel;
+    private CustomLabel livesLabel;
     
     private HealthBar()
     {
@@ -28,8 +28,10 @@ public class HealthBar extends UI
     {
         GameWorld gw = (GameWorld) world;
         maxHealth = gw.getLives();
-        livesLabel = new Label(maxHealth, 30);
-        gw.addObject(livesLabel, getX()-30, getY());
+        livesLabel = new CustomLabel(maxHealth, 30);
+        livesLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,30));
+        livesLabel.setFillColor(Color.BLACK);
+        gw.addObject(livesLabel, getX()-25, getY()-2);
     }
     
     public static HealthBar getInstance()
@@ -47,7 +49,14 @@ public class HealthBar extends UI
         
         int currentLives = gw.getLives();
         if (maxHealth <= 0) return; // avoid divide‐by‐zero
-        
+        if (currentLives <= 15)
+        {
+            livesLabel.setFillColor(Color.RED);
+        }
+        else if (currentLives <= 25)
+        {
+            livesLabel.setFillColor(Color.WHITE);
+        }
         livesLabel.setValue(currentLives);
         
         // start with a fresh black background

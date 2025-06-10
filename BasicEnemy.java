@@ -12,7 +12,9 @@ public class BasicEnemy extends Enemy {
         GreenfootImage img = new GreenfootImage("man.png");
         img.scale(37, 75);
         setBaseImage(img); // sets baseImage and sets actor image
-        super.movement = new GreenfootSound("lightFootsteps.mp3");
+        if (!isDead) {
+            this.movement = new GreenfootSound("lightFootsteps.mp3");
+        }
     }
     
     @Override

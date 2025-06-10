@@ -34,8 +34,8 @@ public class GameWorld extends World {
     private List<Integer> sniperBoostTimers = new ArrayList<>();
     private int sniperBoostTimer = 0;
     private int sniperAbilitiesUnlocked = 0;
-    private Label sniperAbilitiesAvailableLabel = null;
-    private Label sniperCooldownLabel = null;
+    private CustomLabel sniperAbilitiesAvailableLabel = null;
+    private CustomLabel sniperCooldownLabel = null;
     private boolean sniperBoostActive = false;
     private SniperAbility sniperIcon = null;
     private int maxLevelSnipersCount = 0;
@@ -54,14 +54,15 @@ public class GameWorld extends World {
     private int spawnTimer = 0;
     private int spawnBatchSize = 3;
     private List<Integer> usedYPositions = new ArrayList<>();
-    private int money = 100000;
+    private int money = 1000000;
+    private long moneyTotal = money;
     private int phase = 0;
     private boolean waitingForNextWave = true;
     
     // Label/UI Variables
-    private Label moneyLabel;
-    private Label waveLabel;
-    private Label wavePrompt;
+    private CustomLabel moneyLabel;
+    private CustomLabel waveLabel;
+    private CustomLabel wavePrompt;
     private TowerPreview towerPreview = null;
     private UIManager uiManager;
     private UpgradeMenu currentMenu = null;
@@ -74,12 +75,12 @@ public class GameWorld extends World {
     // Misc Variables
     private boolean keyHeld = false;
     private int lives = 100;
-    ScuffedAPI client = ScuffedAPI.getInstance();
+    private boolean firstAct = false;
 
-    private Class<?>[] defaultPaintOrder = {
+    public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
         DDCRender.class,
-        Label.class,
+        CustomLabel.class,
         PauseButton.class,
         PauseMenu.class,
         Button.class,
@@ -103,15 +104,18 @@ public class GameWorld extends World {
 
     public GameWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-        setBackground("grass.png");
+        setBackground("ui/grass.png");
 
-        moneyLabel = new Label("Money: $" + money, 30);
-        waveLabel = new Label("Wave: " + wave, 30);
-        wavePrompt = new Label("Press SPACE to start first wave", 24);
+        moneyLabel = new CustomLabel("Money: $" + money, 30);
+        moneyLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        waveLabel = new CustomLabel("Wave: " + wave, 30);
+        waveLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        wavePrompt = new CustomLabel("Press SPACE to start first wave", 24);
+        wavePrompt.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 24));
+
         wavePrompt.setLineColor(Color.BLACK);
         uiManager = UIManager.getInstance();
         //addObject(new DDCRender(), CENTER_X, CENTER_Y);
-        addObject(uiManager,CENTER_X, CENTER_Y);
         addObject(ParticleManager.getInstance(),CENTER_X, CENTER_Y);
         
         Base base = new Base();
@@ -130,13 +134,16 @@ public class GameWorld extends World {
         overlay.setTransparency(255);
         addObject(overlay,CENTER_X, CENTER_Y);
         AudioManager.stopMusic();
-        AudioManager.playMusic(themeMusic);
     }
 
-    double rotation = 0;
-    double position  = 0;
-
     public void act() {
+        if (!firstAct) // this is for my sanity of not listening to thiss music every SINGLE TIME 
+        {
+            firstAct = true;
+            addObject(uiManager,CENTER_X, CENTER_Y); // To prevent deletion upon reloading the world
+            AudioManager.stopMusic();
+            AudioManager.playMusic(themeMusic);
+        }
         switch(status) {
           case RUNNING:
             handlePauseButton();
@@ -176,7 +183,8 @@ public class GameWorld extends World {
                     Transition.class, 
                     NukeMissile.class,
                     DDCRender.class,
-                    Label.class,
+                    
+                    CustomLabel.class,
                     Button.class,
                     Sidebar.class,
                     UI.class, 
@@ -351,11 +359,11 @@ public class GameWorld extends World {
             return baseAmount;
         } else {
             // Calculate waves past 20
-            int wavesOver20 = wave - 20;
-        double rampFactor = Math.pow(0.75, wavesOver20);
-        rampFactor = Math.max(rampFactor, 0.05);    
+            int wavesOver20 = (wave - 20);
+            double rampFactor = Math.pow(0.9, wavesOver20);
+            rampFactor = Math.max(rampFactor, 0.2);    
         
-        return (int)(baseAmount * rampFactor);
+            return (int)(baseAmount * rampFactor);
         }
     }
     public int getEnemyHealth(String type) {
@@ -410,7 +418,7 @@ public class GameWorld extends World {
         }
     }
     private void handleWaveProgression() {
-
+        autoNextWave = (boolean) PlayerPrefs.getData("AutoStart", false);
             // If waiting for next wave and autoNextWave is ON, start automatically
         if (waitingForNextWave && (autoNextWave || Greenfoot.isKeyDown("space"))) {
             nextWave();
@@ -423,7 +431,8 @@ public class GameWorld extends World {
         if (!waitingForNextWave && enemiesSpawned == enemiesToSpawn && getObjects(BasicEnemy.class).isEmpty()) {
             waitingForNextWave = true;
             wavePrompt.setValue(autoNextWave ? "Auto next wave: ON" : "Press SPACE to start next wave");
-            addMoney(200);
+            addMoney(Math.max(200, 200 * (wave/5)));
+            
         }
     }
 
@@ -660,7 +669,9 @@ public class GameWorld extends World {
 
     public void addMoney(int amount) {
         money += amount;
+        moneyTotal+=amount;
         updateMoneyLabel();
+        
     }
 
     public boolean spendMoney(int amount) {
@@ -691,14 +702,15 @@ public class GameWorld extends World {
     private void gameOver() {
         int time = 500; // 500ms for fade in
         setPaintOrder(  // GAME OVER PAINT ORDER
-            EndGameLabel.class,
             EndGameButton.class,
             EndGamePopup.class,
+            Transition.class, 
+            HealthBar.class,
+            CustomLabel.class,
             PauseButton.class,
             PauseMenu.class,
-            Transition.class, 
             ImageActor.class,
-            Label.class,
+            CustomLabel.class,
             Button.class,
             PolyRender.class, 
             NukeMissile.class,  
@@ -709,18 +721,8 @@ public class GameWorld extends World {
         );
         
         
-        
-        if (client.isConnected()) {
-            try {
-                int place = client.sendScore(money, wave);
-                System.out.println("You placed: " + place);
-                client.getLeaderboard().forEach(System.out::println);
-            } catch (IOException e) {
-                // some handling here idfk im too tired
-            }
-        }
         uiManager.fadeIn(155, time);
-        EndGamePopup endPopup = new EndGamePopup(wave, money, money, time);
+        EndGamePopup endPopup = new EndGamePopup(wave, (int) moneyTotal, time);
         addObject(endPopup, CENTER_X, 0);
         
     }
@@ -767,7 +769,7 @@ public class GameWorld extends World {
     
             // Update available label
             if (sniperAbilitiesAvailableLabel == null) {
-                sniperAbilitiesAvailableLabel = new Label(String.valueOf(sniperAbilitiesUnlocked), 30);
+                sniperAbilitiesAvailableLabel = new CustomLabel(String.valueOf(sniperAbilitiesUnlocked), 30);
                 addObject(sniperAbilitiesAvailableLabel, 50, 570);
             } else {
                 sniperAbilitiesAvailableLabel.setValue(String.valueOf(sniperAbilitiesUnlocked));
@@ -787,7 +789,7 @@ public class GameWorld extends World {
             }
     
             if (sniperCooldownLabel == null) {
-                sniperCooldownLabel = new Label("", 30);
+                sniperCooldownLabel = new CustomLabel("", 30);
                 addObject(sniperCooldownLabel, 50, 570);
             }
     

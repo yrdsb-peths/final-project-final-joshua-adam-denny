@@ -23,7 +23,7 @@ Copy the `project.greenfoot.md` file and rename it to `project.greenfoot`
 [Markdown basics](https://www.markdownguide.org/getting-started/)
 
 
-# Scuffed Tower Defense
+# Escape the IRS
 
 A 3D tower defense game built in Greenfoot. Place and upgrade five tower types to fend off progressive waves of enemies, earn cash, and use special abilities.
 
@@ -46,7 +46,7 @@ A 3D tower defense game built in Greenfoot. Place and upgrade five tower types t
 ## Project Structure
 
 ```
-3dModels/   # 3D icons
+3dModels/   # 3D Models of towers
 images/     # General Images/Icons
 images/ui/  # UI assets
 sounds/     # Music & SFX
@@ -56,3 +56,27 @@ sounds/     # Music & SFX
 ## Authors
 
 Joshua Stevens • Denny Ung • Adam Fung
+
+## Credits
+
+Scripting: Joshua Stevens • Denny Ung • Adam Fung
+
+### Audio used:   
+- Audio Name: "Waves" | Artist(s): Dr.p\*m  
+- Audio Name: "Crash" (intro) | Artist(s): Dr.p\*m  
+- Audio Name: "House Building Theme" | Artist(s): Rockstar Games (Red Dead Redemption 2)  
+  
+  
+  
+<br>
+<br>
+<br>
+
+### Font(s) under OTF License.
+
+
+
+
+##
+*this is literally abusing greenfoot to its maximums lmao.*
+##

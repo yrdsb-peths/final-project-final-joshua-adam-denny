@@ -9,6 +9,16 @@ public class BasicTower extends Tower {
     public String imageName = "Basic_tower.png";
     private int slowShotCounter = 0;
     private final int slowShotInterval = 5; // Fire slow bullet every 5 shots
+    private static int SHOT_POOL_SIZE = 10;
+    private static GreenfootSound[] SHOT_POOL = new GreenfootSound[SHOT_POOL_SIZE];
+    private static int shotPoolIndex = 0;
+    
+    static {
+        for (int i = 0; i < SHOT_POOL_SIZE; i++) {
+            SHOT_POOL[i] = new GreenfootSound("gunShotSmall.mp3");
+        }
+    }
+    
     public BasicTower() {
         
         GreenfootImage img = new GreenfootImage(imageName);
@@ -55,7 +65,16 @@ public class BasicTower extends Tower {
         int dy = target.getY() - getY();
         double angle = Math.toDegrees(Math.atan2(dy, dx));
         setRotation((int) angle);
-        AudioManager.playSFX(new GreenfootSound("gunShotSmall.mp3"));
+        
+        for (GreenfootSound soundThing: SHOT_POOL)
+        {
+            if (!soundThing.isPlaying())
+            {
+                AudioManager.playSFX(soundThing);
+                break;
+            }
+        }
+        
         // Always fire a normal bullet
         getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
 

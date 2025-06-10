@@ -13,7 +13,9 @@ public class BigEnemy extends Enemy {
         GreenfootImage img = new GreenfootImage("teddybear.png");
         img.scale(80, 80); // or scale appropriately to your design
         setBaseImage(img);
-        super.movement = new GreenfootSound("jeepDriving.mp3");
+        if (!isDead) {
+            this.movement = new GreenfootSound("jeepDriving.mp3");
+        }
     }
 
     
