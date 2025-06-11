@@ -2,7 +2,6 @@ import greenfoot.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
-import java.io.IOException;
 /*
  * Main GameWorld
  * 
@@ -19,24 +18,18 @@ public class GameWorld extends World {
     private static final int CENTER_X = WORLD_WIDTH/2;
     private static final int CENTER_Y = WORLD_HEIGHT/2;
     private static final int PLAY_AREA_WIDTH = 1000;
-    private static final int TOWER_CANCEL_X = 1000;
     private static final int UPGRADE_MENU_OFFSET_X = 80;
     
     // Tower spawnning variables
-    private boolean draggingTower = false;
-    private boolean wasOutsideArea = true;
-    private int insideCount = 0;
     private boolean towerPlacedThisClick = false;
     
     public GreenfootSound themeMusic = new GreenfootSound("themeMusic.mp3");
     
     // Sniper Special Ability @ lvl 3
     private List<Integer> sniperBoostTimers = new ArrayList<>();
-    private int sniperBoostTimer = 0;
     private int sniperAbilitiesUnlocked = 0;
     private CustomLabel sniperAbilitiesAvailableLabel = null;
     private CustomLabel sniperCooldownLabel = null;
-    private boolean sniperBoostActive = false;
     private SniperAbility sniperIcon = null;
     private int maxLevelSnipersCount = 0;
     private boolean sniperKeyPreviouslyDown = false;
@@ -47,7 +40,6 @@ public class GameWorld extends World {
 
     // Wave/Money Variables
     private boolean autoNextWave = false;
-    private boolean autoNextWaveKeyPreviouslyDown = false;
     private int wave = 0;
     private int enemiesSpawned = 0;
     private int enemiesToSpawn = 0;
@@ -949,19 +941,6 @@ public class GameWorld extends World {
         }
     
         updateSniperAbilityLabels();
-    }
-
-    // Helper method to activate a single sniper boost near the mouse cursor
-    private void activateSingleSniperBoost() {
-        if (sniperAbilitiesUnlocked > 0) {
-            SniperTower tower = chooseSniperTowerToBoost();
-            if (tower != null) {
-                tower.activateSpeedBoost();
-                sniperAbilitiesUnlocked--;
-                sniperBoostTimers.add(20 * 60); // 20 seconds cooldown
-                updateSniperAbilityLabels();
-            } 
-        }
     }
 
     public void activateSniperBoost() {

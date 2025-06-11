@@ -62,18 +62,6 @@ public class PolyRender extends DDCRender
     
     
     
-    // Orthrographic 
-    private double top = near * Math.tan(fov/2);
-    private double right = aspect * top;
-    
-    private double[][] projOrtho = {
-        { 1.0/right,    0,                              0,                              0 },
-        { 0,           1.0/top,                              0,                              0 },
-        { 0,           0,    -2.0/(far-near),   -(far+near)/(near-far)       },
-        { 0,           0,                             0,                              1 }
-    };
-    
-    
     public PolyRender(double[][][] model3d) {
         useScreen = true;
         global_count++;

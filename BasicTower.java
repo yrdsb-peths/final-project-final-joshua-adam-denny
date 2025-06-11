@@ -11,7 +11,6 @@ public class BasicTower extends Tower {
     private final int slowShotInterval = 5; // Fire slow bullet every 5 shots
     private static int SHOT_POOL_SIZE = 10;
     private static GreenfootSound[] SHOT_POOL = new GreenfootSound[SHOT_POOL_SIZE];
-    private static int shotPoolIndex = 0;
     
     static {
         for (int i = 0; i < SHOT_POOL_SIZE; i++) {

@@ -47,9 +47,6 @@ public class _InitWorld extends World {
 
     private int newImageStartX, newImageStartY;
     private int newImageTargetY;
-
-    private Button startButton;
-
     
     private CustomLabel statusLabel;
     private Boolean connectionResult = null; 
@@ -136,8 +133,6 @@ public class _InitWorld extends World {
         
     }
     
-    
-    private boolean initPlay = false;  
     @Override
     public void act() {
         Greenfoot.setSpeed(50);

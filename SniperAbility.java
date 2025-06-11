@@ -12,8 +12,6 @@ public class SniperAbility extends Actor {
     private boolean used = false;
 
     private GreenfootImage iconImage;
-    private GreenfootImage textImage;
-
     public SniperAbility() {
         iconImage = new GreenfootImage("Icon.png");
         iconImage.scale(40, 40);

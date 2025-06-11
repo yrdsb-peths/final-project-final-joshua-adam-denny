@@ -25,7 +25,6 @@ public class LeaderboardPage extends UI
     private boolean lockedIn = false;
 
     private final int buttonSize = 40;
-    private final int primaryButtonSize = buttonSize + 20;
     
     private MainMenuSideButton mainMenuButton;
     
@@ -38,9 +37,6 @@ public class LeaderboardPage extends UI
     private GreenfootImage[] mainMenuButtonImages = new GreenfootImage[2];
     private List<CustomLabel> entryLabels = new ArrayList<>(10);
     ScuffedAPI client = ScuffedAPI.getInstance();
-    
-    private static Font customFont;
-    private static String fontName;
 
     public LeaderboardPage()
     {
@@ -150,12 +146,6 @@ public class LeaderboardPage extends UI
     
     private void positionEntryLabels() {
         int px = getX(), py = getY();
-        int iw = image.getWidth(), ih = image.getHeight();
-        int leftX  = px - iw/2 +  250;  
-        int rightX = px + iw/2 -  250;  
-        int rows   = 5;
-        int spacing = 380 / rows;        // e.g. 400/5 = 80px per row
-        int startY  = py - ih/2 + spacing/2; // first row center
         
         CustomLabel lbl0 = entryLabels.get(0);
         lbl0.setLocation(px - 250, py - 140);

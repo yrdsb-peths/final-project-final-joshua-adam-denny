@@ -65,7 +65,6 @@ public class UpgradeMenu extends UI {
     }
 
     public void handleClick(int globalX, int globalY) {
-        int localX = globalX - getX() + getImage().getWidth() / 2;
         int localY = globalY - getY() + getImage().getHeight() / 2;
     
         GameWorld world = (GameWorld) getWorld();

@@ -24,14 +24,11 @@ public class HelpMenu extends UI
     
     private HelpButton controlsObjectiveButton;
     
-    private int phase = 0;
-    private long phaseStartTime;
     private List<Long> elapsed = new ArrayList<>();
     
     private boolean isControlMenu = false;
     
     private ImageActor blackOverlay;
-    private GameWorld gw;
     private boolean swapButtonPreviouslyPressed = false;
 
     public HelpMenu()
@@ -41,7 +38,6 @@ public class HelpMenu extends UI
         image.scale(500, (int)(500*0.625));
         image.setTransparency(0);
         setImage(image);
-        phaseStartTime = System.currentTimeMillis();
         AudioManager.stopAllSFX();
         AudioManager.stopAllLoopingSFX();
         deltaTime.mark();
@@ -49,7 +45,6 @@ public class HelpMenu extends UI
     
     @Override
     protected void addedToWorld(World w) {
-        gw = (GameWorld)w;
         startY = getY();
         targetY = w.getHeight() / 2;
         GreenfootImage[] controlsObjectiveButtonImages = new GreenfootImage[2];
@@ -89,8 +84,6 @@ public class HelpMenu extends UI
         lockedIn = false;
         startY = 0;
         targetY = 0;
-        phase = 0;
-        phaseStartTime = System.currentTimeMillis();
         elapsed.clear();
     
         deltaTime.mark();

@@ -22,7 +22,6 @@ public class SettingsPage extends UI
     private boolean lockedIn = false;
 
     private final int buttonSize = 40;
-    private final int primaryButtonSize = buttonSize + 20;
     
     private MainMenuSideButton mainMenuButton;
     private CheckButton preformanceModeCheckBox;

@@ -12,7 +12,6 @@ public class HealthBar extends UI
     private int  maxHealth = 100;
     private int barWidth = 110;
     private int barHeight = 25;
-    private int offsetY = 75;
     private final int totalWidth  = 120;
     private final int totalHeight = 30;
     private CustomLabel livesLabel;

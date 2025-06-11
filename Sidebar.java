@@ -33,8 +33,6 @@ public class Sidebar extends UI {
     private PolyRender button5Icon;
 
     private int money = 0;
-    
-    private boolean animate = true;
 
     public Sidebar() {
         setImage(new GreenfootImage("ui/sidebar.png"));
@@ -119,7 +117,6 @@ public class Sidebar extends UI {
         w.addObject(button5, sbX, startY + 4 * (btnHeight + spacing));
     }
     
-    public void setAnimate(boolean change) { animate = change; }
 
     private GreenfootImage drawTowerButtonImage(GreenfootImage buttonImage, GreenfootImage towerIcon, int price) {
         GreenfootImage base = new GreenfootImage(buttonImage);

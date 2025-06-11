@@ -145,6 +145,8 @@ public class UIManager extends Actor
                   fadeOut(0, 250);
                   gw.setPaintOrder(gw.defaultPaintOrder);
                 break;
+            default:
+                break;
         }
         
     }
