@@ -80,6 +80,10 @@ public class CreditWorld extends World
         addObject(creditTextPoly, getWidth()/2,getHeight()/2);
         addObject(poly2, getWidth()/2,getHeight()/2);
         addObject(poly, getWidth()/2,getHeight()/2);
+        ImageActor overlay = new ImageActor("ui/polyrenderui.png");
+        overlay.setTransparency(155);
+        
+        addObject(overlay, getWidth()/2,getHeight()/2);
     }
     
     double rotation = 0.0;
