@@ -9,6 +9,11 @@ public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");
     private int shotNum = 0;
     int fuseTime = 15;
+
+    /**
+     * Constructor for MachineGunTower.
+     * Initializes the tower with its base cost, upgrade cost, and other properties.
+     */
     public MachineGunTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(75, 53);

@@ -43,6 +43,11 @@ public class PauseMenu extends UI
     private ImageActor blackOverlay;
     private GameWorld gw;
 
+
+    /**
+     * Constructor for PauseMenu.
+     * Initializes the pause menu with a background image and sets the initial transparency to 0.
+     */
     public PauseMenu()
     {
         // Initialize the image for the popup
@@ -58,6 +63,7 @@ public class PauseMenu extends UI
     
     @Override
     protected void addedToWorld(World w) {
+        // Ensure the world is a GameWorld instance
         gw = (GameWorld)w;
         startY = getY();
         targetY = w.getHeight() / 2; // always center to it to the middle of the world.
@@ -66,6 +72,8 @@ public class PauseMenu extends UI
         GreenfootImage[] continueButtonImages = new GreenfootImage[2];
         GreenfootImage[] mainMenuButtonImages = new GreenfootImage[2];
 
+
+        // Load button images
         restartButtonImages[0] = new GreenfootImage("ui/button-restart.png");
         restartButtonImages[1] = new GreenfootImage("ui/button-restart-pressed.png");
 
@@ -78,6 +86,8 @@ public class PauseMenu extends UI
         mainMenuButtonImages[0] = new GreenfootImage("ui/button-mainMenu.png");
         mainMenuButtonImages[1] = new GreenfootImage("ui/button-mainMenu-pressed.png");
 
+
+        // Create the buttons with the loaded images
         restartButton = new PauseButton(false, restartButtonImages, primaryButtonSize, primaryButtonSize);
         creditsButton = new PauseButton(false, creditsButtonImages, primaryButtonSize, primaryButtonSize);
         continueButton = new PauseButton(false, continueButtonImages, primaryButtonSize, primaryButtonSize);
@@ -88,6 +98,8 @@ public class PauseMenu extends UI
         volumeSFXSlider = new Slider(200, 20);
         volumeSpecialSFXSlider = new Slider(200, 20);
         
+
+        // Set the initial locations of the buttons
         autoStartCheckBox.setChecked((boolean) PlayerPrefs.getData("AutoStart", false));
         preformanceModeCheckBox.setChecked((boolean) PlayerPrefs.getData("PreformanceMode", false));
         
@@ -102,11 +114,13 @@ public class PauseMenu extends UI
         volumeSFXSlider.setTransparency(0);
         volumeSpecialSFXSlider.setTransparency(0);
         
-        
+        // Set the initial values of the sliders
         volumeMusicSlider.setValue((int)PlayerPrefs.getData("VolumeMusic",30));
         volumeSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSFX",30));
         volumeSpecialSFXSlider.setValue((int)PlayerPrefs.getData("VolumeSpecialSFX",45));
         
+
+        // Add the buttons and checkboxes to the world
         w.addObject(restartButton, getX(), getY());
         w.addObject(creditsButton, getX() - 150, getY());
         w.addObject(continueButton, getX() + 150, getY());
@@ -122,13 +136,15 @@ public class PauseMenu extends UI
 
         
         
-        
+        // Set the initial locations of the black overlay
         blackOverlay = new ImageActor(WORLD_WIDTH,WORLD_HEIGHT);
         blackOverlay.setTransparency(0);
         blackOverlay.setColor(new Color(0,0,0));
         blackOverlay.fill();
         w.addObject(blackOverlay,WORLD_WIDTH/2, WORLD_HEIGHT/2);
 
+
+     // stop all SFX and looping SFX when the pause menu is opened
         AudioManager.stopAllSFX();
         AudioManager.stopAllLoopingSFX();
 
@@ -140,7 +156,12 @@ public class PauseMenu extends UI
         }
         return _instance;
     }
-    
+  
+    /**
+     * Removes the pause menu from the world and resets its state.
+     * This method clears all references to buttons, checkboxes, and sliders,
+     * and resets the transparency of the image.
+     */
     public void removeSelf()
     {
         World world = getWorld();

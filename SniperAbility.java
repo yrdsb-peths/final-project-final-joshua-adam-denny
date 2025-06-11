@@ -12,6 +12,12 @@ public class SniperAbility extends Actor {
     private boolean used = false;
 
     private GreenfootImage iconImage;
+
+/**
+ * Constructor for SniperAbility.
+ * Initializes the icon image and scales it to a specific size.
+ * */
+
     public SniperAbility() {
         iconImage = new GreenfootImage("Icon.png");
         iconImage.scale(40, 40);
@@ -33,6 +39,7 @@ public class SniperAbility extends Actor {
 
         checkClick();
     }
+
 
     private void checkClick() {
         if (Greenfoot.mouseClicked(this) && !used) {

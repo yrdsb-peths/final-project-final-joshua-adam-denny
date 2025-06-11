@@ -58,6 +58,8 @@ public class SniperTower extends Tower {
         // Shoot a bullet and include this tower as the source
         getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
     }
+
+
     
     @Override
     public boolean upgrade() {
@@ -127,10 +129,20 @@ public class SniperTower extends Tower {
         super.act();
     }
 
+    /**
+     * Checks if the speed boost is currently active.
+     * @return true if the speed boost is active, false otherwise.
+     */
+
     public boolean isBoostActive() {
         return speedBoostActive;
     }
 
+
+    /**
+     * Activates the speed boost for the sniper tower.
+     * This reduces the cooldown time significantly and starts a timer for the boost duration.
+     */
     public void activateSpeedBoost() {
         if (!speedBoostActive) {
             cooldownTime = baseCooldownTime / 10;

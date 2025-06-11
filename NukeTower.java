@@ -24,6 +24,11 @@ public class NukeTower extends Tower {
     private int frameDelay = 5;
     int fuseTime = 300;
     private Enemy lockedTarget = null; // Stores the enemy to fire at during animation
+    
+    /**
+     * Constructor for NukeTower.
+     * Initializes the tower with its base cost, upgrade cost, and other properties.
+     */
     public NukeTower() {
         updateImage();
 

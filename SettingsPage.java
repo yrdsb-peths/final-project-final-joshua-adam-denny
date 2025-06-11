@@ -231,6 +231,8 @@ public class SettingsPage extends UI
         if (!lockedIn) {
             start();
         }
+
+        // Handle button presses and checkboxes
     
         if (preformanceModeCheckBox != null) {
             PlayerPrefs.setData("PreformanceMode", preformanceModeCheckBox.isChecked());

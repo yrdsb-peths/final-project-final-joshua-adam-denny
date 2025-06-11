@@ -16,6 +16,11 @@ public class HealthBar extends UI
     private final int totalHeight = 30;
     private CustomLabel livesLabel;
     
+
+    /**
+     * Private constructor to prevent instantiation.
+     * Initializes the health bar with a black background.
+     */
     private HealthBar()
     {
         GreenfootImage img = new GreenfootImage(totalWidth, totalHeight);
@@ -32,6 +37,13 @@ public class HealthBar extends UI
         livesLabel.setFillColor(Color.BLACK);
         gw.addObject(livesLabel, getX()-25, getY()-2);
     }
+
+    /**
+     * Returns the singleton instance of HealthBar.
+     * If the instance is null, it creates a new instance.
+     * 
+     * @return The singleton instance of HealthBar.
+     */
     
     public static HealthBar getInstance()
     {
@@ -40,6 +52,8 @@ public class HealthBar extends UI
         }
         return _instance;
     }
+    
+
     
     public void act()
     {

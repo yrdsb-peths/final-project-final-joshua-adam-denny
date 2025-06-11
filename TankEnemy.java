@@ -8,6 +8,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TankEnemy extends Enemy {
 
+    /**
+     * Constructor for TankEnemy.
+     * Initializes the tank enemy with specified speed, health, and money upon death.
+     * Sets the base image and sound for the tank enemy.
+     *
+     * @param speed The speed of the tank enemy.
+     * @param health The health of the tank enemy.
+     * @param moneyDeath The amount of money awarded when the tank enemy is defeated.
+     */
     public TankEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("hippo.png");

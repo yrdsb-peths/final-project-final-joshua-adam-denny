@@ -31,6 +31,12 @@ public class HelpMenu extends UI
     private ImageActor blackOverlay;
     private boolean swapButtonPreviouslyPressed = false;
 
+
+
+    /**
+     * Constructor for HelpMenu
+     * Initializes the help menu with a background image and sets up the initial state.
+     */
     public HelpMenu()
     {
         // Initialize the image for the popup
@@ -72,6 +78,11 @@ public class HelpMenu extends UI
         return _instance;
     }
     
+
+    /**
+     * Removes the HelpMenu from the world and resets its state.
+     * This method is called when the help menu is no longer needed.
+     */
     public void removeSelf()
     {
         World world = getWorld();

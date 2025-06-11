@@ -12,6 +12,17 @@ import java.util.*;
  * @version Version 1.1.0 (May 17, 2025)
  */
 public class ObjParser{
+
+
+
+    /**
+     * Parses an OBJ file and returns the vertices and faces as a 3D double array.
+     * 
+     * @param path The path to the OBJ file.
+     * @param scale The scale factor to apply to the vertex coordinates.
+     * @return A 3D double array where each face contains its vertices' coordinates.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public static double[][][] parseObj(String path, int scale) throws IOException {
         List<double[]> vertices = new ArrayList<>();
         List<double[][]> faces   = new ArrayList<>();

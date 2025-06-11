@@ -62,6 +62,11 @@ public class PolyRender extends DDCRender
     
     
     
+    /**
+     * Constructor for PolyRender, uses the default screen size.
+     * 
+     * @param model3d The 3D model to render, in the form of a 3D array of vertices.
+     */
     public PolyRender(double[][][] model3d) {
         useScreen = true;
         global_count++;
@@ -70,6 +75,13 @@ public class PolyRender extends DDCRender
         this.renderScreen  = new GreenfootImage(width, height);
     }
     
+    /**
+     * Constructor for PolyRender, allows custom screen size.
+     * 
+     * @param model3d The 3D model to render, in the form of a 3D array of vertices.
+     * @param widthCustom The width of the render screen.
+     * @param heightCustom The height of the render screen.
+     */
     public PolyRender(double[][][] model3d, int widthCustom, int heightCustom) {
         
         global_count++;
@@ -90,6 +102,14 @@ public class PolyRender extends DDCRender
          
     }
     
+    /**
+     * Constructor for PolyRender, allows custom screen size and field of view.
+     * 
+     * @param model3d The 3D model to render, in the form of a 3D array of vertices.
+     * @param widthCustom The width of the render screen.
+     * @param heightCustom The height of the render screen.
+     * @param newFOV The field of view in degrees. Converted to radians internally.
+     */
     public PolyRender(double[][][] model3d, int widthCustom, int heightCustom, int newFOV) {
         global_count++;
         id = global_count;

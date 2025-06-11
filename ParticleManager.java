@@ -11,6 +11,17 @@ import java.util.*;
 public class ParticleManager extends Actor 
 {
     private static ParticleManager _instance;
+    private List<Particle> particles = new ArrayList<>();
+    private GreenfootImage buffer;
+    private int width;
+    private int height;
+
+
+
+    /**
+     * Private constructor to prevent instantiation.
+     * Initializes the particles list.
+     */
     private static class Particle
     {
         double x;
@@ -29,10 +40,8 @@ public class ParticleManager extends Actor
         }
     }
 
-    private List<Particle> particles = new ArrayList<>();
-    private GreenfootImage buffer;
-    private int width;
-    private int height;
+    
+
     public static ParticleManager getInstance()
     {
         if (_instance == null) {

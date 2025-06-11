@@ -12,6 +12,17 @@ public abstract class Projectile extends Actor {
     protected int speed;
     protected Tower sourceTower; // make it protected if subclasses might need it
 
+    /**
+     * Constructor for Projectile.
+     * Initializes the projectile with a target, damage, speed, source tower, image file, and scale.
+     * 
+     * @param target The enemy that this projectile will target.
+     * @param damage The amount of damage this projectile will deal.
+     * @param speed The speed at which this projectile moves.
+     * @param tower The tower that fired this projectile (used for tracking damage).
+     * @param imageFile The file name of the projectile's image.
+     * @param scale The scale to apply to the projectile's image.
+     */
     public Projectile(Enemy target, int damage, int speed, Tower tower, String imageFile, int scale) {
         this.target = target;
         this.damage = damage;

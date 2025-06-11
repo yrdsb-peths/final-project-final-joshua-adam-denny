@@ -41,6 +41,15 @@ public class ScuffedAPI {
     {
         user = username;
     }
+
+    /*  
+     * Connects to the ScuffedAPI server.
+     * Returns true if the connection was successful, false otherwise.
+     *  
+     *  This method sends a GET request to the "/connect" endpoint of the API.
+     * It checks the response code to determine if the connection was successful.
+     * 
+     */
     
     public boolean connect() {
         try {
@@ -56,6 +65,15 @@ public class ScuffedAPI {
             return connected;
         }
     }
+
+    /**
+     * Sends the score and wave to the ScuffedAPI server.
+     * 
+     * @param score The score to send.
+     * @param wave The wave number to send.
+     * @return The place in the leaderboard as an integer.
+     * @throws IOException If an error occurs while sending the score.
+     */
     
     public int sendScore(long score, int wave) throws IOException {
         URL url = new URL(api_url + "/sendScore");
@@ -86,6 +104,13 @@ public class ScuffedAPI {
     }
     
     
+
+    /**
+     * Retrieves the leaderboard from the ScuffedAPI server.
+     * 
+     * @return A list of LeaderboardEntry objects representing the leaderboard.
+     * @throws IOException If an error occurs while retrieving the leaderboard.
+     */
 
     public List<LeaderboardEntry> getLeaderboard() throws IOException {
         URL url = new URL(api_url + "/getLeaderboard");
@@ -126,6 +151,11 @@ public class ScuffedAPI {
         return sb.toString();
     }
 
+
+    /**
+     * Represents a single entry in the leaderboard.
+     * Contains the user's ID, score, and wave number.
+     */
     public static class LeaderboardEntry {
         public final String id;
 

@@ -15,6 +15,21 @@ public class NukeMissile extends Projectile {
     private int level;
     private int projectileType; 
 
+
+    /**
+     * Constructor for NukeMissile.
+     * Initializes the missile with target, damage, speed, explosion radius, source tower, scale, fuse time, level, and projectile type.
+     * 
+     * @param target The enemy that this missile will target.
+     * @param damage The damage dealt by the missile.
+     * @param speed The speed of the missile.
+     * @param radius The explosion radius of the missile.
+     * @param sourceTower The tower that fired this missile.
+     * @param scale The scale of the missile image.
+     * @param fuseTime The time before the missile explodes.
+     * @param level The upgrade level of the tower that fired this missile.
+     * @param projectileType The type of projectile (1 for small explosion, 2 for large explosion).
+     */
     public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime, int level, int projectileType)  {
         
         super(target, damage, speed, sourceTower, level >= 3 ? "NukeMissile2.png" : "NukeMissile.png", scale);

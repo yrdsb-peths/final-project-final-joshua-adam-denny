@@ -49,6 +49,12 @@ public class MainMenu extends World
     private boolean editNameButtonPreviouslyPressed;
 
     
+
+
+    /**
+     * Constructor for objects of class MainMenu.
+     * Initializes the world with a specific width and height.
+     */
     public MainMenu()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
@@ -64,6 +70,7 @@ public class MainMenu extends World
         phase = 0;
         phaseStartTime = System.currentTimeMillis();
         
+        // Create the title screen buttons
         GreenfootImage startButtonImage = new GreenfootImage("ui/button-start.png");
         GreenfootImage startButtonPressedImage = new GreenfootImage("ui/button-start-pressed.png");
         startButton = new Button(
@@ -132,6 +139,8 @@ public class MainMenu extends World
         creditsButton.setTransparency(0);
         editNameButton.setTransparency(0);
         
+
+        // Add the buttons to the world
         addObject(startButton, CENTERX, CENTERY + 150);
         addObject(leaderboardButton, 
                 CENTERX - padding - creditImage.getWidth() - 10,
@@ -148,6 +157,8 @@ public class MainMenu extends World
                 CENTERX + padding, 
                 CENTERY + creditImage.getHeight() + 150 + 10);
         
+
+                // Add the title overlay
         overlay.setColor(new Color(0,0,0));
         overlay.fill();
         overlay.setTransparency(255);
@@ -161,9 +172,10 @@ public class MainMenu extends World
         long now = System.currentTimeMillis();
         
         elapsed.add(0, now - phaseStartTime);
+        // Very long animation system, sorted in phases
         switch (phase) {
             
-            case 0:
+            case 0: // fade out
                 if (elapsed.get(phase) < 250) {
                     
                     int progressAlpha = (int) Math.round(
@@ -178,7 +190,7 @@ public class MainMenu extends World
                     overlay.setTransparency(0);
                 }
                 break;
-            case 1:
+            case 1: // blur effect
                 if (elapsed.get(phase) < 3000) {
                     double blurPower = Utils.map(elapsed.get(phase), 0, 5000, 0.0, 1.0);
                     
@@ -193,10 +205,10 @@ public class MainMenu extends World
                     overlay.fill();
                 }
                 break;
-            case 2: // delay function
+            case 2: // delay function 
                 delayPhase(phase,now,500);
                 break;
-            case 3:
+            case 3: // fade in the red overlay
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 250)
                 {
@@ -210,7 +222,8 @@ public class MainMenu extends World
                     phase2_feds.setTransparency(255);
                 }
                 break;
-            case 4:
+            case 4:     // fade out the red overlay
+                // where the feds appear
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 250)
                 {
@@ -226,7 +239,7 @@ public class MainMenu extends World
                     overlay.fill();
                 }
                 break;
-            case 5:
+            case 5: // fade in the blue overlay
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 250)
                 {
@@ -245,7 +258,8 @@ public class MainMenu extends World
                     editNameButton.setTransparency(255);
                 }
                 break;
-            case 6:
+            case 6: // fade out the blue overlay
+                // where the title appears
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 250)
                 {
@@ -260,6 +274,8 @@ public class MainMenu extends World
                 }
                 break;
             case 69:
+            // fade in the black overlay
+                // where the game starts
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {
@@ -274,7 +290,7 @@ public class MainMenu extends World
                     WorldManager.setWorld(new GameWorld());
                 }
                 break;
-            case 79: // leaderboard
+            case 79: // leaderboard fade in
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {
@@ -289,6 +305,7 @@ public class MainMenu extends World
                 }
                 break;
             case 89: // settings
+                // setings fade in
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {
@@ -320,6 +337,7 @@ public class MainMenu extends World
                 }
                 break;
             case 109:
+            // credits fade in
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {
@@ -335,6 +353,7 @@ public class MainMenu extends World
                 }
                 break;
             case 119:
+            // edit name fade in
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {

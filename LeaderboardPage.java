@@ -38,6 +38,12 @@ public class LeaderboardPage extends UI
     private List<CustomLabel> entryLabels = new ArrayList<>(10);
     ScuffedAPI client = ScuffedAPI.getInstance();
 
+
+
+    /**
+     * Constructor for LeaderboardPage
+     * Initializes the leaderboard page with a background image and entry labels.
+     */
     public LeaderboardPage()
     {
         // Initialize the image for the popup

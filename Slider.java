@@ -20,6 +20,15 @@ public class Slider extends UI {
     private int knobY; 
     private int alpha = 255;
 
+
+/**
+ * Constructor for Slider with specified track length and height.
+ * The track height is set to one-third of the total height, and the knob radius is also set to one-third of the total height.
+ *  
+ * @param length The length of the slider track.
+ * @param height The total height of the slider, which determines the track height and knob radius.
+ * */
+
     public Slider(int length, int height) {
         trackLength = length;
         trackHeight = height / 3; 
@@ -80,20 +89,32 @@ public class Slider extends UI {
         this.alpha = alpha;
     }
 
+
+    // Converts a value in the range [min, max] to an x-coordinate on the slider track.
     private int valueToX(int v) {
         double pct = (double)(v - min) / (max - min);
         return knobRadius + (int)(pct * trackLength);
     }
-
+    // Converts an x-coordinate on the slider track to a value in the range [min, max].
     private int xToValue(int x) {
         double pct = (double)(x - knobRadius) / trackLength;
         return (int)Math.round(min + pct * (max - min));
     }
-
+    /**
+     * Gets the current value of the slider.
+     * 
+     * @return The current value, which is an integer between min and max.
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Sets the value of the slider.
+     * The value is clamped to the range [min, max].
+     * 
+     * @param v The new value to set for the slider.
+     */
     public void setValue(int v) {
         value = (int)Utils.clamp(v, min, max);
         knobX = valueToX(value);

@@ -13,6 +13,14 @@ public class RadioactiveField extends Actor {
     private int damagePerTick;
     private int radius;
 
+    /**
+     * Constructor for RadioactiveField.
+     * Initializes the radioactive field with a duration, damage per tick, and radius.
+     * 
+     * @param duration The duration the field lasts in ticks.
+     * @param damagePerTick The amount of damage dealt to enemies every tick.
+     * @param radius The radius of the radioactive field.
+     */
     public RadioactiveField(int duration, int damagePerTick, int radius) {
         this.duration = duration;
         this.tickInterval = 60;

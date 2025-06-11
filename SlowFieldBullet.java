@@ -10,6 +10,15 @@ public class SlowFieldBullet extends Projectile {
     private int fieldSlow = 4;
     private int fieldDuration = 180;
 
+    /**
+     * Constructor for SlowFieldBullet.
+     * Initializes the bullet with a target enemy, damage, speed, and tower reference.
+     *
+     * @param target The enemy that this bullet will target.
+     * @param damage The damage this bullet will deal to the target.
+     * @param speed The speed of the bullet.
+     * @param tower The tower that fired this bullet.
+     */
     public SlowFieldBullet(Enemy target, int damage, int speed, Tower tower) {
         super(target, damage, speed, tower, "net.png", 30); // Adjust image name and scale as needed
     }
@@ -18,6 +27,8 @@ public class SlowFieldBullet extends Projectile {
     protected void onHit() {
         dealDamage();
 
+        // Create a slow field at the bullet's current position
+        // and remove the bullet from the world
         if (getWorld() != null) {
             getWorld().addObject(
                 new SlowField(fieldRadius, fieldSlow, fieldDuration),

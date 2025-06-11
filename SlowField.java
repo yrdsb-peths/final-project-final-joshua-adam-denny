@@ -21,12 +21,15 @@ public class SlowField extends Actor {
         setImage(img);
     }
 
+
+
     public void act() {
+        // Check if the field should still be active
         if (duration-- <= 0) {
             getWorld().removeObject(this);
             return;
         }
-
+        // Apply slow effect to all enemies within the radius
         List<Enemy> enemies = getObjectsInRange(radius, Enemy.class);
         for (Enemy enemy : enemies) {
             enemy.applySlow(slowAmount, 5); // Apply small short slow repeatedly

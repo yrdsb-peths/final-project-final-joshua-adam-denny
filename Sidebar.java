@@ -34,10 +34,17 @@ public class Sidebar extends UI {
 
     private int money = 0;
 
+
     public Sidebar() {
         setImage(new GreenfootImage("ui/sidebar.png"));
     }
 
+
+    /**
+     * Initializes the PolyRender object with a specific position, scale, and rotation.
+     * 
+     * @param poly The PolyRender object to initialize.
+     */
     private void initalPoly(PolyRender poly) {
         poly.position(0, 0, 500);
         poly.setScale(-1);
@@ -62,6 +69,8 @@ public class Sidebar extends UI {
         double[][][] button4IconModel = new double[0][][];
         double[][][] button5IconModel = new double[0][][];
 
+
+        // Load 3D models for tower icons
         try {
             button1IconModel = ObjParser.parseObj("3dModels/basicTower.obj", 100);
             button2IconModel = ObjParser.parseObj("3dModels/sniperTower.obj", 100);
@@ -72,6 +81,7 @@ public class Sidebar extends UI {
 
         }
         
+        // Load button images
         buttonBaseImage = new GreenfootImage("ui/button-sidebar.png");
         buttonBaseImagePressed = new GreenfootImage("ui/button-sidebar-pressed.png");
 
@@ -91,6 +101,8 @@ public class Sidebar extends UI {
         button5Icon = new PolyRender(button5IconModel, 600, 600, 150);
         initalPoly(button5Icon);
 
+
+        // Create buttons with icons and prices
         up1 = drawTowerButtonImage(buttonBaseImage, button1Icon.getGreenfootImage(), price1);
         down1 = drawTowerButtonImage(buttonBaseImagePressed, button1Icon.getGreenfootImage(), price1);
         button1 = new Button(true, new GreenfootImage[] { up1, down1 }, btnWidth, btnHeight);
@@ -118,6 +130,14 @@ public class Sidebar extends UI {
     }
     
 
+    /**
+     * Draws the tower button image with the tower icon and price label.
+     * 
+     * @param buttonImage The base image for the button.
+     * @param towerIcon The icon image for the tower.
+     * @param price The price of the tower.
+     * @return A GreenfootImage representing the button with the tower icon and price label.
+     */
     private GreenfootImage drawTowerButtonImage(GreenfootImage buttonImage, GreenfootImage towerIcon, int price) {
         GreenfootImage base = new GreenfootImage(buttonImage);
         int iconX = (base.getWidth() - towerIcon.getWidth()) / 2;
@@ -153,6 +173,7 @@ public class Sidebar extends UI {
         
         if (gw.getStatus() == GameWorld.Status.PAUSED) return;
         
+        // Rotate icons for visual effect
         if ((boolean)PlayerPrefs.getData("PreformanceMode", false) == false)
         {
             balls += 0.5;
@@ -220,6 +241,7 @@ public class Sidebar extends UI {
         }
         button5.setButtons(new GreenfootImage[] { up5, down5 });
 
+        // Handle dragging for each button
         handleDrag(button1, "Basic", price1, gw, 1);
         handleDrag(button2, "Sniper", price2, gw, 2);
         handleDrag(button3, "MachineGun", price3, gw, 3);
@@ -271,6 +293,11 @@ public class Sidebar extends UI {
         }
     }
 
+    /**
+     * Cancels the drag operation for a specific tower button.
+     * 
+     * @param id The ID of the tower button to cancel the drag for (1-5).
+     */
     public void cancelDrag(int id) {
         switch (id) {
             case 1:
