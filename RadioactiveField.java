@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * Creates a pool/puddle of radioactive energy that deals damage every second while enemies are inside the area
  * 
  * @Adam Fung
  * @version (a version number or a date)
@@ -27,12 +27,12 @@ public class RadioactiveField extends Actor {
     }
 
     public void act() {
-        if (duration-- <= 0) {
+        if (duration-- <= 0) { //removes pool after a certain amount of time
             getWorld().removeObject(this);
             return;
         }
 
-        if (--tickTimer <= 0) {
+        if (--tickTimer <= 0) { //deals damage every second
             applyDamage();
             tickTimer = tickInterval;
         }
@@ -42,7 +42,7 @@ public class RadioactiveField extends Actor {
         List<Enemy> enemies = getWorld().getObjects(Enemy.class);
         for (Enemy e : enemies) {
             if (distanceTo(e) <= radius) {
-                e.takeDamage(damagePerTick);
+                e.takeDamage(damagePerTick); 
             }
         }
     }
