@@ -43,6 +43,7 @@ public class GameWorld extends World {
     private boolean autoActivateSniper = false;   // toggles auto activate on/off
     private boolean activateToggleKeyPreviouslyDown = false; // track key press edge
     private boolean pauseButtonPreviouslyPressed = false;
+    private boolean helpButtonPreviouslyPressed = false;
 
     // Wave/Money Variables
     private boolean autoNextWave = false;
@@ -98,7 +99,8 @@ public class GameWorld extends World {
     public enum Status {
         RUNNING,
         PAUSED,
-        GAMEOVER;
+        GAMEOVER,
+        HELPCONTROLS;
     }
     private Status status = Status.RUNNING;
 
@@ -145,23 +147,65 @@ public class GameWorld extends World {
             AudioManager.playMusic(themeMusic);
         }
         switch(status) {
-          case RUNNING:
-            handlePauseButton();
-            handleAnimations();
-            handleEnemySpawning();
-            handleWaveProgression();
-            handleTowerDragging();
-            handleTowerClickUpgrade();
-            handleSniperBoost();
-            resetInputFlags();
-            break;
-          case PAUSED:
-              handlePauseButton();
-            break;
-          case GAMEOVER:
-              // hawk
-            break;
+            case RUNNING:
+                handlePauseButton();
+                handleHelpButton();
+                handleAnimations();
+                handleEnemySpawning();
+                handleWaveProgression();
+                handleTowerDragging();
+                handleTowerClickUpgrade();
+                handleSniperBoost();
+                resetInputFlags();
+                break;
+            case PAUSED:
+                handlePauseButton();
+                break;
+            case GAMEOVER:
+                // hawk
+                break;
+            case HELPCONTROLS:
+                handleHelpButton();
+                break;
         }
+    }
+    
+    private void handleHelpButton()
+    {
+        boolean helpPressedNow = uiManager.isHelpButtonPressed();
+
+        if (helpPressedNow && !helpButtonPreviouslyPressed) {
+            if (status == Status.RUNNING) {
+                uiManager.toggleHelpMenu(); 
+                status = Status.HELPCONTROLS;
+                clearUpgradeMenu();
+                cancelDragging();
+                setPaintOrder( // HELP MENU PAINT ORDER
+                    HelpButton.class,
+                    HelpMenu.class,
+                    Transition.class, 
+                    NukeMissile.class,
+                    DDCRender.class,
+                    CustomLabel.class,
+                    Button.class,
+                    Sidebar.class,
+                    UI.class, 
+                    ExplosionEffect.class,
+                    Bullet.class,
+                    Tower.class, 
+                    Enemy.class,
+                    ImageActor.class
+                );
+            }
+            else if (status == Status.HELPCONTROLS) {
+                uiManager.toggleHelpMenu();   
+                status = Status.RUNNING;
+                setPaintOrder(defaultPaintOrder);
+            }
+    
+        }
+        
+        helpButtonPreviouslyPressed = helpPressedNow;
     }
     
     private void handlePauseButton()
@@ -204,11 +248,6 @@ public class GameWorld extends World {
 
         // 3) Remember for next frame
         pauseButtonPreviouslyPressed = pausePressedNow;
-    }
-    
-    private void handleHelpButton()
-    {
-    
     }
     
     private void handleAnimations()

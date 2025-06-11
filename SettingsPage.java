@@ -24,7 +24,7 @@ public class SettingsPage extends UI
     private final int buttonSize = 40;
     private final int primaryButtonSize = buttonSize + 20;
     
-    private mainMenuSideButton mainMenuButton;
+    private MainMenuSideButton mainMenuButton;
     private CheckButton preformanceModeCheckBox;
     private CheckButton autoStartCheckBox;
     private Slider volumeMusicSlider;
@@ -58,7 +58,7 @@ public class SettingsPage extends UI
         mainMenuButtonImages[0] = new GreenfootImage("ui/button-mainMenu.png");
         mainMenuButtonImages[1] = new GreenfootImage("ui/button-mainMenu-pressed.png");
         
-        mainMenuButton = new mainMenuSideButton(false, mainMenuButtonImages, buttonSize, buttonSize);
+        mainMenuButton = new MainMenuSideButton(false, mainMenuButtonImages, buttonSize, buttonSize);
         autoStartCheckBox = new CheckButton(buttonSize- 20);
         preformanceModeCheckBox = new CheckButton(buttonSize- 20);
         volumeMusicSlider = new Slider(200, 20);  // 200px track, 40px tall

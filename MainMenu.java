@@ -50,7 +50,7 @@ public class MainMenu extends World
     public MainMenu()
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
-        
+        Greenfoot.setSpeed(50);
         
         setBackground(blurred);
         
@@ -325,7 +325,7 @@ public class MainMenu extends World
                 CustomLabel.class,
                 Slider.class,
                 CheckButton.class,
-                mainMenuSideButton.class,
+                MainMenuSideButton.class,
                 LeaderboardPage.class,
                 Transition.class, 
                 DDCRender.class,
@@ -346,7 +346,7 @@ public class MainMenu extends World
             setPaintOrder(
                 Slider.class,
                 CheckButton.class,
-                mainMenuSideButton.class,
+                MainMenuSideButton.class,
                 SettingsPage.class,
                 Transition.class, 
                 DDCRender.class,

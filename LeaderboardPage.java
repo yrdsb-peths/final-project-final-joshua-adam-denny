@@ -27,7 +27,7 @@ public class LeaderboardPage extends UI
     private final int buttonSize = 40;
     private final int primaryButtonSize = buttonSize + 20;
     
-    private mainMenuSideButton mainMenuButton;
+    private MainMenuSideButton mainMenuButton;
     
     private int phase = 0;
     private long phaseStartTime;
@@ -82,7 +82,7 @@ public class LeaderboardPage extends UI
         mainMenuButtonImages[0] = new GreenfootImage("ui/button-mainMenu.png");
         mainMenuButtonImages[1] = new GreenfootImage("ui/button-mainMenu-pressed.png");
         
-        mainMenuButton = new mainMenuSideButton(false, mainMenuButtonImages, buttonSize, buttonSize);
+        mainMenuButton = new MainMenuSideButton(false, mainMenuButtonImages, buttonSize, buttonSize);
         mainMenuButton.setTransparency(0);
         w.addObject(mainMenuButton, getX() - 200, getY());
         
