@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
- * Write a description of class Base here.
+ * second enemy that spawns in the game. significantly faster then every other enemy in the game, but has lower health
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

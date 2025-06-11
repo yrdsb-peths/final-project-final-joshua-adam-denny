@@ -1,6 +1,6 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * the first enemy that spawns in the game. easiest to kill and has nothing unique about it
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

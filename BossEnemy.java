@@ -1,7 +1,7 @@
 import greenfoot.*;
 /**
  * Enemy/BossEnemy, this will blow up someones house
- * 
+ * the boss enemy that spawns at wave 20, has the highest hp, lowest speed, and creates enemies when killed
  * @Joshua Stevens, Denny Ung
  * @version Version 3.0.5 (June 7, 2025)
  */

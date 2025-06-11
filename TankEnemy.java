@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Base here.
+ * 3rd enemy that spawns in the game, has higher Hp
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

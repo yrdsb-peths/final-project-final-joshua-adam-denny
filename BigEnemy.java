@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Base here.
+ * 4th enemy that spawns in the game, has the 2nd highest hp in the game, but a bit slower
  * 
  * @Joshua Stevens
  * @version (a version number or a date)
