@@ -68,6 +68,11 @@ class Leaderboard {
 
 const leaderboard = new Leaderboard(storedEntries);
 
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.post('/sendScore', (req, res) => {
   const { id, score, wave } = req.body;
   if (typeof id !== 'string') {
