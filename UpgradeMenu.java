@@ -9,11 +9,19 @@ public class UpgradeMenu extends UI {
     private Tower tower;
     private RangeCircle rangeCircle;
 
+
+    /**
+     * Constructor for UpgradeMenu.
+     * @param tower The tower that this menu is associated with.
+     */
     public UpgradeMenu(Tower tower) {
         this.tower = tower;
-
     }
 
+    /**
+     * Act method that updates the menu image every frame.
+     * It also handles the display of the total damage dealt by the tower.
+     */
     public void act() {
         updateImage(); // Will re-render every frame with latest damage
     }
@@ -39,6 +47,10 @@ public class UpgradeMenu extends UI {
     }
 
 
+    /**
+     * Displays the range circle of the tower.
+     * This method creates a RangeCircle object and adds it to the world.
+     */
     public void showRangeCircle() {
         if (getWorld() == null) return; // Safety check
         rangeCircle = new RangeCircle(tower.getRange());
@@ -64,6 +76,11 @@ public class UpgradeMenu extends UI {
         ); // Upgrade Menu on top of everything
     }
 
+    /**
+     * Handles click events on the upgrade menu.
+     * @param globalX The global X coordinate of the click.
+     * @param globalY The global Y coordinate of the click.
+     */
     public void handleClick(int globalX, int globalY) {
         int localY = globalY - getY() + getImage().getHeight() / 2;
     
@@ -99,6 +116,12 @@ public class UpgradeMenu extends UI {
 
     
 
+    /**
+     * Checks if the given global coordinates are within the bounds of this menu.
+     * @param globalX The global X coordinate to check.
+     * @param globalY The global Y coordinate to check.
+     * @return true if the coordinates are within the menu, false otherwise.
+     */
     public boolean contains(int globalX, int globalY) {
         int myX = getX();
         int myY = getY();
@@ -106,6 +129,9 @@ public class UpgradeMenu extends UI {
                globalY >= myY - getImage().getHeight() / 2 && globalY <= myY + getImage().getHeight() / 2;
     }
 
+    /**
+     * Closes the upgrade menu and removes the range circle if it exists.
+     */
     public void closeMenu() {
         if (rangeCircle != null && getWorld() != null) {
             getWorld().removeObject(rangeCircle);

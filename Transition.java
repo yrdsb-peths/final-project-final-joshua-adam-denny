@@ -30,13 +30,18 @@ public class Transition extends UI {
         setImage(screen);
     }
     
+
+    /**
+     * Called when the Transition actor is added to the world.
+     * Initializes the current opacity and sets the screen transparency.
+     * 
+     * @param w The world to which this actor is added.
+     */
     @Override
     protected void addedToWorld(World w) 
     {
         currentOpacity = 0;
         screen.setTransparency(currentOpacity);
-        
-        
     }
 
 
@@ -79,6 +84,10 @@ public class Transition extends UI {
         deltaTime.mark();
     }
 
+    /**
+     * Act method called by Greenfoot to update the transition state.
+     * Handles the fade in and fade out transitions based on elapsed time.
+     */
     public void act() {
 
         int elapsed = deltaTime.millisElapsed();

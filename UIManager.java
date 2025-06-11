@@ -8,6 +8,7 @@ import greenfoot.*;
 public class UIManager extends Actor
 {
 
+
     public static UIManager _instance = null;
     private Transition transition = Transition.getInstance();
     private Sidebar sideBar = Sidebar.getInstance();
@@ -15,6 +16,10 @@ public class UIManager extends Actor
     private PauseButton pauseButton;
     private HelpButton helpButton;
     
+    /**
+     * Private constructor to prevent instantiation.
+     * Initializes the UI elements such as transition, sidebar, health bar, pause button, and help button.
+     */
     public UIManager()
     {
         GreenfootImage[] pauseButtonImages = new GreenfootImage[2];
@@ -29,6 +34,12 @@ public class UIManager extends Actor
     }
     
 
+    /**
+     * Returns the singleton instance of UIManager.
+     * If the instance is null, it creates a new instance.
+     * 
+     * @return The singleton instance of UIManager.
+     */
     public static UIManager getInstance()
     {
         if (_instance == null) {
@@ -39,6 +50,13 @@ public class UIManager extends Actor
 
 
 
+    /**
+     * Called when the UIManager is added to the world.
+     * Adds the transition, sidebar, health bar, pause button, and help button to the world.
+     * Sets the image of the UIManager to a transparent image.
+     * 
+     * @param world The world to which the UIManager is added.
+     */
     @Override
     protected void addedToWorld(World world)
     {
@@ -93,21 +111,35 @@ public class UIManager extends Actor
         transition.fadeOut(targetOpacity, targetTime);
     }
     
+    /**
+     * Returns the health bar isPressed function.
+     * 
+     * @return The HealthBar ispressedFunction .
+     */
     public boolean isPauseButtonPressed()
     {
         return pauseButton.isPressed();
     }
     
+    /**
+     * Returns the help button instance.
+     * 
+     * @return The HelpButton isPressed.
+     */
     public boolean isHelpButtonPressed()
     {
         return helpButton.isPressed();
     }
+
+
     
-    public void act()
-    {
-    
-    }
-    
+    /**
+     * Toggles the pause menu based on the current game status.
+     * If the game is running, it fades in the pause menu and adds it to the world.
+     * If the game is paused, it removes the pause menu and fades out.
+     * 
+     * 
+     */
     public void togglePauseMenu()
     {
         GameWorld gw = (GameWorld) getWorld();
@@ -131,6 +163,13 @@ public class UIManager extends Actor
         
     }
     
+
+    /**
+     * Toggles the help menu based on the current game status.
+     * If the game is running, it fades in the help menu and adds it to the world.
+     * If the help menu is already open, it removes the help menu and fades out.
+     * 
+     */
     public void toggleHelpMenu()
     {
         GameWorld gw = (GameWorld) getWorld();

@@ -9,6 +9,13 @@ public class TowerPreview extends Actor {
     private String towerType;
     private RangeCircle rangeCircle;
 
+    /**
+     * Constructor for TowerPreview.
+     * Initializes the tower type and creates a visual representation of the tower.
+     * @param towerType The type of tower to preview.
+     * @param range The range of the tower, used to create a RangeCircle.
+     */
+
     public TowerPreview(String towerType, int range) {
         this.towerType = towerType;
 
@@ -29,13 +36,22 @@ public class TowerPreview extends Actor {
         rangeCircle = new RangeCircle(range);
     }
 
+
+    /**
+     * Constructor for TowerPreview with a default range of 100.
+     * @param towerType The type of tower to preview.
+     */
     @Override
     protected void addedToWorld(World world) {
         // Add the range circle to the world at the same position
         world.addObject(rangeCircle, getX(), getY());
     }
 
-    @Override
+
+    /**
+     * Act method that updates the position of the preview based on mouse movement.
+     * It also updates the position of the range circle to match the preview.
+     */
     public void act() {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse != null) {
@@ -44,10 +60,18 @@ public class TowerPreview extends Actor {
         }
     }
 
+    /**
+     * Returns the type of tower being previewed.
+     * @return The tower type as a String.
+     */
     public String getTowerType() {
         return towerType;
     }
 
+    /**
+     * Removes the preview from the world.
+     * This method removes both the TowerPreview and its associated RangeCircle from the world.
+     */
     public void removePreview() {
         World world = getWorld();
         if (world != null) {

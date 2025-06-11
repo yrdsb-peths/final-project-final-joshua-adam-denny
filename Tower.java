@@ -33,6 +33,13 @@ public class Tower extends Actor {
         }
     }
 
+    /**
+     * Constructor for Tower.
+     * Initializes the tower with a base cost and upgrade cost per level.
+     * 
+     * @param baseCost The initial cost of the tower.
+     * @param upgradeCostPerLevel The cost to upgrade the tower per level.
+     */
     protected Enemy getEnemyInRange() {
         List<Enemy> enemies = getObjectsInRange(range, Enemy.class);
         if (!enemies.isEmpty()) {
@@ -41,6 +48,12 @@ public class Tower extends Actor {
         return null;
     }
 
+    /**
+     * Shoots a bullet at the specified target enemy.
+     * This method rotates the tower to face the enemy and creates a bullet object.
+     * 
+     * @param target The enemy that this tower will shoot at.
+     */
     protected void shoot(Enemy target) {
         // Rotate the tower to face the enemy
         int dx = target.getX() - getX();
@@ -52,14 +65,17 @@ public class Tower extends Actor {
         getWorld().addObject(new Bullet(target, damage, bulletSpeed, this), getX(), getY());
     }
 
-
-
-
-
+    
     public boolean upgrade() {
         return false;
     }
 
+    
+    /**
+     * sells the tower, refunding 80% of the total invested amount.
+     * This method removes the tower from the world and adds the refund amount to the game world.
+     * @return void
+     */
     public void sell() {
         GameWorld world = (GameWorld) getWorld();
         int refund = (int)(totalInvested * 0.8);
@@ -74,6 +90,11 @@ public class Tower extends Actor {
         updateImage();
     }
 
+
+    /**
+     * Updates the tower's image based on its level.
+     * This method creates an outlined version of the tower's image depending on its upgrade level.
+     */
     protected void updateImage() {
         GreenfootImage baseImg = getImage();
         if (baseImg == null) return;
@@ -96,6 +117,15 @@ public class Tower extends Actor {
         setImage(outlinedImg);
     }
 
+
+    /**
+     * Creates an outlined version of the base image.
+     * This method draws the base image with an outline color around it.
+     * 
+     * @param baseImg The original image to outline.
+     * @param outlineColor The color of the outline.
+     * @return A new GreenfootImage with the outline applied.
+     */
     private GreenfootImage createOutlinedImage(GreenfootImage baseImg, Color outlineColor) {
         int w = baseImg.getWidth();
         int h = baseImg.getHeight();
@@ -117,6 +147,8 @@ public class Tower extends Actor {
         return outline;
     }
 
+    
+    // Getters for tower properties
     public int getRange() 
     {
         return range;
