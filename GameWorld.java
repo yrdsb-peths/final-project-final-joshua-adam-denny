@@ -206,6 +206,11 @@ public class GameWorld extends World {
         pauseButtonPreviouslyPressed = pausePressedNow;
     }
     
+    private void handleHelpButton()
+    {
+    
+    }
+    
     private void handleAnimations()
     {
         long now = System.currentTimeMillis();

@@ -9,13 +9,12 @@ import java.lang.Math;
 public class CreditWorld extends World
 {    
     
-    Camera camera;
-    PolyRender poly;
-    PolyRender poly2;
-    PolyRender roomPoly;
-    PolyRender roomPoly2;   
-    PolyRender roomPoly3;  
-    
+    private Camera camera;
+    private PolyRender poly;
+    private PolyRender poly2;
+    private PolyRender roomPoly3;  
+    private PolyRender creditTitlePoly;
+    private PolyRender creditTextPoly;
     
     public CreditWorld()
     {    
@@ -46,10 +45,14 @@ public class CreditWorld extends World
         
         double[][][] room3 = new double[0][][];
         double[][][] monke = new double[0][][];
+        double[][][] creditTitle = new double[0][][];
+        double[][][] creditText = new double[0][][];
         try 
         {
             monke = ObjParser.parseObj("3dModels/monkey.obj", 100);
-            room3 = ObjParser.parseObj("3dModels/room3.obj", 100);
+            room3 = ObjParser.parseObj("3dModels/room4.obj", 100);
+            creditTitle = ObjParser.parseObj("3dModels/Credits.obj", 100);
+            creditText = ObjParser.parseObj("3dModels/CreditsText.obj", 100);
         } 
         catch(Exception err) 
         {
@@ -63,9 +66,18 @@ public class CreditWorld extends World
         roomPoly3 = new PolyRender(room3);
         poly2 = new PolyRender(cube);
         poly = new PolyRender(monke);
+        creditTitlePoly = new PolyRender(creditTitle);
+        creditTextPoly = new PolyRender(creditText);
+        
+        
+        creditTitlePoly.setVersionOneRender_MinMaxLighting(100,255);
+        creditTextPoly.setVersionOneRender_MinMaxLighting(200,255);
+        
         
         addObject(camera, 0,0);
         addObject(roomPoly3, getWidth()/2,getHeight()/2);
+        addObject(creditTitlePoly, getWidth()/2,getHeight()/2);
+        addObject(creditTextPoly, getWidth()/2,getHeight()/2);
         addObject(poly2, getWidth()/2,getHeight()/2);
         addObject(poly, getWidth()/2,getHeight()/2);
     }
@@ -85,15 +97,29 @@ public class CreditWorld extends World
         
         rotation+= 0.5;
         position+= 0.05;
+        position2+=0.0005;
         if (rotation > 360) rotation = 0;
         
+        creditTitlePoly.setScale(-15);
+        creditTextPoly.setScale(-15);
         
-        poly.rotate(Math.toRadians(180), Math.toRadians(rotation), 0);
-        poly.position(0,Math.sin(position)*30,200);
+        creditTitlePoly.position(0,2500,3700);
+        creditTextPoly.position(0,3500*Math.sin(position2) -500,3700);
+        
+        
+        
+        creditTitlePoly.rotate(
+                    Math.sin(Math.toRadians(rotation))*0.25, 
+                    Math.sin(Math.toRadians(rotation))*0.25, 
+                    Math.sin(Math.toRadians(rotation))*0.25
+                );
+        
+        poly.position(0,Math.sin(position)*30,500);
+        poly.rotate(Math.toRadians(180), Math.toRadians(rotation), 0);        
         poly.setScale(scale);
         
         poly2.rotate(0, 0, 0);
-        poly2.position(0,-300,200);
+        poly2.position(0,-300,500);
         
         roomPoly3.setScale(-20);
         roomPoly3.rotate(0,0,0);
