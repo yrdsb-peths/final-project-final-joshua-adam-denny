@@ -199,6 +199,7 @@ public class LeaderboardPage extends UI
                 world.removeObject(lbl);
             }
         }
+        world.enterPhase(99);
         lockedIn = false;
         startY = 0;
         targetY = 0;

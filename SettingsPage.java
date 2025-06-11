@@ -192,6 +192,8 @@ public class SettingsPage extends UI
             world.removeObject(blackOverlay);
         }
         
+        world.enterPhase(99);
+        
         lockedIn = false;
         startY = 0;
         targetY = 0;

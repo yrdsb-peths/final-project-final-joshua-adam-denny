@@ -38,14 +38,15 @@ public class MainMenu extends World
     private boolean onLeaderboardPage;
     private boolean onSettingsPage;
     
-    private int padding = 100;
+    private int padding = 40;
     private Button leaderboardButton;
     private Button settingsButton;
     private Button creditsButton;
     private Button startButton;
-    
+    private Button editNameButton;
     private LeaderboardPage leaderboardPage = null;
     private SettingsPage settingsPage = null;
+    private boolean editNameButtonPreviouslyPressed;
 
     
     public MainMenu()
@@ -87,7 +88,6 @@ public class MainMenu extends World
             70, 
             70
         );
-        
         GreenfootImage settingsImage = new GreenfootImage("ui/button-pause.png");
         GreenfootImage settingsPressedImage = new GreenfootImage("ui/button-pause-pressed.png");
         settingsButton = new Button(
@@ -99,6 +99,20 @@ public class MainMenu extends World
             70, 
             70
         );
+        
+        GreenfootImage editNameIcon = new GreenfootImage("ui/button-short-editName.png");
+        GreenfootImage editNameIconPressed = new GreenfootImage("ui/button-short-editName-pressed.png");
+        
+        editNameButton = new Button(
+            true, 
+            new GreenfootImage[]{
+                editNameIcon,
+                editNameIconPressed
+            },
+            70, 
+            70
+        );
+        
         GreenfootImage creditImage = new GreenfootImage("ui/button-short-credits.png");
         GreenfootImage creditImagePressed = new GreenfootImage("ui/button-short-credits-pressed.png");
         creditsButton = new Button(
@@ -116,18 +130,22 @@ public class MainMenu extends World
         leaderboardButton.setTransparency(0);
         settingsButton.setTransparency(0);
         creditsButton.setTransparency(0);
+        editNameButton.setTransparency(0);
         
         addObject(startButton, CENTERX, CENTERY + 150);
         addObject(leaderboardButton, 
-                CENTERX - leaderboardImage.getWidth() - padding,
-                CENTERY + 150);
+                CENTERX - padding - creditImage.getWidth() - 10,
+                CENTERY + creditImage.getHeight() + 150 + 10);
+        addObject(editNameButton,
+                CENTERX - padding, 
+                CENTERY + creditImage.getHeight() + 150 + 10);
                 
         addObject(settingsButton,
-                CENTERX + settingsImage.getWidth() + padding, 
-                CENTERY + 150);
+                CENTERX + padding + creditImage.getWidth() + 10, 
+                CENTERY + creditImage.getHeight() + 150 + 10);
                 
         addObject(creditsButton,
-                CENTERX, 
+                CENTERX + padding, 
                 CENTERY + creditImage.getHeight() + 150 + 10);
         
         overlay.setColor(new Color(0,0,0));
@@ -224,6 +242,7 @@ public class MainMenu extends World
                     leaderboardButton.setTransparency(255);
                     creditsButton.setTransparency(255);
                     settingsButton.setTransparency(255);
+                    editNameButton.setTransparency(255);
                 }
                 break;
             case 6:
@@ -295,6 +314,8 @@ public class MainMenu extends World
                 } else {
                     overlay.setTransparency(0);
                     enterPhase(phase+1);
+                    settingsPage = null;
+                    leaderboardPage = null;
                     setPaintOrder(UI.class);
                 }
                 break;
@@ -313,6 +334,22 @@ public class MainMenu extends World
                     WorldManager.setWorld(new CreditWorld());
                 }
                 break;
+            case 119:
+                elapsed.add(phase, now - phaseStartTime);
+                if (elapsed.get(phase) < 500)
+                {
+                    int progressAlpha = (int) Math.round(
+                        Utils.map(elapsed.get(phase), 0, 500, 0,155)
+                    );
+                    progressAlpha = (int) Utils.clamp(progressAlpha,0,155);
+                    overlay.setTransparency(progressAlpha);
+                } else {
+                    overlay.setTransparency(155);
+                    enterPhase(phase+1);
+                    ScuffedAPI.setUsername(Greenfoot.ask("Set ScuffedAPI Leaderboard username: "));
+                    enterPhase(99);
+                }
+                break;
                 
         }
         
@@ -325,11 +362,11 @@ public class MainMenu extends World
     {
         if ((Greenfoot.isKeyDown("escape") && onLeaderboardPage) || (Greenfoot.isKeyDown("escape") && onSettingsPage)) 
         {
-            if (settingsPage != null)
+            if (onSettingsPage)
             {
                 settingsPage.removeSelf();
             }
-            if (leaderboardPage != null)
+            if (onLeaderboardPage)
             {
                 leaderboardPage.removeSelf();
             }
@@ -337,11 +374,7 @@ public class MainMenu extends World
             onSettingsPage = false;
             enterPhase(99);
         }
-        
-        if (Greenfoot.isKeyDown("`"))
-        {
-            ScuffedAPI.setUsername(Greenfoot.ask("Set ScuffedAPI Leaderboard username: "));
-        }
+
     }
     
     private void handleButtons()
@@ -361,6 +394,16 @@ public class MainMenu extends World
             setPaintOrder(ImageActor.class); // overlay on top of all.
             enterPhase(109);
         }
+        
+    
+        if (editNameButton.isPressed() && !editNameButtonPreviouslyPressed)
+        {
+            overlay.setColor(Color.BLACK);
+            overlay.fill();
+            setPaintOrder(ImageActor.class);
+            enterPhase(119);
+        }
+        editNameButtonPreviouslyPressed = editNameButton.isPressed();
         
         if (leaderboardButton.isPressed() && !leaderboardButtonPreviouslyPressed) {
             setPaintOrder(
