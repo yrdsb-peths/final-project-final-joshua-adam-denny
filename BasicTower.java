@@ -12,12 +12,18 @@ public class BasicTower extends Tower {
     private static int SHOT_POOL_SIZE = 10;
     private static GreenfootSound[] SHOT_POOL = new GreenfootSound[SHOT_POOL_SIZE];
     
+    // testing GreenfootSound pool, as lag can occur when loading sounds repeatedly. whihc sucks.
     static {
         for (int i = 0; i < SHOT_POOL_SIZE; i++) {
             SHOT_POOL[i] = new GreenfootSound("gunShotSmall.mp3");
         }
     }
     
+
+    /**
+     * Constructor for BasicTower.
+     * Initializes the tower with a base cost, upgrade cost per level, and sets the image.
+     */
     public BasicTower() {
         
         GreenfootImage img = new GreenfootImage(imageName);

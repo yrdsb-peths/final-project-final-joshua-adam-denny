@@ -7,6 +7,14 @@ import greenfoot.*;
  */
 public class BossEnemy extends Enemy {
 
+    /*
+     * Constructor for BossEnemy.
+     * Initializes the boss enemy with specific speed, health, and money awarded upon death.
+     * @param speed Speed of the boss enemy.
+     * @param health Health of the boss enemy.
+     *  @param moneyDeath Money awarded to the player when the boss enemy is defeated.
+     *  
+     */
     public BossEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("Boss.png");

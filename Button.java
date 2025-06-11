@@ -20,7 +20,17 @@ public class Button extends UI
     private int bottomSide = 0;
     private boolean hoverMode = false;
     
+
+
     
+    /**
+     * Constructor for Button.
+     * 
+     * @param isActive Whether the button is active or not.
+     * @param buttonImages Array of images for the button states (normal, pressed, hover).
+     * @param width Width of the button.
+     * @param height Height of the button.
+     */
     public Button(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
     {
         active = isActive;
@@ -55,14 +65,12 @@ public class Button extends UI
     
     
     //Getter functions
-    
     public boolean isPressed()
     {
         return pressed;
     }
     
     //setter functions
-    
     public void setActive(boolean activeSet)
     {
         active = activeSet;
@@ -72,6 +80,7 @@ public class Button extends UI
     }
 
     
+    // Sets the transparency of the button images.
     public void setTransparency(int alpha)
     {
         alpha = (int)Utils.clamp(alpha,0,255);
@@ -82,6 +91,7 @@ public class Button extends UI
         
     }
     
+    // Sets the button images to the provided array of images.
     public void setButtons(GreenfootImage[] buttonImages)
     {
         buttonImage = buttonImages;
@@ -95,18 +105,23 @@ public class Button extends UI
         }
         setImage(currentButton);
     }
+
+    // Resets the pressed state of the button.
     public void resetPressedState() {
         pressed = false;
         currentButton = buttonImage[0];
         setImage(currentButton);
     }
 
+
+    // Sets the pressed state of the button and updates the current button image.
     public void setPressed(boolean isPressed) {
         this.pressed = isPressed;
         currentButton = isPressed ? buttonImage[1] : buttonImage[0];
         setImage(currentButton);
     }
 
+    // Checks if the mouse is hovering over the button.
     public boolean isHovering() {
         MouseInfo mouse = Greenfoot.getMouseInfo();
         if (mouse == null) return false;
@@ -116,6 +131,7 @@ public class Button extends UI
     
     public void act()
     {
+        // If the button is not active, we don't need to do anything
         if (active)
         {
             if (isHovering() && hoverMode)

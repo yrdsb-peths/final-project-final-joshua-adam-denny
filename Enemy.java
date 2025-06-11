@@ -18,6 +18,15 @@ public abstract class Enemy extends Actor {
     private static GreenfootImage fireOverlay;
     protected GreenfootSound movement;
 
+
+    // Constructor for Enemy
+    /**
+     * Constructor for Enemy
+     * 
+     * @param speed Speed of the enemy
+     * @param health Health of the enemy
+     * @param money Money awarded upon death
+     */
     public Enemy(int speed, int health, int money) {
         this.speed = speed;
         this.health = health;

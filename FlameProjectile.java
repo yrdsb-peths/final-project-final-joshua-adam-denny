@@ -11,6 +11,19 @@ public class FlameProjectile extends Projectile {
     private int lifeSpan;
     private int towerLevel;
 
+
+    /**
+     * Constructor for FlameProjectile.
+     * Initializes the projectile with a target enemy, damage, speed, area of effect radius, lifespan, tower level, and source tower.
+     * 
+     * @param target The enemy that this projectile will target.
+     * @param damage The damage dealt by this projectile.
+     * @param speed The speed of the projectile.
+     * @param aoeRadius The radius of the area of effect for this projectile.
+     * @param lifeSpan The lifespan of the projectile in ticks.
+     * @param towerLevel The level of the tower that fired this projectile.
+     * @param sourceTower The tower that fired this projectile.
+     */
     public FlameProjectile(Enemy target, int damage, int speed, int aoeRadius, int lifeSpan, int towerLevel, Tower sourceTower) {
         super(target, damage, speed, sourceTower, "flame.png", aoeRadius * 2);
         this.aoeRadius = aoeRadius;

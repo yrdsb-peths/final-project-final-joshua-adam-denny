@@ -55,6 +55,14 @@ public class _InitWorld extends World {
     
     private GreenfootSound introMusic;
     private GreenfootSound introMusicLoop;
+
+
+
+    /**
+     * Constructor for the _InitWorld class.
+     * Initializes the world with a specific width and height, sets the speed,
+     * and prepares the background and initial objects.
+     */
     public _InitWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         Greenfoot.setSpeed(50);
@@ -62,15 +70,20 @@ public class _InitWorld extends World {
         bg.setColor(new Color(66, 66, 66));
         bg.fill();
         setBackground(bg);
-
         centerX = getWidth() / 2;
         centerY = getHeight() / 2;
+
+
+
+        // Load images and sounds for the intro
         introMusic = new GreenfootSound("waves-mixed.mp3");
         introMusicLoop = new GreenfootSound("waves-loop.mp3");
         bg1Scuffed = new ImageActor("ui/scuffedBG.png");
         bg1Engine = new ImageActor("ui/engineBG.png");
         bg1PoweredByGreenfoot = new ImageActor("ui/poweredbygreenfoot.png");
 
+
+        // Load 3D models for the poly render background
         double[][][] polyRenderText = new double[0][][];
         double[][][] polyRenderCube = new double[0][][];
         try {
@@ -83,6 +96,9 @@ public class _InitWorld extends World {
         bg2PolyRenderModel = new PolyRender(polyRenderText);
         bg2PRCubeModel = new PolyRender(polyRenderCube);
         
+
+
+        // Set the shades of the poly renders, so they don't have crazy lighting.
         bg2PolyRenderModel.position(0,0,250);
         bg2PolyRenderModel.rotate(Math.toRadians(75.0),Math.toRadians(0.0),Math.toRadians(0.0));
         bg2PolyRenderModel.setScale(-1);
@@ -111,6 +127,8 @@ public class _InitWorld extends World {
         bg2PRCube.setTransparency(0);
         bg3fade.setTransparency(0);
 
+
+        // Add all the background images and actors to the world
         addObject(bg1PoweredByGreenfoot, centerX, centerY);
         addObject(bg1Engine, centerX, centerY);
         addObject(bg1Scuffed, centerX, centerY);
@@ -121,6 +139,8 @@ public class _InitWorld extends World {
         halfMoveScuffed = bg1Scuffed.getImage().getWidth() / 2;
         halfMoveEngine = bg1Engine.getImage().getWidth() / 2;
 
+
+        /// Create a black overlay actor to fade in and out
         blackOverlay = new ImageActor(WORLD_WIDTH, WORLD_HEIGHT);
         blackOverlay.setColor(new Color(0, 0, 0));
         blackOverlay.fill();
@@ -139,8 +159,10 @@ public class _InitWorld extends World {
         long now = System.currentTimeMillis();
         elapsed.add(0, now - phaseStartTime);
         
-        switch (phase) {
-            case 0:
+
+        // Animation system, in phases.
+        switch (phase) { 
+            case 0: // Fade in the scuffed background
                 if (elapsed.get(phase) < FADE_DURATION_MS) {
                     int alpha = (int) Math.round(
                         Utils.map(elapsed.get(phase), 0, FADE_DURATION_MS, 0, 255)
@@ -154,7 +176,7 @@ public class _InitWorld extends World {
                 }
                 break;
 
-            case 1:
+            case 1: // Move the scuffed background to the left and the engine background to the right
                 if (elapsed.get(0) < PHASE1_DURATION_MS) {
                     double t = (double) elapsed.get(0) / PHASE1_DURATION_MS;
                     double ease = (1 - Math.cos(Math.PI * t)) * 0.5;
@@ -181,7 +203,7 @@ public class _InitWorld extends World {
                 }
                 break;
 
-            case 2:
+            case 2: // Move the Powered by Greenfoot image down to its target positions
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < PHASE2_DURATION_MS) {
                     double t = (double) elapsed.get(phase) / PHASE2_DURATION_MS;
@@ -194,8 +216,8 @@ public class _InitWorld extends World {
                     enterPhase(3);
                 }
                 break;
-                
-            case 3:
+                 // 
+            case 3: 
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= PHASE2_DELAY_MS) {
                     blackOverlay.setTransparency(0);
@@ -203,7 +225,7 @@ public class _InitWorld extends World {
                 }
                 break;
 
-            case 4:
+            case 4: // Fade to black and show the poly render background
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < PHASE3_DURATION_MS) {
                     int alpha = (int) Math.round(
@@ -224,7 +246,7 @@ public class _InitWorld extends World {
                     enterPhase(5);
                 }
                 break;
-            case 5:
+            case 5: // Fade in the poly render background
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 750) {
                     int alpha = (int) Math.round(
@@ -242,7 +264,7 @@ public class _InitWorld extends World {
                 }
                 break;
                 
-            case 6:
+            case 6: // Fade in the poly render cube and move it to the center
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 1500) {
                     blackOverlay.setColor(new Color(179,179,179));
@@ -254,7 +276,7 @@ public class _InitWorld extends World {
                 }
                 
                 break;
-            case 7:
+            case 7: // Animate the poly render cube to the center and rotate it
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 600) {
                     int actorPosition = (int) Math.round(
@@ -301,25 +323,25 @@ public class _InitWorld extends World {
                 }
                 break;
                 
-            case 8:
+            case 8: // EMPty
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 0) {
                     enterPhase(9);
                 }
                 break;
-            case 9:
+            case 9: //  EMPTY
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 0) {
                     enterPhase(10);
                 }
                 break;
-            case 10:
+            case 10: // EMPTY 
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 0) {
                     enterPhase(11);
                 }
                 break;
-            case 11:
+            case 11: // Fade in the title screen and blur it
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 3000) {
                     blackOverlay.setTransparency(0);
@@ -333,13 +355,13 @@ public class _InitWorld extends World {
                     enterPhase(12);
                 }
                 break;
-            case 12:
+            case 12: 
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 1500) {
                     enterPhase(13);
                 }
                 break;
-            case 13:
+            case 13: // fade in the black bar at the bottom
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500) {
                     int progressAlpha = (int) Math.round(
@@ -364,7 +386,7 @@ public class _InitWorld extends World {
                     enterPhase(14);
                 }
                 break;
-            case 14:
+            case 14: // Connect to ScuffedAPI
                 if (statusLabel == null) {
                     statusLabel = new CustomLabel("ScuffedAPI: Connecting...", 24);
                     statusLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,24));
@@ -419,7 +441,7 @@ public class _InitWorld extends World {
                     enterPhase(15);
                 }
                 break;
-            case 15:
+            case 15: // Fade out the black overlay and prepare to enter the main menu
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) >= 1500) {
                     blackOverlay.setColor(new Color(0,0,0));
@@ -427,7 +449,7 @@ public class _InitWorld extends World {
                     enterPhase(16);
                 }
                 break;
-            case 16:
+            case 16: // Fade out the black overlay and set the music volume
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500) {
                     int alpha = (int) Math.round(

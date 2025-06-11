@@ -97,6 +97,13 @@ public class AudioManager
      * *SFX FUNCTIONS*
      */
     
+
+    /**
+     * Plays a sound effect (SFX) with the current SFX volume setting.
+     * This method is used for general sound effects in the game.
+     * 
+     * @param audioPlayer The GreenfootSound object to play as SFX.
+     */
     public static void playSFX(GreenfootSound audioPlayer)
     {
         if (PlayerPrefs.getData("PreformanceMode",false)) return;
@@ -106,6 +113,13 @@ public class AudioManager
         activeSFX.add(audioPlayer);
     }
     
+
+    /**
+     * Plays a special sound effect that is not affected by the main SFX volume.
+     * This is used for important game events like achievements or critical actions.
+     * 
+     * @param audioPlayer The GreenfootSound object to play as a special SFX.
+     */
     public static void playSpecialSFX(GreenfootSound audioPlayer)
     {
         if (PlayerPrefs.getData("PreformanceMode",false)) return;
@@ -115,6 +129,13 @@ public class AudioManager
         activeSFX.add(audioPlayer);
     }
     
+
+    /**
+     * Plays a sound effect in a loop, such as background ambient sounds or UI effects.
+     * This method is used for sounds that should continue playing until explicitly stopped.
+     * 
+     * @param sfx The GreenfootSound object to play in a loop.
+     */
     public static void playLoopingSFX(GreenfootSound sfx) {
         if (PlayerPrefs.getData("PreformanceMode",false)) return;
         int vol = PlayerPrefs.getData("VolumeSFX", 30);
@@ -123,7 +144,14 @@ public class AudioManager
         loopingSFX.add(sfx);
 
     }
+   
     
+    /**
+     * Stops a specific looping sound effect.
+     * This method is used to stop a sound effect that was previously set to loop.
+     * 
+     * @param sfx The GreenfootSound object to stop looping.
+     */
     public static void stopLoopingSFX(GreenfootSound sfx) {
         if (loopingSFX.remove(sfx)) {
             sfx.stop();
@@ -131,6 +159,10 @@ public class AudioManager
     }
     
     
+    /**
+     * Stops all currently playing looping sound effects.
+     * This method is used to clear all looping sound effects, such as when changing scenes or states.
+     */
     public static void stopAllLoopingSFX() {
         for (GreenfootSound sfx : loopingSFX) {
             sfx.stop();
@@ -138,6 +170,11 @@ public class AudioManager
         loopingSFX.clear();
     }
     
+
+    /**
+     * Stops all currently playing sound effects (SFX).
+     * This method is used to clear all sound effects, such as when changing scenes or states.
+     */
     public static void stopAllSFX() {
         for (GreenfootSound sfx : activeSFX) {
             sfx.stop();
@@ -151,11 +188,27 @@ public class AudioManager
     /*
      * GENERAL AUDIO PLAYER
      */
+
+    /**
+     * Plays a GreenfootSound audio player with the specified volume.
+     * This method is used for one-time audio playback, such as sound effects or notifications.
+     * 
+     * @param audioPlayer The GreenfootSound object to play.
+     * @param volume The volume level to set (0-100).
+     */
     public static void playAudio(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);
         audioPlayer.play();
     }
+
+    /**
+     * Plays a GreenfootSound audio player in a loop with the specified volume.
+     * This method is used for continuous audio playback, such as background music or ambient sounds.
+     * 
+     * @param audioPlayer The GreenfootSound object to play in a loop.
+     * @param volume The volume level to set (0-100).
+     */
     public static void playAudioLoop(GreenfootSound audioPlayer, int volume)
     {
         audioPlayer.setVolume(volume);

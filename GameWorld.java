@@ -74,6 +74,7 @@ public class GameWorld extends World {
     private boolean onHelpPage = false;
     
 
+    // Paint Order Variables
     public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
         DDCRender.class,
@@ -92,6 +93,8 @@ public class GameWorld extends World {
         ImageActor.class
     };
 
+
+    // Game status enum
     public enum Status {
         RUNNING,
         PAUSED,
@@ -100,6 +103,11 @@ public class GameWorld extends World {
     }
     private Status status = Status.RUNNING;
 
+
+    /*
+     * GameWorld Constructor
+     * Initializes the game world with a background, UI elements, and initial game state.
+     */
     public GameWorld() {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         setBackground("ui/grass.png");
@@ -147,6 +155,8 @@ public class GameWorld extends World {
                 PlayerPrefs.setData("FirstTime",false);
             }
         }
+
+        // handles basicallu every game logic wise.
         switch(status) {
             case RUNNING:
                 handleAnimations();
@@ -170,6 +180,7 @@ public class GameWorld extends World {
                 break;
         }
     }
+    
     
     private void handleHelpButton()
     {

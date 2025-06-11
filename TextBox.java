@@ -74,34 +74,25 @@ public class TextBox extends UI {
 
     
     public void act() {
-        // Check if the mouse is clicked anywhere
         if (Greenfoot.mouseClicked(null)) {
-            // If the mouse is clicked on this TextBox, select it
             if (Greenfoot.mouseClicked(this)) {
                 isSelected = true;
             } else {
-                // Otherwise, deselect the TextBox
                 isSelected = false;
             }
-            // Update the appearance of the TextBox
             updateImage();
         }
 
-        // If the TextBox is selected, handle keyboard input
         if (isSelected) {
-            String key = Greenfoot.getKey(); // Get the key pressed by the user
+            String key = Greenfoot.getKey();
             if (key != null) {
-                // Handle backspace key to delete the last character
                 if (key.equals("backspace")) {
                     if (!text.isEmpty()) {
                         text = text.substring(0, text.length() - 1);
                     }
-                } 
-                // Append the key to the text if it's a single character
-                else if (key.length() == 1) {
+                } else if (key.length() == 1) {
                     text += key;
                 }
-                // Update the appearance of the TextBox after text changes
                 updateImage();
             }
         }

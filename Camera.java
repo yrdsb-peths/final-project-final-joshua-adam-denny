@@ -26,6 +26,8 @@ public class Camera extends DDCRender {
         
     }
 
+
+    
     public void act() {
         if (firstAct) {
             standHeight = PolyRender.Y_Pos;

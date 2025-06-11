@@ -8,6 +8,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class BigEnemy extends Enemy {
 
+    /**
+     * Constructor for BigEnemy.
+     * Initializes the enemy with specified speed, health, and money upon death.
+     * Sets the image for the enemy and initializes sound if not dead.
+     * 
+     * @param speed The speed of the enemy.
+     * @param health The health of the enemy.
+     * @param moneyDeath The amount of money given upon the enemy's death.
+     */
     public BigEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath);
         GreenfootImage img = new GreenfootImage("teddybear.png");

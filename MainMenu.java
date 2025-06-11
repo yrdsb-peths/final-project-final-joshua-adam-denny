@@ -353,7 +353,7 @@ public class MainMenu extends World
                 }
                 break;
             case 119:
-            // edit name fade in
+            // edit name fade in 
                 elapsed.add(phase, now - phaseStartTime);
                 if (elapsed.get(phase) < 500)
                 {

@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Base extends Actor
 {
+    // Base class for the game, representing the player's base
     public Base() 
     {
         

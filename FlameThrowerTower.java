@@ -15,6 +15,10 @@ public class FlameThrowerTower extends Tower {
     private final int SOUND_STOP_DELAY = 10; // frames after last shot before stopping
     private String imageName = "FlameThrower_tower.png";
 
+    /**
+     * Constructor for FlameThrowerTower.
+     * Initializes the tower with its base cost, upgrade cost, and other properties.
+     */
     public FlameThrowerTower() {
         GreenfootImage img = new GreenfootImage(imageName);
         img.scale(72, 40);

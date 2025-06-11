@@ -12,6 +12,15 @@ public class BurnEffect extends Actor{
     private int tickInterval;
     private int tickCounter;
 
+
+    /**
+     * Constructor for BurnEffect.
+     * Initializes the burn effect with damage per tick, total ticks, and tick interval.
+     * 
+     * @param damagePerTick The amount of damage dealt per tick.
+     * @param totalTicks The total number of ticks the burn effect will last.
+     * @param tickInterval The interval in ticks between each damage application.
+     */
     public BurnEffect(int damagePerTick, int totalTicks, int tickInterval) {
         this.damagePerTick = damagePerTick;
         this.ticksRemaining = totalTicks;

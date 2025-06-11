@@ -6,6 +6,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version Version 1.0
  */
 public class FastEnemy extends Enemy {
+    
+    // Constructor for FastEnemy
+    /**
+     * Constructor for FastEnemy
+     * 
+     * @param speed Speed of the enemy
+     * @param health Health of the enemy
+     * @param moneyDeath Money awarded upon death
+     */
     public FastEnemy(int speed, int health, int moneyDeath) {
         super(speed, health, moneyDeath); // faster than base enemy
         GreenfootImage img = new GreenfootImage("bee2.png"); 

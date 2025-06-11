@@ -15,6 +15,11 @@ public class CreditWorld extends World
     private PolyRender roomPoly3;  
     private PolyRender creditTitlePoly;
     private PolyRender creditTextPoly;
+
+    private double rotation = 0.0;
+    private double scale = 1.0;
+    private double position = 0.0;
+    private double position2 = 0.0;
     
     public CreditWorld()
     {    
@@ -31,6 +36,7 @@ public class CreditWorld extends World
         double[][][] creditText = new double[0][][];
         try 
         {
+            // Load 3D models
             cube = ObjParser.parseObj("3dModels/cube.obj", 100);
             monke = ObjParser.parseObj("3dModels/monkey.obj", 100);
             room3 = ObjParser.parseObj("3dModels/room4.obj", 100);
@@ -45,7 +51,8 @@ public class CreditWorld extends World
         
         
         
-        
+        // Initialize camera and poly renders
+        // Note: PolyRender is a custom class that handles rendering of 3D polygons
         camera = new Camera();
         roomPoly3 = new PolyRender(room3);
         poly2 = new PolyRender(cube);
@@ -53,11 +60,12 @@ public class CreditWorld extends World
         creditTitlePoly = new PolyRender(creditTitle);
         creditTextPoly = new PolyRender(creditText);
         
-        
+        //set the shades of the poly renders, so they dont have crazy lighting.
         creditTitlePoly.setVersionOneRender_MinMaxLighting(100,255);
         creditTextPoly.setVersionOneRender_MinMaxLighting(200,255);
         
         
+        // Set the camera position and rotation and all everything to world
         addObject(camera, 0,0);
         addObject(roomPoly3, getWidth()/2,getHeight()/2);
         addObject(creditTitlePoly, getWidth()/2,getHeight()/2);
@@ -73,15 +81,13 @@ public class CreditWorld extends World
         addObject(overlay, getWidth()/2,getHeight()/2);
     }
     
-    double rotation = 0.0;
-    double scale = 1.0;
-    double position = 0.0;
-    double position2 = 0.0;
-    double gravity = 5;
     public void act()
     {
         
         
+        // Check for escape key to return to main menu
+         // If the escape key is pressed, set the world to MainMenu
+         // This allows players to exit the credits and return to the main menu
         if (Greenfoot.isKeyDown("escape")) {
             WorldManager.setWorld(new MainMenu());
         }

@@ -17,6 +17,16 @@ public class FlameRing extends Actor {
     private int frameDelay = 3;
     private int frameCounter = 0;
 
+
+    /**
+     * Constructor for FlameRing.
+     * Initializes the ring with a specified radius, damage, and burn duration.
+     * Loads the animation frames for the ring effect.
+     * 
+     * @param radius The radius of the flame ring.
+     * @param damage The damage dealt to enemies within the ring.
+     * @param burnDuration The duration of the burn effect applied to enemies.
+     */
     public FlameRing(int radius, int damage, int burnDuration) {
         this.radius = radius;
         this.damage = damage;
