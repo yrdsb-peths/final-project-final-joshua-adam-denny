@@ -134,7 +134,6 @@ public class UIManager extends Actor
                 fadeIn(155, 250);
                 HelpMenu helpMenu = HelpMenu.getInstance();
                 gw.addObject(helpMenu, gw.getWidth()/2, 0);
-                System.out.println("Balls");
                 break;
             case HELPCONTROLS:
                   HelpMenu.getInstance().removeSelf();

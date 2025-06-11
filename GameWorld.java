@@ -77,6 +77,7 @@ public class GameWorld extends World {
     private boolean keyHeld = false;
     private int lives = 100;
     private boolean firstAct = false;
+    private boolean firstTime = false;
 
     public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
@@ -145,11 +146,14 @@ public class GameWorld extends World {
             addObject(uiManager,CENTER_X, CENTER_Y); // To prevent deletion upon reloading the world
             AudioManager.stopMusic();
             AudioManager.playMusic(themeMusic);
+            if (PlayerPrefs.getData("FirstTime",true))
+            {
+                firstTime = true;
+                PlayerPrefs.setData("FirstTime",false);
+            }
         }
         switch(status) {
             case RUNNING:
-                handlePauseButton();
-                handleHelpButton();
                 handleAnimations();
                 handleEnemySpawning();
                 handleWaveProgression();
@@ -157,6 +161,8 @@ public class GameWorld extends World {
                 handleTowerClickUpgrade();
                 handleSniperBoost();
                 resetInputFlags();
+                handlePauseButton();
+                handleHelpButton();
                 break;
             case PAUSED:
                 handlePauseButton();
@@ -174,7 +180,8 @@ public class GameWorld extends World {
     {
         boolean helpPressedNow = uiManager.isHelpButtonPressed();
 
-        if (helpPressedNow && !helpButtonPreviouslyPressed) {
+        if (helpPressedNow && !helpButtonPreviouslyPressed || firstTime) {
+            firstTime = false;
             if (status == Status.RUNNING) {
                 uiManager.toggleHelpMenu(); 
                 status = Status.HELPCONTROLS;
