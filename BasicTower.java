@@ -47,6 +47,11 @@ public class BasicTower extends Tower {
             totalInvested += upgradeCost;
             upgradeCost += 10;
             updateImage();
+            
+        if (level == 2) {
+            imageName = "Basic_tower_1.png";
+        }
+            
             return true;
         }
         return false;
