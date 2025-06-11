@@ -24,31 +24,14 @@ public class CreditWorld extends World
         //super(256,144, 1); 
         Greenfoot.setSpeed(50);
         
-        double[] vertex_1 = { -125, -125, -125 };
-        double[] vertex_2 = { 125, -125, -125 };
-        double[] vertex_3 = { 125, 125, -125 };
-        double[] vertex_4 = { -125, 125, -125 };
-        
-        double[] vertex_5 = { -125, -125, 125 };
-        double[] vertex_6 = { 125, -125, 125 };
-        double[] vertex_7 = { 125, 125, 125 };
-        double[] vertex_8 = { -125, 125, 125 };
-        
-        double[][] poly_1 = {vertex_1,vertex_2,vertex_3,vertex_4}; // Front Facing
-        double[][] poly_2 = {vertex_5,vertex_1,vertex_4,vertex_8}; // Left Facing
-        double[][] poly_3 = {vertex_2,vertex_6,vertex_7,vertex_3}; // Right Facing
-        double[][] poly_4 = {vertex_5,vertex_6,vertex_2,vertex_1}; // Top Facng
-        double[][] poly_5 = {vertex_4,vertex_3,vertex_7,vertex_8}; // Bottom Facing
-        double[][] poly_6 = {vertex_6,vertex_5,vertex_8, vertex_7}; // Back Facing
-        
-        double[][][] cube = {poly_1, poly_2, poly_3, poly_4, poly_5, poly_6};
-        
+        double[][][] cube = new double[0][][];
         double[][][] room3 = new double[0][][];
         double[][][] monke = new double[0][][];
         double[][][] creditTitle = new double[0][][];
         double[][][] creditText = new double[0][][];
         try 
         {
+            cube = ObjParser.parseObj("3dModels/cube.obj", 100);
             monke = ObjParser.parseObj("3dModels/monkey.obj", 100);
             room3 = ObjParser.parseObj("3dModels/room4.obj", 100);
             creditTitle = ObjParser.parseObj("3dModels/Credits.obj", 100);
@@ -82,6 +65,9 @@ public class CreditWorld extends World
         addObject(poly, getWidth()/2,getHeight()/2);
         ImageActor overlay = new ImageActor("ui/polyrenderui.png");
         overlay.setTransparency(155);
+        GreenfootImage bg = new GreenfootImage("sky.jpg");
+        bg.scale(1160,600);
+        setBackground(bg);
         
         addObject(overlay, getWidth()/2,getHeight()/2);
     }
@@ -124,6 +110,7 @@ public class CreditWorld extends World
         
         poly2.rotate(0, 0, 0);
         poly2.position(0,-300,500);
+        poly2.setScale(1.5);
         
         roomPoly3.setScale(-20);
         roomPoly3.rotate(0,0,0);
