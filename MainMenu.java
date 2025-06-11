@@ -52,7 +52,7 @@ public class MainMenu extends World
     {    
         super(WORLD_WIDTH, WORLD_HEIGHT, 1);
         Greenfoot.setSpeed(50);
-        
+        ScuffedAPI.getInstance().connect();
         setBackground(blurred);
         
         phase2_feds.setTransparency(0);

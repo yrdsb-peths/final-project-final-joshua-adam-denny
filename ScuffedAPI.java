@@ -16,8 +16,7 @@ import java.util.UUID;
 public class ScuffedAPI {
     // api url
     private static ScuffedAPI instance;
-    //private final String api_url = "https://api-ddc.scuffed.dev";
-    private final String api_url = "http://localhost:8080";
+    private final String api_url = "https://api-ddc.scuffed.dev";
     private final String api_key = "ballsballsballs";// not really a key, but i hate bots so yuh. too lazy to implement a proper key system., unused
     private static String user = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     private static final Pattern PLACE_PATTERN = Pattern.compile("\"place\"\\s*:\\s*(\\d+)");
