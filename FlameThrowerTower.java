@@ -44,8 +44,8 @@ public class FlameThrowerTower extends Tower {
             }
             
             if (level == 3) {
-            imageName = "FlameThrower_tower_1.png";
-        }
+                imageName = "FlameThrower_tower_1.png";
+            }
         
             totalInvested += upgradeCost;
             upgradeCost += 300;

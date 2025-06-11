@@ -68,13 +68,13 @@ public class SniperTower extends Tower {
             cooldownTime = upgradedCooldownTime;
 
             totalInvested += upgradeCost;
-            upgradeCost += 100;
+            upgradeCost += 150;
             updateImage();
             
             if (level == 3) {
-            imageName = "Sniper_tower_1.png";
-            towerImage = new GreenfootImage(imageName);
-            towerImage.scale(100, 45);
+                imageName = "Sniper_tower_1.png";
+                towerImage = new GreenfootImage(imageName);
+                towerImage.scale(100, 45);
         }
 
             if (level == maxLevel) {

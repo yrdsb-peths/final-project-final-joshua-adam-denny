@@ -17,7 +17,7 @@ public class NukeMissile extends Projectile {
 
     public NukeMissile(Enemy target, int damage, int speed, int radius, Tower sourceTower, int scale, int fuseTime, int level, int projectileType)  {
         
-        super(target, damage, speed, sourceTower, level >= 2 ? "NukeMissile2.png" : "NukeMissile.png", scale);
+        super(target, damage, speed, sourceTower, level >= 3 ? "NukeMissile2.png" : "NukeMissile.png", scale);
         this.explosionRadius = radius;
         this.sourceTower = sourceTower;
         this.lifetime = fuseTime;
