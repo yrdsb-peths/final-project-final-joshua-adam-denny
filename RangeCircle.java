@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
- * Write a description of class Base here.
+ * RangeCircle Class is an actor that represents a circular range of a tower or effect in the game.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class RangeCircle extends Actor {
     public RangeCircle(int range) {

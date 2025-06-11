@@ -3,10 +3,10 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.InputStream;
 /**
- * Handles world loading.
+ * Handles world loading. And maybe a lil font loading :3
  * 
  * @author Denny Ung
- * @version Version 1.0.0 (June 6, 2025)
+ * @version Version 1.0.0 (June 9, 2025)
  */
 public class WorldManager  
 {

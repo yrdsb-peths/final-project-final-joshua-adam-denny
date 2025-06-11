@@ -2,8 +2,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * second enemy that spawns in the game. significantly faster then every other enemy in the game, but has lower health
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class FastEnemy extends Enemy {
     public FastEnemy(int speed, int health, int moneyDeath) {

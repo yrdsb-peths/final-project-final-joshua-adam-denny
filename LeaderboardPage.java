@@ -4,10 +4,10 @@ import java.io.IOException;
 
 
 /**
- * Write a description of class LeaderboardPage here.
+ * LeaderboardPage Class is a UI component that displays the leaderboard of players.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0
  */
 
 public class LeaderboardPage extends UI

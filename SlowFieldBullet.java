@@ -2,8 +2,8 @@ import greenfoot.*;
 /**
  * A net sent out by the basic tower when at max level that slows down enemies in an area 
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0a version number or a date)
  */
 public class SlowFieldBullet extends Projectile {
     private int fieldRadius = 100;

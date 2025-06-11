@@ -3,11 +3,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
 /*
- * Main GameWorld
+ * Main GameWorld. Hell was spawn here.
  * 
  * 
  * @author Joshua Stevens, Denny Ung, Adam Fung.
- * @version 7.0.1 (June 7, 2025)
+ * @version 7.6.1 (June 11, 2025)
  */
 
 public class GameWorld extends World {

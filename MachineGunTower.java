@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * MachineGunTower Class is a tower that shoots bullets at enemies and can launch a missile when upgraded to level 3.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class MachineGunTower extends Tower {
     public String imageName = ("MachineGun_tower.png");

@@ -2,7 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 
 /**
- * Pause Menu UI
+ * HelpMenu Class is an actor that represents a help menu in the game. Used in GameWorld Class.
  * 
  * @author Denny Ung and Joshua Stevens
  * @version Version 1.0.0 (June 7, 2025)

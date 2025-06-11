@@ -1,10 +1,10 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * Tower Class is a base class for all tower types in the game.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 5.0
  */
 public class Tower extends Actor {
     protected int cooldownTime = 60;

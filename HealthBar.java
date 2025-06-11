@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Healthbar UI
+ * Healthbar UI element that displays the player's health in the game.
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (June 2, 2025)

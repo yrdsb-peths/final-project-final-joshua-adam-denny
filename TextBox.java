@@ -1,10 +1,12 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class TextBox here.
+ * TextBox Class is a UI component that allows users to input text.
+ * Personally, I had a stroke while making this, i forgot greenfoot.ask() existed...
+ * :(
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0
  */
 
 import greenfoot.*;

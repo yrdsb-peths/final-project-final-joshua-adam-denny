@@ -1,10 +1,10 @@
 import greenfoot.*;
 import java.util.*;
 /**
- * Write a description of class Base here.
+ * ExplosionEffect Class is an effect that displays an explosion animation.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class ExplosionEffect extends Actor {
     private static final int FRAME_COUNT = 8;

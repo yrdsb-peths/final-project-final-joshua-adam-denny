@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * A checkbox, UI
+ * A checkbox, UI element that allows users to toggle a checked state.
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (June 7, 2025)

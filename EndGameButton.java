@@ -1,17 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndGameButton here.
+ * EndGameButton - UI - 
+ * USED FOR PAINT/RENDERING QUEUE, used to make sure stuff is rendered in the correct order
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0
  */
 public class EndGameButton extends Button
 {
-    /**
-     * Act - do whatever the EndGameButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public EndGameButton(boolean isActive, GreenfootImage[] buttonImages, int width, int height)
     {
         super(isActive,buttonImages,width,height);

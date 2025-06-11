@@ -3,8 +3,8 @@ import java.util.List;
 /**
  * missile utilized by the nuke tower and machine gun tower(only at level 3) that does splash damage to enemies around where it explodes
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class NukeMissile extends Projectile {
     private boolean exploded = false;

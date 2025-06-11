@@ -1,10 +1,11 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
- * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * SniperTower Class is a specialized tower that can shoot enemies from a long range with high damage.
+ * Ability: When upgraded to level 3, speeds up its shooting significantly for a short duration.
+ * It also has a unique visual effect when the speed boost is active.
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class SniperTower extends Tower {
     private int baseCooldownTime;

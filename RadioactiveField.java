@@ -3,8 +3,8 @@ import java.util.List;
 /**
  * Creates a pool/puddle of radioactive energy that deals damage every second while enemies are inside the area
  * 
- * @Adam Fung
- * @version (a version number or a date)
+ * @author Adam Fung
+ * @version Version 1.1
  */
 public class RadioactiveField extends Actor {
     private int duration;

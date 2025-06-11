@@ -1,10 +1,10 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * FlameRing Class is an effect that creates a ring of fire around the actor that applies damage and burn effects to enemies within a certain radius.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class FlameRing extends Actor {
     private int radius;

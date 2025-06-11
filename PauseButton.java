@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndGameButton here.
+ * PauseButton - UI - USED FOR PAINT/RENDERING QUEUE
+ * Used to make sure stuff is rendered in the correct order
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version version 1.0
  */
 public class PauseButton extends Button
 {

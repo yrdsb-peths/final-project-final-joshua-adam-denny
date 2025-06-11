@@ -2,8 +2,8 @@ import greenfoot.*;
 /**
  *
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class FlameThrowerTower extends Tower {
     private int coneProjectiles = 3;  // Start with 3 projectiles

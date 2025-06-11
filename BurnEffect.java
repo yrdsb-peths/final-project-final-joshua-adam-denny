@@ -1,10 +1,10 @@
 import greenfoot.Actor;
 
 /**
- * Write a description of class Base here.
+ * BurnEffect Class is an effect that applies damage over time to an enemy.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class BurnEffect extends Actor{
     private int damagePerTick;

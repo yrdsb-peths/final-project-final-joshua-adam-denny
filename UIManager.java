@@ -1,6 +1,6 @@
 import greenfoot.*;
 /**
- * Head class for UI, Oversees all UI elements on screen/world
+ * Head class for UI, Oversees all UI elements on screen/world within GameWorld Class.
  * 
  * @author Denny Ung
  * @version Version 1.0.5 (May 29, 2025)

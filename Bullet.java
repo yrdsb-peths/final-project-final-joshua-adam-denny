@@ -1,8 +1,8 @@
 /**
  * Projectile that deals damage when in contact with enemy. used by basic tower, sniper, and machine gun
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.3
  */
 public class Bullet extends Projectile {
     public Bullet(Enemy target, int damage, int speed, Tower source) {

@@ -5,6 +5,8 @@ import java.util.*;
  * OBJ Parser for Java, outputs to a 3D double array. 
  * [Face][vert][x,y,z]
  * 
+ * This parser reads a Wavefront OBJ file and extracts vertices and faces, scaling the coordinates by a specified factor.
+ * 
  * Built for ScuffedEngine
  * @author Denny Ung
  * @version Version 1.1.0 (May 17, 2025)

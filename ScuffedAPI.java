@@ -11,7 +11,7 @@ import java.util.UUID;
  * Leaderboard Handling.
  * 
  * @author Denny Ung
- * @version Version 1.0.0.(May 29, 2025)
+ * @version Version 1.5.3 (June 11, 2025)
  */
 public class ScuffedAPI {
     // api url

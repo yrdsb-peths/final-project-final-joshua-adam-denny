@@ -1,10 +1,10 @@
 import greenfoot.*;
 import java.awt.Font;
 /**
- * Write a description of class Base here.
+ * SniperAbility Class is an ability that allows the player to activate a sniper boost.
  * 
- * @Joshua Stevens and Adam Fung
- * @version (a version number or a date)
+ * @author Joshua Stevens and Adam Fung
+ * @version Version 1.0a version number or a date)
  */
 public class SniperAbility extends Actor {
     private int cooldown = 3600; // 10 seconds at 60 FPS

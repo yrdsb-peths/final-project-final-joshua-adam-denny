@@ -3,8 +3,8 @@ import java.util.List;
 /**
  * Fire projectile utilized by the flamethrower tower. applies burn when an enemy is hit by it
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.1
  */
 public class FlameProjectile extends Projectile {
     private int aoeRadius;

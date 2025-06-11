@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * TowerPreview Class is an actor that provides a visual preview of a tower before it is placed in the world.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0a version number or a date)
  */
 public class TowerPreview extends Actor {
     private String towerType;

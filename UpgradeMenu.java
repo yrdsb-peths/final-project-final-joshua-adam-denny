@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * UpgradeMenu Class is a UI element that allows players to upgrade or sell a tower. as well as display the total damage dealt by the tower.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 2.0
  */
 public class UpgradeMenu extends UI {
     private Tower tower;

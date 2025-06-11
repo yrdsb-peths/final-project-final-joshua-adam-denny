@@ -3,7 +3,7 @@ import java.lang.Math;
 import java.io.IOException;
 
 /**
- * Sidebar UI 
+ * Sidebar UI; OLD retired version, used for reference.
  * 
  * @author Denny Ung and Joshua Stevens
  * @version Version 1.0.0 (May 30th, 2025)

@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Button UI
+ * Button - UI
  * 
  * @author Denny Ung
  * @version Version 1.0.0

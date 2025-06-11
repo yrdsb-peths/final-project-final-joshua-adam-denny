@@ -1,9 +1,11 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * NukeTower Class is a powerful tower that launches a nuke missile at enemies within its range.
+ * Ability to upgrade to increase damage, explosion radius, and reduce cooldown time.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * 
+ * @author Joshua Stevens
+ * @version Version 1.0
  */
 public class NukeTower extends Tower {
     private int missileCooldown = 0;

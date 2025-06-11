@@ -2,10 +2,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 
 /**
- * Write a description of class LeaderboardPage here.
+ * SettingsPage Class is a UI component that allows users to adjust game settings such as volume, performance mode, and auto-start options.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Denny Ung
+ * @version Version 1.0
  */
 public class SettingsPage extends UI
 {

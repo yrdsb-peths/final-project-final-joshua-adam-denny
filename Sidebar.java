@@ -3,7 +3,7 @@ import java.lang.Math;
 import java.io.IOException;
 
 /**
- * Sidebar UI with tower price labels
+ * Sidebar UI with tower price labels and buttons to select towers.
  * 
  * @author Denny Ung and Joshua Stevens
  * @version Updated June 5, 2025

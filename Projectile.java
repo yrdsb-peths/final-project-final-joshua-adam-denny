@@ -1,9 +1,10 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * Projectile Class is an abstract class that represents a projectile in the game.
+ * Damages enemies upon impact and tracks damage dealt by the source tower.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.2
  */
 public abstract class Projectile extends Actor {
     protected Enemy target;

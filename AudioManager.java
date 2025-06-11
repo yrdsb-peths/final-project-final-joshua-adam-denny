@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.util.*;
 /**
- * Write a description of class AudioManagert here.
+ * A AudioManager that handles all audio playback in the game. 
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (June 7, 2025)

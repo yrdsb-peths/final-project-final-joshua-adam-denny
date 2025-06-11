@@ -1,10 +1,10 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * SlowField Class is an effect that creates a field that slows down enemies within a certain radius.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 1.0a version number or a date)
  */
 public class SlowField extends Actor {
     private int duration; // how long the field lasts

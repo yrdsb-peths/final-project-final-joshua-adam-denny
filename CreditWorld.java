@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.lang.Math;
 /**
- * PolyRender Test World
+ * PolyRender Test World, Now shows credits of the game :3
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (May 21 2025)

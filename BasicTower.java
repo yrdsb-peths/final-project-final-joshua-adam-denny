@@ -1,9 +1,9 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * BasicTower, AKA first tower of the game. A single man with a gun, upgradable with the ability to shoot normal bullets and slow field bullets at max level.
  * 
- * @Joshua Stevens
- * @version (a version number or a date)
+ * @author Joshua Stevens
+ * @version Version 3.2
  */
 public class BasicTower extends Tower {
     public String imageName = "Basic_tower.png";

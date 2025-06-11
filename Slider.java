@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Slider; UI
+ * Slider; UI element that allows the user to select a value within a range by dragging a knob along a track.
  * 
  * @author Denny Ung
  * @version Version 1.0.0 (June 7, 2025)
