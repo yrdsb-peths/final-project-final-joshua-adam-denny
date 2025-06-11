@@ -365,8 +365,8 @@ public class GameWorld extends World {
         } else {
             // Calculate waves past 20
             int wavesOver20 = (wave - 20);
-            double rampFactor = Math.pow(0.9, wavesOver20);
-            rampFactor = Math.max(rampFactor, 0.2);    
+            double rampFactor = Math.pow(0.9, wavesOver20); //when round is over 20 base amount is multiplied by 90% per round
+            rampFactor = Math.max(rampFactor, 0.2);    //the least amount it can reach is 20%
         
             return (int)(baseAmount * rampFactor);
         }
