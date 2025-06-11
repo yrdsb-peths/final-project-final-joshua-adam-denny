@@ -45,6 +45,7 @@ public class CreditWorld extends World
         
         
         
+        
         camera = new Camera();
         roomPoly3 = new PolyRender(room3);
         poly2 = new PolyRender(cube);
