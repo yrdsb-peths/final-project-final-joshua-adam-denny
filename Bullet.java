@@ -1,5 +1,5 @@
 /**
- * Write a description of class Base here.
+ * Projectile that deals damage when in contact with enemy. used by basic tower, sniper, and machine gun
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

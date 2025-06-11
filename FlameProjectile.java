@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * Fire projectile utilized by the flamethrower tower. applies burn when an enemy is hit by it
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

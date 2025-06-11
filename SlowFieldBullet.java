@@ -1,6 +1,6 @@
 import greenfoot.*;
 /**
- * Write a description of class Base here.
+ * A net sent out by the basic tower when at max level that slows down enemies in an area 
  * 
  * @Joshua Stevens
  * @version (a version number or a date)

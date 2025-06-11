@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.util.List;
 /**
- * Write a description of class Base here.
+ * missile utilized by the nuke tower and machine gun tower(only at level 3) that does splash damage to enemies around where it explodes
  * 
  * @Joshua Stevens
  * @version (a version number or a date)
