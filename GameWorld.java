@@ -78,6 +78,9 @@ public class GameWorld extends World {
     private int lives = 100;
     private boolean firstAct = false;
     private boolean firstTime = false;
+    private boolean onPausePage = false;
+    private boolean onHelpPage = false;
+    
 
     public Class<?>[] defaultPaintOrder = {
         NukeMissile.class,
@@ -179,10 +182,10 @@ public class GameWorld extends World {
     private void handleHelpButton()
     {
         boolean helpPressedNow = uiManager.isHelpButtonPressed();
-
-        if (helpPressedNow && !helpButtonPreviouslyPressed || firstTime) {
+        if (helpPressedNow && !helpButtonPreviouslyPressed || firstTime || (Greenfoot.isKeyDown("escape") && onHelpPage)) {
             firstTime = false;
             if (status == Status.RUNNING) {
+                onHelpPage = true;
                 uiManager.toggleHelpMenu(); 
                 status = Status.HELPCONTROLS;
                 clearUpgradeMenu();
@@ -205,6 +208,7 @@ public class GameWorld extends World {
                 );
             }
             else if (status == Status.HELPCONTROLS) {
+                onHelpPage = false;
                 uiManager.toggleHelpMenu();   
                 status = Status.RUNNING;
                 setPaintOrder(defaultPaintOrder);
@@ -219,8 +223,10 @@ public class GameWorld extends World {
     {
         boolean pausePressedNow = uiManager.isPauseButtonPressed();
 
-        if (pausePressedNow && !pauseButtonPreviouslyPressed) {
+        if (pausePressedNow && !pauseButtonPreviouslyPressed || (Greenfoot.isKeyDown("escape") && onPausePage)) {
+            
             if (status == Status.RUNNING) {
+                onPausePage = true;
                 uiManager.togglePauseMenu(); 
                 status = Status.PAUSED;
                 clearUpgradeMenu();
@@ -247,6 +253,7 @@ public class GameWorld extends World {
                 );
             }
             else if (status == Status.PAUSED) {
+                onPausePage = false;
                 uiManager.togglePauseMenu();   
                 status = Status.RUNNING;
                 setPaintOrder(defaultPaintOrder);

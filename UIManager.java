@@ -103,6 +103,11 @@ public class UIManager extends Actor
         return helpButton.isPressed();
     }
     
+    public void act()
+    {
+    
+    }
+    
     public void togglePauseMenu()
     {
         GameWorld gw = (GameWorld) getWorld();
