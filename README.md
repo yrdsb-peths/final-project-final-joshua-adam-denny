@@ -24,7 +24,7 @@ Copy the `project.greenfoot.md` file and rename it to `project.greenfoot`
 
 
 # Escape the IRS
-
+genre: Tower Defense, Strategy, Resource Management
 A 3D tower defense game built in Greenfoot. Place and upgrade five tower types to fend off progressive waves of enemies, earn cash, and use special abilities.
 
 ## Installation & Running
