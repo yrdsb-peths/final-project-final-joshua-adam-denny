@@ -9,7 +9,7 @@ import greenfoot.*;
  */
 public class NukeTower extends Tower {
     private int missileCooldown = 0;
-    private int missileCooldownTime = 3600;
+    private int missileCooldownTime = 2700;
     private int nukeDamage = 500;
     private int missileSpeed = 2;
     private int explosionRadius = 300;
@@ -120,7 +120,7 @@ public class NukeTower extends Tower {
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 2000;
     
-            missileCooldownTime = Math.max(600, missileCooldownTime - 900);
+            missileCooldownTime = missileCooldownTime - 600;
             nukeDamage += 250;
             explosionRadius += 50;
             updateImage();
