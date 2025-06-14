@@ -37,6 +37,8 @@ public class GameWorld extends World {
     private boolean activateToggleKeyPreviouslyDown = false; // track key press edge
     private boolean pauseButtonPreviouslyPressed = false;
     private boolean helpButtonPreviouslyPressed = false;
+    
+    private boolean enterPressedLastFrame = false;
 
     // Wave/Money Variables
     private boolean autoNextWave = false;
@@ -649,13 +651,12 @@ public class GameWorld extends World {
 
     private void handleTowerClickUpgrade() {
         MouseInfo mi = Greenfoot.getMouseInfo();
-    
+        boolean enterDown = Greenfoot.isKeyDown("enter");
         // --- Handle Enter key press to trigger upgrade ---
-        if (Greenfoot.isKeyDown("enter") && currentMenu != null) {
+        if (enterDown && !enterPressedLastFrame && currentMenu != null) {
             currentMenu.handleClick(0, 0); // Pass dummy coords
-            return;
         }
-    
+        enterPressedLastFrame = enterDown;
         // --- Handle mouse click upgrades ---
         if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
             if (mi != null) {
