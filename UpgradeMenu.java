@@ -96,7 +96,7 @@ public class UpgradeMenu extends UI {
             } else {
                 
             }
-        } else {
+        } else if (localY >= 30 || Greenfoot.isKeyDown("d")) {
             tower.sell();
             world.clearUpgradeMenu();
             return;

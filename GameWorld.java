@@ -39,6 +39,7 @@ public class GameWorld extends World {
     private boolean helpButtonPreviouslyPressed = false;
     
     private boolean enterPressedLastFrame = false;
+    private boolean backspacePressedLastFrame = false;
 
     // Wave/Money Variables
     private boolean autoNextWave = false;
@@ -651,12 +652,22 @@ public class GameWorld extends World {
 
     private void handleTowerClickUpgrade() {
         MouseInfo mi = Greenfoot.getMouseInfo();
+    
         boolean enterDown = Greenfoot.isKeyDown("enter");
+        boolean backspaceDown = Greenfoot.isKeyDown("backspace");
+    
         // --- Handle Enter key press to trigger upgrade ---
         if (enterDown && !enterPressedLastFrame && currentMenu != null) {
-            currentMenu.handleClick(0, 0); // Pass dummy coords
+            currentMenu.handleClick(0, 0); // Dummy coords to trigger upgrade
         }
         enterPressedLastFrame = enterDown;
+    
+        // --- Handle Backspace key press to trigger sell ---
+        if (backspaceDown && !backspacePressedLastFrame && currentMenu != null) {
+            currentMenu.handleClick(0, 999); // Dummy Y to trigger sell logic
+        }
+        backspacePressedLastFrame = backspaceDown;
+    
         // --- Handle mouse click upgrades ---
         if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
             if (mi != null) {
