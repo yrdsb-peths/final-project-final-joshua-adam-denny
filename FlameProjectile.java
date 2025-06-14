@@ -63,7 +63,7 @@ public class FlameProjectile extends Projectile {
                 if (sourceTower != null) sourceTower.addDamage(damage); // Track damage
                 
 
-                int burnDamage = 1 + towerLevel / 2;
+                int burnDamage = 1 + towerLevel;
                 int totalTicks = 4 + towerLevel;
                 int interval = Math.max(8, 20 - 2 * towerLevel);
 

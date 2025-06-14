@@ -119,8 +119,8 @@ public class NukeTower extends Tower {
             level++;
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 2000;
-    
-            missileCooldownTime = missileCooldownTime - 600;
+            missileSpeed += 1;
+            missileCooldownTime = missileCooldownTime - 700;
             nukeDamage += 250;
             explosionRadius += 50;
             updateImage();

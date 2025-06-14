@@ -40,8 +40,8 @@ public class FlameThrowerTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage = Math.max(3, damage + 1);
-            cooldownTime = Math.max(3, cooldownTime - 1);  // Faster firing with upgrades
+            damage = damage + 1;
+            cooldownTime = cooldownTime - 1;  // Faster firing with upgrades
             // Increase coneProjectiles gradually up to maxProjectiles
             if (coneProjectiles < maxProjectiles) {
                 coneProjectiles++;

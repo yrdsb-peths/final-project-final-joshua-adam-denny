@@ -19,7 +19,7 @@ public class MachineGunTower extends Tower {
         img.scale(75, 53);
         setImage(img);
 
-        cooldownTime = 10;             
+        cooldownTime = 9;             
         range = 300;                   
         damage = 3;                   
         bulletSpeed = 10;
@@ -35,8 +35,8 @@ public class MachineGunTower extends Tower {
         GameWorld world = (GameWorld) getWorld();
         if (level < maxLevel && world.spendMoney(upgradeCost)) {
             level++;
-            damage += 2;
-            cooldownTime = Math.max(4, cooldownTime - 2);
+            damage += 3;
+            cooldownTime = Math.max(3, cooldownTime - 2);
             totalInvested += upgradeCost; // track what's actually spent
             upgradeCost += 150;
             if (level == 3) {
@@ -80,7 +80,7 @@ public class MachineGunTower extends Tower {
     
     private void launchMissle(Enemy target) {
         if (getWorld() != null) {
-            int nukeDamage = 20;
+            int nukeDamage = 30;
             int missileSpeed = 15;
             int explosionRadius = 70;
 

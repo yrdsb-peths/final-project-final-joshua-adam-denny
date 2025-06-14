@@ -67,7 +67,7 @@ public class SniperTower extends Tower {
         if (level < maxLevel && world != null && world.spendMoney(upgradeCost)) {
             level++;
             damage += 10;
-            upgradedCooldownTime = Math.max(60, upgradedCooldownTime - 30);
+            upgradedCooldownTime = Math.max(30, upgradedCooldownTime - 20);
             cooldownTime = upgradedCooldownTime;
 
             totalInvested += upgradeCost;
@@ -145,7 +145,7 @@ public class SniperTower extends Tower {
      */
     public void activateSpeedBoost() {
         if (!speedBoostActive) {
-            cooldownTime = baseCooldownTime / 10;
+            cooldownTime = cooldownTime / 6;
             cooldown = 0;
             speedBoostTimer = 5 * 60;
             speedBoostActive = true;
