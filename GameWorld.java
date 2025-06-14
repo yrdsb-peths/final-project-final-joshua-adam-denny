@@ -648,48 +648,52 @@ public class GameWorld extends World {
     private Tower selectedTower = null;
 
     private void handleTowerClickUpgrade() {
+        MouseInfo mi = Greenfoot.getMouseInfo();
+    
+        // --- Handle Enter key press to trigger upgrade ---
+        if (Greenfoot.isKeyDown("enter") && currentMenu != null) {
+            currentMenu.handleClick(0, 0); // Pass dummy coords
+            return;
+        }
+    
+        // --- Handle mouse click upgrades ---
         if (towerPreview == null && Greenfoot.mouseClicked(null) && !towerPlacedThisClick) {
-            MouseInfo mi = Greenfoot.getMouseInfo();
             if (mi != null) {
                 int mouseX = mi.getX();
                 int mouseY = mi.getY();
-
+    
                 // Check if clicked inside an open menu
                 if (currentMenu != null && currentMenu.contains(mouseX, mouseY)) {
                     currentMenu.handleClick(mouseX, mouseY);
                     return;
                 }
-
+    
                 // Check if clicked a tower
                 List<Tower> towers = getObjectsAt(mouseX, mouseY, Tower.class);
                 if (!towers.isEmpty()) {
                     Tower tower = towers.get(0);
-
-                    // If same tower is clicked, toggle menu off
+    
                     if (tower == selectedTower && currentMenu != null) {
                         clearUpgradeMenu();
                     }
-
-                    // Close old menu
+    
                     if (currentMenu != null) {
                         currentMenu.closeMenu();
                         removeObject(currentMenu);
                     }
-
-                    // Create new menu
+    
                     currentMenu = new UpgradeMenu(tower);
                     addObject(currentMenu, tower.getX() + UPGRADE_MENU_OFFSET_X, tower.getY());
                     selectedTower = tower;
-
-                    // SHOW RANGE CIRCLE AFTER MENU IS ADDED
+    
                     currentMenu.showRangeCircle();
                 } else {
-                    // Clicked elsewhere, remove any open menu
                     clearUpgradeMenu();
                 }
             }
         }
     }
+
     public void clearUpgradeMenu() {
         if (currentMenu != null) {
             currentMenu.closeMenu();

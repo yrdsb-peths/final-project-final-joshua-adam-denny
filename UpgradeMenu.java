@@ -86,7 +86,7 @@ public class UpgradeMenu extends UI {
     
         GameWorld world = (GameWorld) getWorld();
     
-        if (localY < 30) {
+        if (localY < 30 || Greenfoot.isKeyDown("enter")) {
             if (tower.isMaxUpgraded()) {
                 
             } else if (tower.upgrade()) {
