@@ -389,7 +389,7 @@ public class _InitWorld extends World {
             case 14: // Connect to ScuffedAPI
                 if (statusLabel == null) {
                     statusLabel = new CustomLabel("ScuffedAPI: Connecting...", 24);
-                    statusLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,24));
+                    statusLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,20));
                     addObject(statusLabel, WORLD_WIDTH / 2, WORLD_HEIGHT - statusLabel.getImage().getHeight()/2 - 20);
                 }
                 
