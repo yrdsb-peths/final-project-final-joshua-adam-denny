@@ -1,5 +1,4 @@
 import greenfoot.*;
-import java.awt.Font;
 /**
  * SniperAbility Class is an ability that allows the player to activate a sniper boost.
  * 

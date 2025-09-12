@@ -1,17 +1,15 @@
 import greenfoot.*;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.io.InputStream;
+
 /**
- * Handles world loading. And maybe a lil font loading :3
+ * Handles world loading and manages font selection (Impact instead of Jersey15).
  * 
  * @author Denny Ung
- * @version Version 1.0.0 (June 9, 2025)
+ * @version Version 1.0.1 (Updated for HTML5 compatibility)
  */
 public class WorldManager  
 {
-    private static String fontName = "SansSerif";
-    
+    // Set to "Impact" as a fallback for Jersey15
+    private static String fontName = "Impact";
 
     /**
      * Resets the PolyRender to its initial state.
@@ -21,7 +19,7 @@ public class WorldManager
     {
         PolyRender.reset();
     }
-    
+
     /**
      * Sets the world to the given world instance.
      * This method resets the PolyRender and sets the world in Greenfoot.
@@ -33,7 +31,7 @@ public class WorldManager
         inital();
         Greenfoot.setWorld(world);
     }
-    
+
     /**
      * Returns the name of the font used in the game.
      * 
@@ -44,27 +42,23 @@ public class WorldManager
         return fontName;
     }
 
+    /**
+     * Sets the font name manually, if needed (e.g., to fallback to "SansSerif").
+     */
+    public static void setFontName(String name)
+    {
+        fontName = name;
+    }
 
-    // Loads the font from a file when the class is loaded.
+    // Static block left intact for consistency; no .ttf loading in HTML5 export
     static {
         try {
-            // 1) Load the TTF in /fonts
-            InputStream is = LeaderboardPage.class.getResourceAsStream("fonts/Jersey15.ttf");
-            java.awt.Font awtFont = java.awt.Font.createFont(
-                java.awt.Font.TRUETYPE_FONT, is
-            );
-            // 2) Register it with the GraphicsEnvironment
-            GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(awtFont);
-
-            // 3) Grab its family name for use in Greenfoot.Font
-            String family= awtFont.getFamily();
-            fontName = family;
+            // In HTML5 export, we can't load external fonts — fallback to "Impact"
+            fontName = "Impact";  // Hardcoded font fallback
         }
         catch (Exception e) {
             e.printStackTrace();
-            // fall back to a logical font
+            fontName = "SansSerif"; // Final fallback
         }
     }
 }

@@ -33,7 +33,7 @@ public class HealthBar extends UI
         GameWorld gw = (GameWorld) world;
         maxHealth = gw.getLives();
         livesLabel = new CustomLabel(maxHealth, 30);
-        livesLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,30));
+        livesLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false,false,20));
         livesLabel.setFillColor(Color.BLACK);
         gw.addObject(livesLabel, getX()-25, getY()-2);
     }

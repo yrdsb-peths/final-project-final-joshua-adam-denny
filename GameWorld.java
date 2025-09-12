@@ -116,9 +116,9 @@ public class GameWorld extends World {
         setBackground("ui/grass.png");
 
         moneyLabel = new CustomLabel("Money: $" + money, 30);
-        moneyLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        moneyLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 28));
         waveLabel = new CustomLabel("Wave: " + wave, 30);
-        waveLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 30));
+        waveLabel.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 28));
         wavePrompt = new CustomLabel("Press SPACE to start first wave", 24);
         wavePrompt.setFont(new greenfoot.Font(WorldManager.getFontName(), false, false, 24));
 
